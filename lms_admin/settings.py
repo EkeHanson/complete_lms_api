@@ -50,7 +50,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     
     'users',
-    'messaging',
+    # 'messaging',
     'activitylog',
     'groups',
 

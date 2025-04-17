@@ -40,6 +40,7 @@ class CustomTokenObtainPairView(TokenObtainPairView):
             
         return response
 
+
 class RegisterView(generics.CreateAPIView):
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
@@ -272,6 +273,15 @@ class UserViewSet(viewsets.ModelViewSet):
                             'email': user.email,
                             'name': user.get_full_name()
                         })
+                        # Create activity feed entries
+                        UserActivity.objects.bulk_create([
+                            UserActivity(
+                                user=user,
+                                activity_type='user_management',
+                                details=f'New user created with email: {user.email}',
+                                status='success'
+                            ) for user in created_users
+                        ])
                     except Exception as e:
                         errors.append({
                             'row': index + 2,
@@ -294,6 +304,19 @@ class UserViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_400_BAD_REQUEST
             )
         
+        # In UserViewSet
+   
+    def update(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.update_profile(request.data)  # This will automatically log changes
+        serializer = self.get_serializer(user)
+        return Response(serializer.data)
+
+    def destroy(self, request, *args, **kwargs):
+        user = self.get_object()
+        user.delete_account(reason="Deleted via admin panel")
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 class UserActivityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UserActivity.objects.all()

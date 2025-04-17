@@ -9,42 +9,48 @@ logger = logging.getLogger(__name__)
 
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
-        """
-        Creates and saves a User with the given email and password.
-        """
         if not email:
             raise ValueError('Users must have an email address')
-
         email = self.normalize_email(email)
+        if 'role' not in extra_fields:
+            from groups.models import Role
+            default_role = Role.objects.filter(is_default=True).first()
+            if default_role:
+                extra_fields['role'] = default_role.code
         user = self.model(email=email, **extra_fields)
-        
         if password:
             self.validate_password(password)
             user.set_password(password)
-        
         user.save(using=self._db)
+        # Create activity log for user creation
+        UserActivity.objects.create(
+            user=user,
+            activity_type='user_management',
+            details=f'New user created with email: {email}',
+            status='success'
+        )
         return user
 
     def create_superuser(self, email, password, **extra_fields):
-        """
-        Creates and saves a superuser with the given email and password.
-        """
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('role', 'admin')
         extra_fields.setdefault('status', 'active')
-
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
-
-        return self.create_user(email, password, **extra_fields)
+        user = self.create_user(email, password, **extra_fields)
+        # Create activity log for superuser creation
+        UserActivity.objects.create(
+            user=user,
+            activity_type='user_management',
+            details=f'New superuser created with email: {email}',
+            status='success'
+        )
+        return user
 
     def validate_password(self, password):
-        """
-        Validate that the password meets minimum requirements.
-        """
         if len(password) < 8:
             raise ValidationError(
                 _("Password must be at least 8 characters long."),
@@ -52,26 +58,18 @@ class UserManager(BaseUserManager):
             )
 
 class User(AbstractUser):
-    ROLES = (
-        ('owner', 'Owner'),
-        ('admin', 'Administrator'),
-        ('instructor', 'Instructor/Trainer'),
-        ('learner', 'Learner'),
-    )
-    
     STATUS_CHOICES = (
         ('active', 'Active'),
         ('pending', 'Pending'),
         ('suspended', 'Suspended'),
+        ('deleted', 'Deleted'),
     )
-    
-    # Remove username field and make email the primary identifier
     username = None
     email = models.EmailField(_('email address'), unique=True)
-    
-    # User profile fields
-    role = models.CharField(max_length=20, choices=ROLES, default='learner')
+    role = models.CharField(max_length=20, default='member')
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+    first_name = models.CharField(_('first name'), max_length=150, blank=True)
+    last_name = models.CharField(_('last name'), max_length=150, blank=True)
     phone = models.CharField(max_length=20, blank=True, null=True)
     birth_date = models.DateField(blank=True, null=True)
     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
@@ -80,14 +78,10 @@ class User(AbstractUser):
     twitter_link = models.URLField(blank=True)
     linkedin_link = models.URLField(blank=True)
     title = models.CharField(max_length=100, blank=True)
-    
-    # Security and login fields
     last_login_ip = models.GenericIPAddressField(blank=True, null=True)
     last_login_device = models.CharField(max_length=200, blank=True, null=True)
     login_attempts = models.PositiveIntegerField(default=0)
     signup_date = models.DateTimeField(auto_now_add=True)
-    
-    # Authentication settings
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
     objects = UserManager()
@@ -96,40 +90,61 @@ class User(AbstractUser):
         verbose_name = _('user')
         verbose_name_plural = _('users')
         ordering = ['-date_joined']
+        indexes = [
+            models.Index(fields=['email']),
+            models.Index(fields=['role']),
+            models.Index(fields=['status']),
+        ]
 
     def __str__(self):
-        return f"{self.get_full_name() or self.email} ({self.role})"
+        return f"{self.get_full_name() or self.email} ({self.get_role_display()})"
 
     def get_full_name(self):
-        """
-        Return the first_name plus the last_name, with a space in between.
-        """
         full_name = f"{self.first_name} {self.last_name}"
         return full_name.strip()
 
     def get_short_name(self):
-        """Return the short name for the user."""
         return self.first_name
 
+    def get_role_display(self):
+        try:
+            from groups.models import Role
+            return Role.objects.get(code=self.role).name
+        except Role.DoesNotExist:
+            return self.role
+
+    def get_group(self):
+        from groups.models import GroupMembership  # Import here to avoid circular import
+        try:
+            return self.group_membership.group
+        except GroupMembership.DoesNotExist:
+            return None
+
+    def set_group(self, group):
+        from groups.models import GroupMembership  # Import here to avoid circular import
+        if hasattr(self, 'group_membership'):
+            membership = self.group_membership
+            membership.group = group
+            membership.save()
+        else:
+            GroupMembership.objects.create(user=self, group=group)
+        self.role = group.role.code
+        self.save()
+
     def increment_login_attempts(self):
-        """Increment failed login attempts counter"""
         self.login_attempts += 1
         if self.login_attempts >= 5:
             self.status = 'suspended'
         self.save()
-        
+
     def reset_login_attempts(self):
-        """Reset failed login attempts counter"""
         self.login_attempts = 0
         self.last_login = timezone.now()
         self.save()
-        
+
     def suspend_account(self, reason=""):
-        """Suspend the user account"""
         self.status = 'suspended'
         self.save()
-        
-        # Log suspension
         UserActivity.objects.create(
             user=self,
             activity_type='account_suspended',
@@ -138,10 +153,53 @@ class User(AbstractUser):
         )
 
     def activate_account(self):
-        """Activate a pending or suspended account"""
         self.status = 'active'
         self.login_attempts = 0
         self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_activated',
+            details='Account activated by admin',
+            status='success'
+        )
+
+    def delete_account(self, reason=""):
+        self.status = 'deleted'
+        self.email = f"deleted_{self.id}_{self.email}"
+        self.is_active = False
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='user_management',
+            details=reason or 'Account deleted by admin',
+            status='system'
+        )
+
+    def update_profile(self, updated_fields):
+        old_data = {
+            'email': self.email,
+            'role': self.role,
+            'status': self.status,
+            'first_name': self.first_name,
+            'last_name': self.last_name,
+            'phone': self.phone,
+            'title': self.title,
+            'bio': self.bio
+        }
+        for field, value in updated_fields.items():
+            setattr(self, field, value)
+        self.save()
+        changes = []
+        for field, new_value in updated_fields.items():
+            if old_data.get(field) != new_value:
+                changes.append(f"{field}: {old_data.get(field)} -> {new_value}")
+        if changes:
+            UserActivity.objects.create(
+                user=self,
+                activity_type='profile_update',
+                details=f"Profile updated: {'; '.join(changes)}",
+                status='success'
+            )
 
 class UserActivity(models.Model):
     ACTIVITY_TYPES = (
@@ -155,15 +213,22 @@ class UserActivity(models.Model):
         ('assignment_submission', 'Assignment Submission'),
         ('system', 'System Event'),
         ('user_management', 'User Management'),
+        ('group_created', 'Group Created'),
+        ('group_updated', 'Group Updated'),
+        ('group_deleted', 'Group Deleted'),
+        ('group_member_added', 'Group Member Added'),
+        ('group_member_removed', 'Group Member Removed'),
+        ('role_created', 'Role Created'),
+        ('role_updated', 'Role Updated'),
+        ('role_deleted', 'Role Deleted'),
     )
-    
     STATUS_CHOICES = (
         ('success', 'Success'),
         ('failed', 'Failed'),
         ('pending', 'Pending'),
         ('in-progress', 'In Progress'),
+        ('system', 'System'),
     )
-    
     user = models.ForeignKey(
         User, 
         on_delete=models.CASCADE, 
@@ -181,7 +246,7 @@ class UserActivity(models.Model):
         choices=STATUS_CHOICES, 
         default='success'
     )
-    
+
     class Meta:
         verbose_name = _('Activity Log')
         verbose_name_plural = _('Activity Logs')
@@ -189,14 +254,14 @@ class UserActivity(models.Model):
         indexes = [
             models.Index(fields=['-timestamp']),
             models.Index(fields=['user', 'activity_type']),
+            models.Index(fields=['activity_type', 'status']),
         ]
-    
+
     def __str__(self):
         user_info = self.user.email if self.user else 'System'
         return f"{user_info} - {self.get_activity_type_display()} ({self.timestamp})"
 
     def save(self, *args, **kwargs):
-        """Add automatic timestamp on creation"""
         if not self.id:
             self.timestamp = timezone.now()
         super().save(*args, **kwargs)
