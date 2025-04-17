@@ -83,7 +83,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 
 class UserSerializer(serializers.ModelSerializer):
-    signup_date = serializers.DateTimeField(format="%Y-%m-%d %H:%M")
     last_login = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     class Meta:
         model = User
@@ -92,8 +91,8 @@ class UserSerializer(serializers.ModelSerializer):
             'password': {'write_only': True}
         }
     
-    def get_full_name(self, obj):
-        return obj.get_full_name()
+    def get_first_name(self, obj):
+        return obj.get_first_name()
     
     def validate_password(self, value):
         if len(value) < 8:
