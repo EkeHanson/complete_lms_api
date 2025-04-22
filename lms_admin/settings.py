@@ -124,7 +124,7 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:3000",
-    "https://complete-lms-api.onrender.com",  # optional, if needed for frontends hosted there
+    "https://complete-lms.vercel.app",  # optional, if needed for frontends hosted there
 ]
 
 
@@ -176,23 +176,23 @@ CORS_ALLOW_HEADERS = [
 # Database
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'complete_lms_db_d67q',
-        'USER': 'complete_lms_db_d67q_user',
-        'PASSWORD': 'fBqT9SQMKkKN3EGERs6SZAtGsgJn8qvt',
-        'HOST': 'dpg-d03et8qli9vc73fjpls0-a.oregon-postgres.render.com',
-        'PORT': '5432',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'complete_lms_db_d67q',
+#         'USER': 'complete_lms_db_d67q_user',
+#         'PASSWORD': 'fBqT9SQMKkKN3EGERs6SZAtGsgJn8qvt',
+#         'HOST': 'dpg-d03et8qli9vc73fjpls0-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 
