@@ -121,9 +121,12 @@ SIMPLE_JWT = {
     'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
 }
 
-# CORS settings (adjust for production)
-CORS_ALLOW_ALL_ORIGINS = True
-CORS_ALLOW_CREDENTIALS = True
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5173",
+    "http://localhost:3000",
+    "https://complete-lms-api.onrender.com",  # optional, if needed for frontends hosted there
+]
+
 
 # Media files
 MEDIA_URL = '/media/'
