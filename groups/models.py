@@ -31,7 +31,6 @@ class Role(models.Model):
                     f"{existing_default} is already set as default. Only one role can be default."
                 )
 
-
     def save(self, *args, **kwargs):
         created = not self.pk
         self.full_clean()
@@ -62,11 +61,10 @@ class Group(models.Model):
     name = models.CharField(max_length=100, unique=True)
     description = models.TextField(blank=True)
     role = models.ForeignKey(
-        Role, 
-        on_delete=models.PROTECT, 
+        Role,
+        on_delete=models.PROTECT,
         related_name='groups',
-        null=False,  # Make role required
-        blank=False
+        help_text="The role assigned to users in this group"
     )
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)
@@ -78,77 +76,72 @@ class Group(models.Model):
         verbose_name_plural = _('Groups')
 
     def __str__(self):
-        return f"{self.name} ({self.role.name if self.role else 'No role'})"
+        return f"{self.name}"
 
-    def clean(self):
-        if not self.role:
-            raise ValidationError("A role must be assigned to the group")
-        
-
-# groups/models.py
 class GroupMembership(models.Model):
     user = models.ForeignKey(
         'users.User',
         on_delete=models.CASCADE,
-        related_name='group_memberships'  # Changed from 'group_membership'
+        related_name='group_memberships'
     )
     group = models.ForeignKey(
         Group,
-        on_delete=models.CASCADE,  # Changed from PROTECT
+        on_delete=models.CASCADE,
         related_name='memberships'
+    )
+    role = models.ForeignKey(
+        Role,
+        on_delete=models.PROTECT,
+        related_name='memberships',
+        null=True,
+        blank=True
     )
     joined_at = models.DateTimeField(auto_now_add=True)
     is_active = models.BooleanField(default=True)
+    is_primary = models.BooleanField(
+        default=False,
+        help_text="Primary group determines the user's main role"
+    )
 
     class Meta:
         verbose_name = _('Group Membership')
         verbose_name_plural = _('Group Memberships')
         constraints = [
             models.UniqueConstraint(
-                fields=['user', 'group'],  # Changed to composite unique
+                fields=['user', 'group'],
                 name='unique_user_group_membership'
-            )
-        ]
-
-    def __str__(self):
-        return f"{self.user.email} in {self.group.name}"
-
-    def save(self, *args, **kwargs):
-        if not self.pk:  # Only on creation
-            # Remove this check since we now allow multiple groups
-            self.user.role = self.group.role.code
-            self.user.save()
-        super().save(*args, **kwargs)
-    user = models.OneToOneField(
-        'users.User',  # Use string literal instead of importing User
-        on_delete=models.CASCADE,
-        related_name='group_membership'
-    )
-    group = models.ForeignKey(
-        Group,
-        on_delete=models.PROTECT,
-        related_name='memberships'
-    )
-    joined_at = models.DateTimeField(auto_now_add=True)
-    is_active = models.BooleanField(default=True)
-
-    class Meta:
-        verbose_name = _('Group Membership')
-        verbose_name_plural = _('Group Memberships')
-        constraints = [
+            ),
             models.UniqueConstraint(
                 fields=['user'],
-                name='unique_user_membership'
+                condition=models.Q(is_primary=True),
+                name='unique_user_primary_group'
             )
         ]
 
     def __str__(self):
-        return f"{self.user.email} in {self.group.name}"
+        return f"{self.user.email} in {self.group.name} (Role: {self.role.name if self.role else 'None'})"
+
+    def clean(self):
+        # Validate that the role matches the group's role
+        if self.role and self.group and self.role != self.group.role:
+            raise ValidationError(
+                f"Role '{self.role.name}' does not match group's role '{self.group.role.name}'"
+            )
+        
+        # Validate primary group assignment
+        if self.is_primary and not self.role:
+            raise ValidationError("Primary membership must have a role assigned")
 
     def save(self, *args, **kwargs):
-        if not self.pk:  # Only on creation
-            if GroupMembership.objects.filter(user=self.user).exists():
-                raise ValidationError(_("User already belongs to a group"))
-            self.user.role = self.group.role.code
-            self.user.save()
+        self.full_clean()
+        
+        # If this is being set as primary, ensure no other primary exists
+        if self.is_primary:
+            GroupMembership.objects.filter(user=self.user, is_primary=True).exclude(pk=self.pk).update(is_primary=False)
+            
+            # Update user's main role if this is primary
+            if self.role:
+                self.user.role = self.role.code
+                self.user.save()
+        
         super().save(*args, **kwargs)

@@ -4,6 +4,7 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 import logging
+import uuid
 
 logger = logging.getLogger(__name__)
 
@@ -203,24 +204,19 @@ class User(AbstractUser):
 
 class UserActivity(models.Model):
     ACTIVITY_TYPES = (
-        ('login', 'Login'),
-        ('logout', 'Logout'),
-        ('password_change', 'Password Change'),
-        ('profile_update', 'Profile Update'),
-        ('account_suspended', 'Account Suspended'),
-        ('account_activated', 'Account Activated'),
-        ('course_access', 'Course Access'),
-        ('assignment_submission', 'Assignment Submission'),
-        ('system', 'System Event'),
-        ('user_management', 'User Management'),
-        ('group_created', 'Group Created'),
-        ('group_updated', 'Group Updated'),
-        ('group_deleted', 'Group Deleted'),
-        ('group_member_added', 'Group Member Added'),
+        ('login', 'Login'),('logout', 'Logout'), ('password_change', 'Password Change'),
+        ('profile_update', 'Profile Update'), ('account_suspended', 'Account Suspended'),
+        ('account_activated', 'Account Activated'), ('course_access', 'Course Access'),
+        ('assignment_submission', 'Assignment Submission'), ('system', 'System Event'),
+        ('user_management', 'User Management'),('group_created', 'Group Created'),
+        ('group_updated', 'Group Updated'),('role_deleted', 'Role Deleted'),
+        ('group_deleted', 'Group Deleted'),('group_member_added', 'Group Member Added'),
         ('group_member_removed', 'Group Member Removed'),
-        ('role_created', 'Role Created'),
-        ('role_updated', 'Role Updated'),
-        ('role_deleted', 'Role Deleted'),
+        ('role_created', 'Role Created'), ('role_updated', 'Role Updated'),
+        ('course_created', 'Course Created'), ('course_updated', 'Course Updated'),
+        ('course_deleted', 'Course Deleted'), ('category_deleted', 'Category Deleted'),
+        ('category_created', 'Category Created'),('category_updated', 'Category Updated'),
+       
     )
     STATUS_CHOICES = (
         ('success', 'Success'),
@@ -265,3 +261,19 @@ class UserActivity(models.Model):
         if not self.id:
             self.timestamp = timezone.now()
         super().save(*args, **kwargs)
+
+
+
+
+
+
+
+class MagicToken(models.Model):
+    token = models.CharField(max_length=255, unique=True)  # JWT or UUID
+    unique_subscriber_id = models.CharField(max_length=50)  # Matches CMVP's unique_subscriber_id
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    is_used = models.BooleanField(default=False)
+
+    def is_expired(self):
+        return timezone.now() > self.expires_at

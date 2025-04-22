@@ -14,14 +14,10 @@ import os
 from pathlib import Path
 from datetime import timedelta
 
-# Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
 ASGI_APPLICATION = 'lms_admin.asgi.application'
-
-# Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-4#geugrr0#u!1$%lu3(gv&on7#hl6xhzd3cdc)-xlr!l70%dz&'
@@ -50,9 +46,15 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     
     'users',
-    # 'messaging',
+    'messaging',
+    'schedule',
     'activitylog',
+    'advert',
     'groups',
+
+    'courses',
+    'course_analytics',
+    'payments',
 
 ]
 
@@ -181,13 +183,14 @@ CORS_ALLOW_HEADERS = [
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'complete_lms_db',
-        'USER': 'complete_lms_db_user',
-        'PASSWORD': 'AvzbvLnnJh97bwVsvfwMxjlE4ub9lYiT',
-        'HOST': 'dpg-d00c5p9r0fns73e4ejv0-a.oregon-postgres.render.com',
+        'NAME': 'complete_lms_db_d67q',
+        'USER': 'complete_lms_db_d67q_user',
+        'PASSWORD': 'fBqT9SQMKkKN3EGERs6SZAtGsgJn8qvt',
+        'HOST': 'dpg-d03et8qli9vc73fjpls0-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
+
 
 
 # Password validation
@@ -209,9 +212,6 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# Internationalization
-# https://docs.djangoproject.com/en/5.2/topics/i18n/
-
 LANGUAGE_CODE = 'en-us'
 
 TIME_ZONE = 'UTC'
@@ -221,12 +221,12 @@ USE_I18N = True
 USE_TZ = True
 
 
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+
+
+DEFAULT_WEB_PAGE_BASE_URL = "http://localhost:3000"
+# DEFAULT_WEB_PAGE_BASE_URL = "https://cmvp.net"

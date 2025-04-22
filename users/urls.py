@@ -3,7 +3,8 @@ from django.urls import path, include
 from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework import routers
-from users.views import UserViewSet, UserActivityViewSet, CustomTokenObtainPairView, RegisterView, ProfileView
+from users.views import UserViewSet, UserActivityViewSet
+from users.views import CustomTokenObtainPairView, RegisterView, ProfileView, generate_cmvp_token
 # from messaging.views import MessageViewSet
 # from groups.views import UserGroupViewSet
 # from activitylog.views import ActivityLogViewSet
@@ -22,4 +23,5 @@ urlpatterns = [
     path('api/profile/', ProfileView.as_view(), name='profile'),
     path('api/auth/', include('rest_framework.urls')),
     path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/generate-cmvp-token/', generate_cmvp_token, name='generate-cmvp-token'),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
