@@ -203,21 +203,7 @@ class User(AbstractUser):
             )
 
 class UserActivity(models.Model):
-    ACTIVITY_TYPES = (
-        ('login', 'Login'),('logout', 'Logout'), ('password_change', 'Password Change'),
-        ('profile_update', 'Profile Update'), ('account_suspended', 'Account Suspended'),
-        ('account_activated', 'Account Activated'), ('course_access', 'Course Access'),
-        ('assignment_submission', 'Assignment Submission'), ('system', 'System Event'),
-        ('user_management', 'User Management'),('group_created', 'Group Created'),
-        ('group_updated', 'Group Updated'),('role_deleted', 'Role Deleted'),
-        ('group_deleted', 'Group Deleted'),('group_member_added', 'Group Member Added'),
-        ('group_member_removed', 'Group Member Removed'),
-        ('role_created', 'Role Created'), ('role_updated', 'Role Updated'),
-        ('course_created', 'Course Created'), ('course_updated', 'Course Updated'),
-        ('course_deleted', 'Course Deleted'), ('category_deleted', 'Category Deleted'),
-        ('category_created', 'Category Created'),('category_updated', 'Category Updated'),
-       
-    )
+
     STATUS_CHOICES = (
         ('success', 'Success'),
         ('failed', 'Failed'),
@@ -232,7 +218,7 @@ class UserActivity(models.Model):
         blank=True, 
         null=True
     )
-    activity_type = models.CharField(max_length=50, choices=ACTIVITY_TYPES)
+    activity_type = models.CharField(max_length=50)
     details = models.TextField()
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     device_info = models.CharField(max_length=200, blank=True, null=True)
@@ -261,9 +247,6 @@ class UserActivity(models.Model):
         if not self.id:
             self.timestamp = timezone.now()
         super().save(*args, **kwargs)
-
-
-
 
 
 

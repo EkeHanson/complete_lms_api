@@ -13,38 +13,42 @@ from users.models import UserActivity
 class ScheduleViewSet(viewsets.ModelViewSet):
     serializer_class = ScheduleSerializer
     permission_classes = [IsAuthenticated]
-        
-    def get_queryset(self):
-        user = self.request.user
-        queryset = Schedule.objects.filter(
-            Q(creator=user) | 
-            Q(participants__user=user) |
-            Q(participants__group__memberships__user=user)
-        ).distinct().order_by('-start_time')
 
-        # Apply filters
-        search = self.request.query_params.get('search', None)
-        date_from = self.request.query_params.get('date_from', None)
-        date_to = self.request.query_params.get('date_to', None)
-        show_past = self.request.query_params.get('show_past', 'false') == 'true'
+    def get_queryset(self):
+        return Schedule.objects.all()
+
         
-        if search:
-            queryset = queryset.filter(
-                Q(title__icontains=search) |
-                Q(description__icontains=search) |
-                Q(location__icontains=search) |
-                Q(creator__email__icontains=search) |
-                Q(creator__first_name__icontains=search) |
-                Q(creator__last_name__icontains=search)
-            )
-        if date_from:
-            queryset = queryset.filter(start_time__gte=date_from)
-        if date_to:
-            queryset = queryset.filter(end_time__lte=date_to)
-        if not show_past:
-            queryset = queryset.filter(end_time__gte=timezone.now())
+    # def get_queryset(self):
+    #     user = self.request.user
+    #     queryset = Schedule.objects.filter(
+    #         Q(creator=user) | 
+    #         Q(participants__user=user) |
+    #         Q(participants__group__memberships__user=user)            
+    #     ).distinct().order_by('-start_time')
+
+    #     # Apply filters
+    #     search = self.request.query_params.get('search', None)
+    #     date_from = self.request.query_params.get('date_from', None)
+    #     date_to = self.request.query_params.get('date_to', None)
+    #     show_past = self.request.query_params.get('show_past', 'false') == 'true'
+        
+    #     if search:
+    #         queryset = queryset.filter(
+    #             Q(title__icontains=search) |
+    #             Q(description__icontains=search) |
+    #             Q(location__icontains=search) |
+    #             Q(creator__email__icontains=search) |
+    #             Q(creator__first_name__icontains=search) |
+    #             Q(creator__last_name__icontains=search)
+    #         )
+    #     if date_from:
+    #         queryset = queryset.filter(start_time__gte=date_from)
+    #     if date_to:
+    #         queryset = queryset.filter(end_time__lte=date_to)
+    #     if not show_past:
+    #         queryset = queryset.filter(end_time__gte=timezone.now())
             
-        return queryset
+    #     return queryset
 
     def get_serializer_context(self):
         context = super().get_serializer_context()

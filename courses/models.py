@@ -24,17 +24,26 @@ def resource_file_path(instance, filename):
 def scorm_package_path(instance, filename):
     return f'courses/{instance.course.slug}/scorm_packages/{filename}'
 
+
+
 class Category(models.Model):
     name = models.CharField(max_length=100, unique=True)
     slug = models.SlugField(max_length=100, unique=True)
     description = models.TextField(blank=True)
-    
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='created_categories'
+    )
+
     class Meta:
         verbose_name_plural = "Categories"
-    
+
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)

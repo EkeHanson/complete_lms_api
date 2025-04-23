@@ -13,18 +13,14 @@ User = get_user_model()
 class CategorySerializer(serializers.ModelSerializer):
     class Meta:
         model = Category
-        fields = ['id', 'name', 'slug', 'description']
-        extra_kwargs = {
-            'slug': {'required': False, 'read_only': True}  # Make slug not required and read-only
-        }
+        fields = ['id', 'name', 'slug', 'description', 'created_by']
+        read_only_fields = ['slug', 'created_by']
 
     def create(self, validated_data):
-        # Auto-generate slug from name if not provided
         validated_data['slug'] = slugify(validated_data['name'])
         return super().create(validated_data)
 
     def update(self, instance, validated_data):
-        # Update slug if name changes
         if 'name' in validated_data:
             validated_data['slug'] = slugify(validated_data['name'])
         return super().update(instance, validated_data)

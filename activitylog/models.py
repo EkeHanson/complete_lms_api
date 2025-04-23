@@ -2,15 +2,6 @@ from django.db import models
 from users.models import User
 
 class ActivityLog(models.Model):
-    ACTIVITY_TYPES = (
-        ('login', 'Login'),
-        ('logout', 'Logout'),
-        ('course_access', 'Course Access'),
-        ('assignment_submission', 'Assignment Submission'),
-        ('system', 'System Event'),
-        ('user_management', 'User Management'),
-    )
-    
     STATUS_CHOICES = (
         ('success', 'Success'),
         ('failed', 'Failed'),
@@ -19,7 +10,7 @@ class ActivityLog(models.Model):
     )
     
     user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
-    activity_type = models.CharField(max_length=50, choices=ACTIVITY_TYPES)
+    activity_type = models.CharField(max_length=50,)
     details = models.TextField()
     ip_address = models.GenericIPAddressField(blank=True, null=True)
     device_info = models.CharField(max_length=200, blank=True, null=True)

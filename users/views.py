@@ -89,7 +89,7 @@ class LogoutView(APIView):
 
 
 class CustomPagination(PageNumberPagination):
-    page_size = 10
+    page_size = 20
     page_size_query_param = 'page_size'
     max_page_size = 100
 
@@ -332,9 +332,10 @@ class UserActivityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UserActivity.objects.all()
     serializer_class = UserActivitySerializer
     permission_classes = [permissions.IsAdminUser]
+    pagination_class = CustomPagination
     
     def get_queryset(self):
-        queryset = super().get_queryset()
+        queryset = super().get_queryset().order_by('-id')
         user_id = self.request.query_params.get('user_id', None)
         
         if user_id:
