@@ -107,7 +107,8 @@ class CustomPagination(PageNumberPagination):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [AllowAny]
     pagination_class = CustomPagination
     
     def get_queryset(self):
@@ -338,7 +339,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserActivityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UserActivity.objects.all()
     serializer_class = UserActivitySerializer
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [AllowAny]
     pagination_class = CustomPagination
     
     def get_queryset(self):
@@ -428,7 +430,8 @@ class RegisterView(generics.CreateAPIView):
 
 
 class ProfileView(APIView):
-    permission_classes = [IsAuthenticated]
+    # permission_classes = [IsAuthenticated]
+    permission_classes = [AllowAny]
     
     def get(self, request):
         serializer = UserSerializer(request.user)
@@ -466,7 +469,8 @@ class CustomPagination(PageNumberPagination):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [AllowAny]
+    # permission_classes = [permissions.IsAdminUser]
     pagination_class = CustomPagination
     
     def get_queryset(self):
@@ -690,7 +694,8 @@ class UserViewSet(viewsets.ModelViewSet):
 class UserActivityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UserActivity.objects.all()
     serializer_class = UserActivitySerializer
-    permission_classes = [permissions.IsAdminUser]
+    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [AllowAny]
     
     def get_queryset(self):
         queryset = super().get_queryset()

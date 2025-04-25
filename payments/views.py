@@ -3,10 +3,12 @@ from rest_framework import viewsets, status
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 from .models import PaymentConfig, SiteConfig
+from rest_framework.permissions import AllowAny, IsAuthenticated
 from .serializers import PaymentConfigSerializer, SiteConfigSerializer
 
 class PaymentConfigViewSet(viewsets.ViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAdminUser]
 
     def list(self, request):
         config = PaymentConfig.objects.first()
@@ -53,7 +55,8 @@ class PaymentConfigViewSet(viewsets.ViewSet):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class SiteConfigViewSet(viewsets.ViewSet):
-    permission_classes = [IsAdminUser]
+    permission_classes = [AllowAny]
+    # permission_classes = [IsAdminUser]
 
     def list(self, request):
         config = SiteConfig.objects.first()

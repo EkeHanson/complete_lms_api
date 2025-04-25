@@ -51,7 +51,8 @@ class GroupViewSet(viewsets.ModelViewSet):
         Prefetch('memberships', queryset=GroupMembership.objects.select_related('user', 'role'))
     )
     serializer_class = GroupSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [AllowAny]
+    # permission_classes = [permissions.IsAdminUser]
 
     def create(self, request, *args, **kwargs):
         try:
@@ -170,7 +171,8 @@ class GroupViewSet(viewsets.ModelViewSet):
 class GroupMembershipViewSet(viewsets.ModelViewSet):
     queryset = GroupMembership.objects.select_related('user', 'group', 'role')
     serializer_class = GroupMembershipSerializer
-    permission_classes = [permissions.IsAdminUser]
+    permission_classes = [AllowAny]
+    # permission_classes = [permissions.IsAdminUser]
     filterset_fields = ['is_active', 'group', 'user', 'role', 'is_primary']
 
     def get_queryset(self):
