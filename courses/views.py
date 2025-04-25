@@ -39,7 +39,15 @@ class StandardResultsPagination(PageNumberPagination):
 
 class CategoryViewSet(viewsets.ModelViewSet):
     queryset = Category.objects.all()
-    serializer_class = CategorySerializer  # You'll need to create this serializer
+    serializer_class = CategorySerializer  # You'll need to create this serializer\
+
+    def get_queryset(self):
+        # Annotate each category with the count of its courses
+        return Category.objects.annotate(
+            course_count=models.Count('course')
+            # For only published courses:
+            # course_count=models.Count('course', filter=models.Q(course__status='Published'))
+        )
 
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
@@ -197,8 +205,7 @@ class CourseViewSet(viewsets.ModelViewSet):
                     {"error": "No courses found"},
                     status=status.HTTP_404_NOT_FOUND
                 )
-            
-            # Get instructor name (first instructor if available            
+                     
             response_data = {
                 "id": course.id,
                 "title": course.title,
@@ -218,44 +225,72 @@ class CourseViewSet(viewsets.ModelViewSet):
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
 
+    # @action(detail=False, methods=['get'])
+    # def least_popular(self, request):
+    #     """
+    #     Get the course with the lowest number of enrollments
+    #     Includes enrollment count and instructor information
+    #     """
+    #     try:
+    #         # Filter out courses with 0 enrollments if you want
+    #         course = Course.objects.annotate(
+    #             enrollment_count=models.Count('enrollments')
+    #         ).exclude(enrollment_count=0).order_by('enrollment_count').first()
+            
+    #         # If all courses have 0 enrollments, get the first one
+    #         if not course:
+    #             course = Course.objects.annotate(
+    #                 enrollment_count=models.Count('enrollments')
+    #             ).order_by('enrollment_count').first()
+                
+    #             if not course:
+    #                 return Response(
+    #                     {"error": "No courses found"},
+    #                     status=status.HTTP_404_NOT_FOUND
+    #                 )
+            
+    #         response_data = {
+    #             "id": course.id,
+    #             "title": course.title,
+    #             "enrollment_count": course.enrollment_count,
+    #             "instructor": "Ekene-onwon Solomon",
+    #             # Include other fields you might need
+    #             "thumbnail": course.thumbnail.url if course.thumbnail else None,
+    #             "description": course.description,
+    #         }
+            
+    #         return Response(response_data)
+            
+    #     except Exception as e:
+    #         logger.error(f"Error fetching least popular course: {str(e)}", exc_info=True)
+    #         return Response(
+    #             {"error": "An error occurred while fetching the least popular course"},
+    #             status=status.HTTP_500_INTERNAL_SERVER_ERROR
+    #         )
+        
     @action(detail=False, methods=['get'])
     def least_popular(self, request):
         """
-        Get the course with the lowest number of enrollments
+        Get the course with the lowest number of enrollments (including 0)
         Includes enrollment count and instructor information
         """
         try:
-            # Filter out courses with 0 enrollments if you want
+            # Remove the exclude() filter to include courses with 0 enrollments
             course = Course.objects.annotate(
                 enrollment_count=models.Count('enrollments')
-            ).exclude(enrollment_count=0).order_by('enrollment_count').first()
+            ).order_by('enrollment_count').first()
             
-            # If all courses have 0 enrollments, get the first one
             if not course:
-                course = Course.objects.annotate(
-                    enrollment_count=models.Count('enrollments')
-                ).order_by('enrollment_count').first()
-                
-                if not course:
-                    return Response(
-                        {"error": "No courses found"},
-                        status=status.HTTP_404_NOT_FOUND
-                    )
-            
-            # Get instructor name (first instructor if available)
-            # instructor_name = "No instructor assigned"
-            # if course.instructors.exists():
-            #     instructor_name = course.instructors.first().name
-            # elif Instructor.objects.exists():
-            #     # Fallback to any instructor if course has none
-            #     instructor_name = Instructor.objects.first().name
+                return Response(
+                    {"error": "No courses found"},
+                    status=status.HTTP_404_NOT_FOUND
+                )
             
             response_data = {
                 "id": course.id,
                 "title": course.title,
                 "enrollment_count": course.enrollment_count,
                 "instructor": "Ekene-onwon Solomon",
-                # Include other fields you might need
                 "thumbnail": course.thumbnail.url if course.thumbnail else None,
                 "description": course.description,
             }
@@ -271,9 +306,20 @@ class CourseViewSet(viewsets.ModelViewSet):
         
     def get_queryset(self):
         queryset = super().get_queryset()
-        # if not self.request.user.is_staff:
-        #     queryset = queryset.filter(status='Published')
+        # Annotate each course with its enrollment count
+        queryset = queryset.annotate(
+            total_enrollments=models.Count('enrollments', distinct=True))
         return queryset
+        
+    def list(self, request, *args, **kwargs):
+        response = super().list(request, *args, **kwargs)
+        
+        # Calculate total enrollments across all courses
+        total_all_enrollments = Enrollment.objects.count()
+        
+        # Add the total to the response data
+        response.data['total_all_enrollments'] = total_all_enrollments
+        return response
 
     def get_permissions(self):
         if self.action in ['create', 'update', 'partial_update', 'destroy']:
@@ -708,7 +754,6 @@ class AdminEnrollmentView(APIView):
         Enrollment.objects.bulk_create(enrollments)
         return Response({"message": f"{len(enrollments)} enrollments created successfully"},
                        status=status.HTTP_201_CREATED)
-
 
 
 class CourseRatingView(APIView):

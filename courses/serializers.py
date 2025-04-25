@@ -10,10 +10,12 @@ from django.utils.text import slugify
 User = get_user_model()
 
 class CategorySerializer(serializers.ModelSerializer):
+    course_count = serializers.IntegerField(read_only=True)
     class Meta:
         model = Category
-        fields = ['id', 'name', 'slug', 'description', 'created_by']
-        read_only_fields = ['slug', 'created_by']
+        fields = ['id', 'name', 'slug', 'description', 'created_by', 'course_count']
+        read_only_fields = ['slug', 'created_by', 'course_count']
+
 
     def create(self, validated_data):
         validated_data['slug'] = slugify(validated_data['name'])
@@ -85,6 +87,7 @@ class SCORMxAPISettingsSerializer(serializers.ModelSerializer):
         fields = ['id', 'is_active', 'standard', 'version', 'completion_threshold', 'score_threshold', 'track_completion', 'track_score', 'track_time', 'track_progress', 'package']
 
 class CourseSerializer(serializers.ModelSerializer):
+    total_enrollments = serializers.IntegerField(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
     category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), source='category', write_only=True)
@@ -113,7 +116,7 @@ class CourseSerializer(serializers.ModelSerializer):
             'level', 'status', 'duration', 'price', 'discount_price', 'currency', 'thumbnail',
             'created_at', 'updated_at', 'created_by', 'created_by_username', 'completion_hours',
             'current_price', 'learning_outcomes', 'prerequisites', 'modules', 'resources',
-            'course_instructors', 'certificate_settings', 'scorm_settings'
+            'course_instructors', 'certificate_settings', 'scorm_settings','total_enrollments',
         ]
 
 class LearningPathSerializer(serializers.ModelSerializer):
