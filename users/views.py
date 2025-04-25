@@ -107,7 +107,7 @@ class CustomPagination(PageNumberPagination):
 class UserViewSet(viewsets.ModelViewSet):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    # permission_classes = [permissions.IsAdminUser]
+    permission_classes = [permissions.IsAdminUser]
     pagination_class = CustomPagination
     
     def get_queryset(self):
@@ -327,6 +327,13 @@ class UserViewSet(viewsets.ModelViewSet):
         user.delete_account(reason="Deleted via admin panel")
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=['post'])
+    def impersonate(self, request, pk=None):
+        user = self.get_object()
+        if not request.user.is_superuser:
+            return Response({'detail': 'Only superusers can impersonate'}, status=status.HTTP_403_FORBIDDEN)
+        token = RefreshToken.for_user(user)
+        return Response({'token': str(token.access_token)})
 
 class UserActivityViewSet(viewsets.ReadOnlyModelViewSet):
     queryset = UserActivity.objects.all()

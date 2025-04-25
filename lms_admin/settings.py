@@ -51,6 +51,8 @@ INSTALLED_APPS = [
     'activitylog',
     'advert',
     'groups',
+    'forum',
+    
 
     'courses',
     'course_analytics',

@@ -120,3 +120,4 @@ class MessageSerializer(serializers.ModelSerializer):
             )
         
         return message
+    

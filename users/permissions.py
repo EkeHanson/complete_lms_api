@@ -7,8 +7,10 @@ class IsOwnerUser(BasePermission):
     
 class IsAdminUser(BasePermission):
     def has_permission(self, request, view):
-        return request.user
-        # return request.user and request.user.role == 'admin'
+        return request.user.is_authenticated and request.user.role == 'super_admin'
+
+        # return request.user
+        # return request.user and request.user.role == 'super_admin'
 
 class IsInstructorUser(BasePermission):
     def has_permission(self, request, view):

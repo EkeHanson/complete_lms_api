@@ -6,6 +6,7 @@ from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from groups.models import Group
 from django.db.models import Q
+from datetime import datetime, timedelta
 from .models import Message, MessageRecipient, MessageAttachment, MessageType
 from .serializers import (MessageSerializer, MessageAttachmentSerializer,MessageTypeSerializer,
     # ForwardMessageSerializer, ReplyMessageSerializer
@@ -236,6 +237,16 @@ class MessageViewSet(viewsets.ModelViewSet):
             status=status.HTTP_200_OK
         )
 
+    @action(detail=False, methods=['get'])
+    def stats(self, request):
+        """General user statistics"""
+        total_messages = Message.objects.count()
+        
+        
+        return Response({
+            'total_messages': total_messages,
+        })
+    
 class MessageAttachmentViewSet(viewsets.ModelViewSet):
     queryset = MessageAttachment.objects.all()
     serializer_class = MessageAttachmentSerializer

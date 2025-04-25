@@ -173,3 +173,4 @@ class MessageAttachment(models.Model):
                 details=f'Added attachment "{self.original_filename}" to message "{self.message.subject}"',
                 status='success'
             )
+

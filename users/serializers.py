@@ -80,8 +80,6 @@ class CustomTokenObtainPairSerializer(TokenObtainPairSerializer):
             raise
 
 
-
-
 class UserSerializer(serializers.ModelSerializer):
     last_login = serializers.DateTimeField(format="%Y-%m-%d %H:%M", read_only=True)
     class Meta:

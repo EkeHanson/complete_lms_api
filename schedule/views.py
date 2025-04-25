@@ -103,3 +103,12 @@ class ScheduleViewSet(viewsets.ModelViewSet):
         
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data)
+
+    @action(detail=False, methods=['get'])
+    def stats(self, request):
+        """General user statistics"""
+        total_schedule = Schedule.objects.count()
+        
+        return Response({
+            'total_schedule': total_schedule,
+        })

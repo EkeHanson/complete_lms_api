@@ -309,3 +309,47 @@ class CourseRating(models.Model):
     
     def __str__(self):
         return f"{self.user} rated {self.course} {self.rating} stars"
+
+class Badge(models.Model):
+    title = models.CharField(max_length=100)
+    description = models.TextField(blank=True)
+    image = models.ImageField(upload_to='badges/', null=True, blank=True)
+    criteria = models.JSONField(default=dict, help_text="Criteria for earning the badge, e.g., {'courses_completed': 5}")
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.title
+
+class UserPoints(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='points')
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+    points = models.PositiveIntegerField(default=0)
+    activity_type = models.CharField(max_length=50, choices=[
+        ('course_completion', 'Course Completion'),
+        ('module_completion', 'Module Completion'),
+        ('lesson_completion', 'Lesson Completion'),
+        ('quiz_score', 'Quiz Score'),
+        ('discussion', 'Discussion Participation'),
+    ])
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'course', 'activity_type']
+
+    def __str__(self):
+        return f"{self.user} - {self.points} points"
+
+class UserBadge(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='badges')
+    badge = models.ForeignKey(Badge, on_delete=models.CASCADE)
+    awarded_at = models.DateTimeField(auto_now_add=True)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE, null=True, blank=True)
+
+    class Meta:
+        unique_together = ['user', 'badge', 'course']
+
+    def __str__(self):
+        return f"{self.user} - {self.badge.title}"
+

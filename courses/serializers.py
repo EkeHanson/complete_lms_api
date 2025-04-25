@@ -1,7 +1,6 @@
 from rest_framework import serializers
-from .models import (
-    Category, Course , Module, Lesson,
-    Resource, Instructor, CourseInstructor, CertificateTemplate,
+from .models import (Category, Course , Module, Lesson,Badge,UserPoints,UserBadge,
+    Resource, Instructor, CourseInstructor, CertificateTemplate,UserBadge,
     SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating
 )
 from django.contrib.auth import get_user_model
@@ -125,14 +124,38 @@ class LearningPathSerializer(serializers.ModelSerializer):
         model = LearningPath
         fields = ['id', 'title', 'description', 'courses', 'course_ids', 'is_active', 'order', 'created_at', 'updated_at']
 
-class EnrollmentSerializer(serializers.ModelSerializer):
-    course_title = serializers.CharField(source='course.title', read_only=True)
-    user_username = serializers.CharField(source='user.username', read_only=True)
+class EnrollmentCourseSerializer(serializers.ModelSerializer):
+    category = CategorySerializer(read_only=True)
+    
+    class Meta:
+        model = Course
+        fields = "__all__"
 
+class EnrollmentSerializer(serializers.ModelSerializer):
+    course = EnrollmentCourseSerializer(read_only=True)
+    
     class Meta:
         model = Enrollment
-        fields = ['id', 'user', 'user_username', 'course', 'course_title', 'enrolled_at', 'completed_at', 'is_active']
+        fields = "__all__"
+        # read_only_fields = ['enrollment_date', 'completion_status', 'is_active']
 
+
+class BulkEnrollmentSerializer(serializers.Serializer):
+    user_id = serializers.IntegerField()
+    course_id = serializers.IntegerField(required=False)  # Optional for course-specific endpoints
+    
+    def validate_user_id(self, value):
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        if not User.objects.filter(id=value).exists():
+            raise serializers.ValidationError("User does not exist")
+        return value
+    
+    def validate_course_id(self, value):
+        if not Course.objects.filter(id=value, status='Published').exists():
+            raise serializers.ValidationError("Course does not exist or is not published")
+        return value
+    
 class CertificateSerializer(serializers.ModelSerializer):
     course_title = serializers.CharField(source='enrollment.course.title', read_only=True)
     user_username = serializers.CharField(source='enrollment.user.username', read_only=True)
@@ -148,3 +171,21 @@ class CourseRatingSerializer(serializers.ModelSerializer):
     class Meta:
         model = CourseRating
         fields = ['id', 'user', 'user_username', 'course', 'course_title', 'rating', 'review', 'created_at', 'updated_at']
+
+
+class BadgeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Badge
+        fields = ['id', 'title', 'description', 'image', 'criteria', 'is_active', 'created_at', 'updated_at']
+
+class UserPointsSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserPoints
+        fields = ['id', 'user', 'course', 'points', 'activity_type', 'created_at']
+
+class UserBadgeSerializer(serializers.ModelSerializer):
+    badge = BadgeSerializer()
+
+    class Meta:
+        model = UserBadge
+        fields = ['id', 'user', 'badge', 'awarded_at', 'course']
