@@ -11,18 +11,15 @@ from users.models import UserActivity
 from rest_framework import serializers
 from django.db import models
 
-import json
 
-from .models import (
-    Category, Course,  Module, Lesson,Badge,UserPoints,UserBadge,
-    Resource, Instructor, CourseInstructor, CertificateTemplate,
+from .models import (Category, Course,  Module, Lesson,Badge,UserPoints,UserBadge,
+    Resource, Instructor, CourseInstructor, CertificateTemplate,FAQ,
     SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating
 )
-from .serializers import ( 
-    CategorySerializer, CourseSerializer,BulkEnrollmentSerializer,
+from .serializers import (CategorySerializer, CourseSerializer,BulkEnrollmentSerializer,
     ModuleSerializer, LessonSerializer, ResourceSerializer, InstructorSerializer,
     CourseInstructorSerializer, CertificateTemplateSerializer, SCORMxAPISettingsSerializer,
-UserBadgeSerializer, UserPointsSerializer, BadgeSerializer,
+    UserBadgeSerializer, UserPointsSerializer, BadgeSerializer,FAQSerializer,
     LearningPathSerializer, EnrollmentSerializer, CertificateSerializer, CourseRatingSerializer
 )
 from rest_framework.pagination import PageNumberPagination
@@ -309,6 +306,10 @@ class CourseViewSet(viewsets.ModelViewSet):
         # Annotate each course with its enrollment count
         queryset = queryset.annotate(
             total_enrollments=models.Count('enrollments', distinct=True))
+        queryset = queryset.annotate(
+            faq_count=models.Count('faqs', distinct=True),
+        total_enrollments=models.Count('enrollments', distinct=True)
+        )
         return queryset
         
     def list(self, request, *args, **kwargs):
@@ -934,3 +935,38 @@ class UserBadgeViewSet(ModelViewSet):
         if self.request.user.is_staff:
             return UserBadge.objects.all()
         return UserBadge.objects.filter(user=self.request.user)
+    
+class FAQViewSet(viewsets.ModelViewSet):
+    serializer_class = FAQSerializer
+    permission_classes = [IsAuthenticated]
+    pagination_class = StandardResultsPagination
+
+    def get_queryset(self):
+        """
+        Filter FAQs by course_id from the URL parameter.
+        """
+        course_id = self.kwargs.get('course_id')
+        if course_id:
+            return FAQ.objects.filter(course_id=course_id).order_by('order')
+        return FAQ.objects.none()
+
+    def perform_create(self, serializer):
+        """
+        Ensure the FAQ is associated with the specified course during creation.
+        """
+        course_id = self.kwargs.get('course_id')
+        course = get_object_or_404(Course, id=course_id)
+        serializer.save(course=course)
+
+    def get_permissions(self):
+        if self.action in ['create', 'update', 'partial_update', 'destroy']:
+            return [IsAdminUser()]
+        return [IsAuthenticated()]
+    @action(detail=False, methods=['post'])
+
+    def reorder(self, request, course_id):
+        faqs = request.data.get('faqs', [])  # List of {id, order}
+        with transaction.atomic():
+            for item in faqs:
+                FAQ.objects.filter(id=item['id'], course_id=course_id).update(order=item['order'])
+        return Response({'status': 'FAQs reordered'})

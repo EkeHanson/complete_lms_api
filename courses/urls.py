@@ -1,6 +1,6 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (BadgeViewSet, UserBadgeViewSet,UserPointsViewSet,
+from .views import (BadgeViewSet, UserBadgeViewSet,UserPointsViewSet,FAQViewSet,
     CategoryViewSet, CourseViewSet, ModuleViewSet, LessonViewSet,ResourceViewSet,
     EnrollmentViewSet, CourseRatingView, LearningPathViewSet, CertificateView
 )
@@ -22,6 +22,11 @@ urlpatterns = [
     # Include default router URLs
     path('', include(router.urls)),
 
+    # Add this to your urlpatterns
+    path('courses/<int:course_id>/faqs/',FAQViewSet.as_view({'get': 'list', 'post': 'create'}),name='faq-list'),
+    path('courses/<int:course_id>/faqs/<int:pk>/',FAQViewSet.as_view({'get': 'retrieve', 'patch': 'partial_update', 'put': 'update', 'delete': 'destroy'}),
+        name='faq-detail'),
+    path('courses/<int:course_id>/faqs/reorder/',FAQViewSet.as_view({'post': 'reorder'}),name='faq-reorder'),
     # path(
     #     'courses/<int:course_id>/resources/reorder/',
     #     ResourceViewSet.as_view({'post': 'reorder'}),

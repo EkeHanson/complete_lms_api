@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import (Category, Course , Module, Lesson,Badge,UserPoints,UserBadge,
+from .models import (Category, Course , Module, Lesson,Badge,UserPoints,UserBadge,FAQ,
     Resource, Instructor, CourseInstructor, CertificateTemplate,UserBadge,
     SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating
 )
@@ -8,6 +8,12 @@ from django.utils.text import slugify
 
 
 User = get_user_model()
+
+class FAQSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FAQ
+        fields = ['id', 'question', 'answer', 'order', 'is_active', 'created_at', 'updated_at']
+        read_only_fields = ['created_at', 'updated_at']
 
 class CategorySerializer(serializers.ModelSerializer):
     course_count = serializers.IntegerField(read_only=True)
@@ -87,6 +93,8 @@ class SCORMxAPISettingsSerializer(serializers.ModelSerializer):
         fields = ['id', 'is_active', 'standard', 'version', 'completion_threshold', 'score_threshold', 'track_completion', 'track_score', 'track_time', 'track_progress', 'package']
 
 class CourseSerializer(serializers.ModelSerializer):
+    faq_count = serializers.IntegerField(read_only=True)
+    faqs = FAQSerializer(many=True, read_only=True)
     total_enrollments = serializers.IntegerField(read_only=True)
     resources = ResourceSerializer(many=True, read_only=True)
     category = CategorySerializer(read_only=True)
@@ -113,7 +121,7 @@ class CourseSerializer(serializers.ModelSerializer):
         model = Course
         fields = [
             'id', 'title', 'learning_outcomes', 'prerequisites', 'slug', 'code', 'description', 'short_description', 'category', 'category_id',
-            'level', 'status', 'duration', 'price', 'discount_price', 'currency', 'thumbnail',
+            'level', 'status', 'duration', 'price', 'discount_price', 'currency', 'thumbnail','faq_count','faqs',
             'created_at', 'updated_at', 'created_by', 'created_by_username', 'completion_hours',
             'current_price', 'learning_outcomes', 'prerequisites', 'modules', 'resources',
             'course_instructors', 'certificate_settings', 'scorm_settings','total_enrollments',
@@ -192,3 +200,4 @@ class UserBadgeSerializer(serializers.ModelSerializer):
     class Meta:
         model = UserBadge
         fields = ['id', 'user', 'badge', 'awarded_at', 'course']
+
