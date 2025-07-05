@@ -6,7 +6,6 @@ from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.exceptions import ValidationError, NotFound
 from rest_framework.decorators import action
-from django.shortcuts import get_object_or_404
 from django.db.models import Prefetch
 from django.contrib.auth import get_user_model
 from users.models import UserActivity

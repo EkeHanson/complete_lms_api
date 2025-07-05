@@ -19,7 +19,7 @@ SECRET_KEY = 'django-insecure-!v)6(7@u983fg+8gdo1o)dr^59vvp3^ol*apr%c+$0n$#swz-1
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'cmvp-api-v1.onrender.com', 'https://2fbe-102-90-98-83.ngrok-free.app', '2fbe-102-90-98-83.ngrok-free.app']
+ALLOWED_HOSTS = ['127.0.0.1', 'localhost', 'complete-lms-api.onrender.com']
 
 
 INSTALLED_APPS = [
