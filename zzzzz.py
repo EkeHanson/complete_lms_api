@@ -6,14 +6,14 @@
 
 #python manage.py shell
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='proliance').exists():
+if not Tenant.objects.filter(schema_name='render').exists():
     tenant = Tenant.objects.create(
-        name='proliance',
-        schema_name='proliance'
+        name='render',
+        schema_name='render'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='prolianceltd.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com.com', is_primary=True)
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
     
