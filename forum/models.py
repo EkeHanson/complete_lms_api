@@ -2,7 +2,7 @@ from django.db import models
 from django.utils.translation import gettext as _
 from django.core.exceptions import ValidationError
 from groups.models import Group
-from users.models import User, UserActivity
+from users.models import UserActivity, UserActivity
 import logging
 
 logger = logging.getLogger(__name__)
@@ -20,7 +20,7 @@ class Forum(models.Model):
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(
-        User,
+        UserActivity,
         on_delete=models.SET_NULL,
         null=True,
         related_name='created_forums'
@@ -67,7 +67,7 @@ class ForumPost(models.Model):
         related_name='posts'
     )
     author = models.ForeignKey(
-        User,
+        UserActivity,
         on_delete=models.SET_NULL,
         null=True,
         related_name='forum_posts'
@@ -78,7 +78,7 @@ class ForumPost(models.Model):
     is_approved = models.BooleanField(default=False)
     moderated_at = models.DateTimeField(null=True, blank=True)
     moderated_by = models.ForeignKey(
-        User,
+        UserActivity,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,
@@ -107,7 +107,7 @@ class ForumPost(models.Model):
 
 from django.db import models
 from django.utils.translation import gettext as _
-from users.models import User, UserActivity
+from users.models import CustomUser, UserActivity
 import logging
 
 logger = logging.getLogger(__name__)
@@ -123,7 +123,7 @@ class ModerationQueue(models.Model):
     content_id = models.PositiveIntegerField()
     content = models.TextField()
     reported_by = models.ForeignKey(
-        User,
+        UserActivity,
         on_delete=models.SET_NULL,
         null=True,
         related_name='reported_items'
@@ -132,7 +132,7 @@ class ModerationQueue(models.Model):
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     moderation_notes = models.TextField(blank=True)
     moderated_by = models.ForeignKey(
-        User,
+        UserActivity,
         on_delete=models.SET_NULL,
         null=True,
         blank=True,

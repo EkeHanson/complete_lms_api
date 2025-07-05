@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Interview Schedule Notification</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333; margin: 0; padding: 0;">
+    <div style="max-width: 600px; margin: 20px auto; padding: 20px; border: 1px solid #e0e0e0; border-radius: 8px;">
+        <h2 style="color: #7226FF; text-align: center;">Interview Schedule</h2>
+        <p>Dear {{ applicant_name }},</p>
+        <p>We are pleased to inform you that your interview for the position of <strong>{{ job_title }}</strong> has been scheduled. Below are the details:</p>
+        <table style="width: 100%; border-collapse: collapse; margin: 20px 0;">
+            <tr style="background-color: #f7f5ff;">
+                <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Date</strong></td>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;">{{ interview_date }}</td>
+            </tr>
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Time</strong></td>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;">{{ interview_time }}</td>
+            </tr>
+            <tr style="background-color: #f7f5ff;">
+                <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Mode</strong></td>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;">{{ meeting_mode }}</td>
+            </tr>
+            {% if meeting_mode == 'Virtual' %}
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Meeting Link</strong></td>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;"><a href="{{ meeting_link }}" style="color: #7226FF;">Join Meeting</a></td>
+            </tr>
+            {% else %}
+            <tr>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;"><strong>Address</strong></td>
+                <td style="padding: 10px; border: 1px solid #e0e0e0;">{{ interview_address }}</td>
+            </tr>
+            {% endif %}
+        </table>
+        <p>{{ message }}</p>
+        <p>If you have any questions or need to reschedule, please contact us at <a href="mailto:{{ from_email }}" style="color: #7226FF;">{{ from_email }}</a>.</p>
+        <p>Best regards,<br>{{ tenant_name }} Team</p>
+        <div style="text-align: center; margin-top: 20px; font-size: 12px; color: #666;">
+            <p>This is an automated email. Please do not reply directly to this message.</p>
+        </div>
+    </div>
+</body>
+</html>

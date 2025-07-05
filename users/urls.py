@@ -1,27 +1,33 @@
-from django.contrib import admin
+
 from django.urls import path, include
+from rest_framework.routers import DefaultRouter
 from django.conf import settings
 from django.conf.urls.static import static
-from rest_framework import routers
-from users.views import UserViewSet, UserActivityViewSet
-from users.views import CustomTokenObtainPairView, RegisterView, ProfileView, generate_cmvp_token
-# from messaging.views import MessageViewSet
-# from groups.views import UserGroupViewSet
-# from activitylog.views import ActivityLogViewSet
+from .views import (
+    UserViewSet,
+    UserActivityViewSet,
+    SocialLoginCallbackView,
+    AdminUserCreateView,
+    RegisterView,
+    ProfileView,
+    generate_cmvp_token,
+)
 
-router = routers.DefaultRouter()
-router.register(r'users', UserViewSet)
-router.register(r'user-activities', UserActivityViewSet)
-# router.register(r'messages', MessageViewSet)
-# router.register(r'groups', UserGroupViewSet)
-# router.register(r'activity-logs', ActivityLogViewSet)
+# Initialize a single router instance
+router = DefaultRouter()
+router.register(r'users', UserViewSet, basename='users')
+router.register(r'user-activities', UserActivityViewSet, basename='user-activities')
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/', include(router.urls)),
+    path('', include(router.urls)),
+    path('social/callback/', SocialLoginCallbackView.as_view(), name='social_callback'),
+    path('admin/create/', AdminUserCreateView.as_view(), name='admin_user_create'),
     path('api/register/', RegisterView.as_view(), name='register'),
     path('api/profile/', ProfileView.as_view(), name='profile'),
     path('api/auth/', include('rest_framework.urls')),
-    path('api/token/', CustomTokenObtainPairView.as_view(), name='token_obtain_pair'),
     path('api/generate-cmvp-token/', generate_cmvp_token, name='generate-cmvp-token'),
+    path('stats/', UserViewSet.as_view({'get': 'stats'}), name='user-stats'),
+    
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

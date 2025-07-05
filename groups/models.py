@@ -2,7 +2,7 @@ from django.db import models
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext as _
 import logging
-from users.models import UserActivity
+from users.models import CustomUser, UserActivity
 
 logger = logging.getLogger(__name__)
 
@@ -80,7 +80,7 @@ class Group(models.Model):
 
 class GroupMembership(models.Model):
     user = models.ForeignKey(
-        'users.User',
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='group_memberships'
     )

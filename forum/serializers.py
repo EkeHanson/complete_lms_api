@@ -3,16 +3,15 @@ from .models import Forum, ForumPost
 from groups.serializers import GroupSerializer
 from groups.models import Group
 from users.serializers import UserSerializer
-from users.models import User
 from rest_framework import serializers
 from .models import ModerationQueue
 from users.serializers import UserSerializer
-from users.models import User
+from users.models import CustomUser
 
 class ForumPostSerializer(serializers.ModelSerializer):
     author = UserSerializer(read_only=True)
     author_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        queryset=CustomUser.objects.all(),
         write_only=True,
         required=False
     )
@@ -32,7 +31,7 @@ class ForumSerializer(serializers.ModelSerializer):
     )
     created_by = UserSerializer(read_only=True)
     created_by_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        queryset=CustomUser.objects.all(),
         write_only=True,
         required=False
     )
@@ -53,13 +52,13 @@ class ForumSerializer(serializers.ModelSerializer):
 class ModerationQueueSerializer(serializers.ModelSerializer):
     reported_by = UserSerializer(read_only=True)
     reported_by_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        queryset=CustomUser.objects.all(),
         write_only=True,
         required=False
     )
     moderated_by = UserSerializer(read_only=True)
     moderated_by_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        queryset=CustomUser.objects.all(),
         write_only=True,
         required=False,
         allow_null=True

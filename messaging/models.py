@@ -1,6 +1,6 @@
 # messaging/models.py
 from django.db import models
-from users.models import User, UserActivity  # Import UserActivity
+from users.models import CustomUser, UserActivity  # Import UserActivity
 from groups.models import Group  
 
 class MessageType(models.Model):
@@ -47,7 +47,7 @@ class Message(models.Model):
     )
     
     sender = models.ForeignKey(
-        User, 
+        CustomUser, 
         on_delete=models.CASCADE, 
         related_name='sent_messages'
     )
@@ -112,7 +112,7 @@ class MessageRecipient(models.Model):
         related_name='recipients'
     )
     recipient = models.ForeignKey(
-        User,
+        CustomUser,
         null=True,
         blank=True,
         on_delete=models.CASCADE,

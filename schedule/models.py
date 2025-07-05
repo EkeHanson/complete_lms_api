@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from users.models import User, UserActivity
+from users.models import CustomUser, UserActivity
 from groups.models import Group
 
 class Schedule(models.Model):
@@ -11,7 +11,7 @@ class Schedule(models.Model):
     location = models.TextField(blank=True, null=True)
     is_all_day = models.BooleanField(default=False)
     creator = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='created_schedules'
     )
@@ -54,7 +54,7 @@ class ScheduleParticipant(models.Model):
         related_name='participants'
     )
     user = models.ForeignKey(
-        User,
+        CustomUser,
         null=True,
         blank=True,
         on_delete=models.CASCADE,

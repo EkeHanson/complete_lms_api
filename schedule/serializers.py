@@ -3,7 +3,7 @@ from .models import Schedule, ScheduleParticipant
 from users.serializers import UserSerializer
 from groups.serializers import GroupSerializer
 from groups.models import Group
-from users.models import User
+from users.models import CustomUser
 
 class ScheduleParticipantSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
@@ -18,7 +18,7 @@ class ScheduleSerializer(serializers.ModelSerializer):
     participants = ScheduleParticipantSerializer(many=True, read_only=True)
     participant_users = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=User.objects.all(),
+        queryset=CustomUser.objects.all(),
         write_only=True,
         required=False
     )

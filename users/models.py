@@ -1,23 +1,20 @@
 from django.contrib.auth.models import AbstractUser, BaseUserManager
 from django.db import models
+from django.utils.translation import gettext_lazy as _
 from django.utils import timezone
 from django.core.exceptions import ValidationError
-from django.utils.translation import gettext as _
 import logging
 import uuid
 
 logger = logging.getLogger(__name__)
 
-class UserManager(BaseUserManager):
+class CustomUserManager(BaseUserManager):
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
         email = self.normalize_email(email)
         if 'role' not in extra_fields:
-            from groups.models import Role
-            default_role = Role.objects.filter(is_default=True).first()
-            if default_role:
-                extra_fields['role'] = default_role.code
+            extra_fields['role'] = 'carer'  # Default role from your ROLES
         user = self.model(email=email, **extra_fields)
         if password:
             self.validate_password(password)
@@ -35,7 +32,7 @@ class UserManager(BaseUserManager):
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
         extra_fields.setdefault('is_superuser', True)
-        extra_fields.setdefault('role', 'super_admin')
+        extra_fields.setdefault('role', 'admin')
         extra_fields.setdefault('status', 'active')
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
@@ -58,16 +55,31 @@ class UserManager(BaseUserManager):
                 code='password_too_short',
             )
 
-class User(AbstractUser):
+class CustomUser(AbstractUser):
+    ROLES = (
+        ('admin', 'Admin'),
+        ('hr', 'HR'),
+        ('carer', 'Carer'),
+        ('client', 'Client'),
+        ('family', 'Family'),
+        ('auditor', 'Auditor'),
+        ('tutor', 'Tutor'),
+        ('assessor', 'Assessor'),
+        ('iqa', 'IQA'),
+        ('eqa', 'EQA'),
+    )
     STATUS_CHOICES = (
         ('active', 'Active'),
         ('pending', 'Pending'),
         ('suspended', 'Suspended'),
         ('deleted', 'Deleted'),
     )
-    username = None
+
+    username = models.CharField(max_length=150, blank=True, null=True, unique=False)
     email = models.EmailField(_('email address'), unique=True)
-    role = models.CharField(max_length=20, default='member')
+    role = models.CharField(max_length=20, choices=ROLES, default='carer')
+    job_role = models.CharField(max_length=255, blank=True, null=True, default='staff')
+    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE, null=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
     first_name = models.CharField(_('first name'), max_length=150, blank=True)
     last_name = models.CharField(_('last name'), max_length=150, blank=True)
@@ -83,14 +95,16 @@ class User(AbstractUser):
     last_login_device = models.CharField(max_length=200, blank=True, null=True)
     login_attempts = models.PositiveIntegerField(default=0)
     signup_date = models.DateTimeField(auto_now_add=True)
+    is_deleted = models.BooleanField(default=False)
+
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
-    objects = UserManager()
+    objects = CustomUserManager()
 
     class Meta:
         verbose_name = _('user')
         verbose_name_plural = _('users')
-        ordering = ['-date_joined']
+        ordering = ['date_joined']
         indexes = [
             models.Index(fields=['email']),
             models.Index(fields=['role']),
@@ -98,7 +112,7 @@ class User(AbstractUser):
         ]
 
     def __str__(self):
-        return f"{self.get_full_name() or self.email} ({self.get_role_display()})"
+        return f"{self.get_full_name() or self.email} ({self.role})"
 
     def get_full_name(self):
         full_name = f"{self.first_name} {self.last_name}"
@@ -106,31 +120,6 @@ class User(AbstractUser):
 
     def get_short_name(self):
         return self.first_name
-
-    def get_role_display(self):
-        try:
-            from groups.models import Role
-            return Role.objects.get(code=self.role).name
-        except Role.DoesNotExist:
-            return self.role
-
-    def get_group(self):
-        from groups.models import GroupMembership  # Import here to avoid circular import
-        try:
-            return self.group_membership.group
-        except GroupMembership.DoesNotExist:
-            return None
-
-    def set_group(self, group):
-        from groups.models import GroupMembership  # Import here to avoid circular import
-        if hasattr(self, 'group_membership'):
-            membership = self.group_membership
-            membership.group = group
-            membership.save()
-        else:
-            GroupMembership.objects.create(user=self, group=group)
-        self.role = group.role.code
-        self.save()
 
     def increment_login_attempts(self):
         self.login_attempts += 1
@@ -168,6 +157,7 @@ class User(AbstractUser):
         self.status = 'deleted'
         self.email = f"deleted_{self.id}_{self.email}"
         self.is_active = False
+        self.is_deleted = True
         self.save()
         UserActivity.objects.create(
             user=self,
@@ -202,8 +192,14 @@ class User(AbstractUser):
                 status='success'
             )
 
-class UserActivity(models.Model):
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    modules = models.ManyToManyField('core.Module', blank=True)
 
+    def __str__(self):
+        return f"Profile for {self.user.email}"
+
+class UserActivity(models.Model):
     STATUS_CHOICES = (
         ('success', 'Success'),
         ('failed', 'Failed'),
@@ -212,10 +208,10 @@ class UserActivity(models.Model):
         ('system', 'System'),
     )
     user = models.ForeignKey(
-        User, 
-        on_delete=models.CASCADE, 
+        CustomUser,
+        on_delete=models.CASCADE,
         related_name='activities',
-        blank=True, 
+        blank=True,
         null=True
     )
     activity_type = models.CharField(max_length=50)
@@ -224,8 +220,8 @@ class UserActivity(models.Model):
     device_info = models.CharField(max_length=200, blank=True, null=True)
     timestamp = models.DateTimeField(auto_now_add=True)
     status = models.CharField(
-        max_length=20, 
-        choices=STATUS_CHOICES, 
+        max_length=20,
+        choices=STATUS_CHOICES,
         default='success'
     )
 
@@ -241,22 +237,9 @@ class UserActivity(models.Model):
 
     def __str__(self):
         user_info = self.user.email if self.user else 'System'
-        return f"{user_info} - {self.get_activity_type_display()} ({self.timestamp})"
+        return f"{user_info} - {self.activity_type} ({self.timestamp})"
 
     def save(self, *args, **kwargs):
         if not self.id:
             self.timestamp = timezone.now()
         super().save(*args, **kwargs)
-
-
-
-
-class MagicToken(models.Model):
-    token = models.CharField(max_length=255, unique=True)  # JWT or UUID
-    unique_subscriber_id = models.CharField(max_length=50)  # Matches CMVP's unique_subscriber_id
-    created_at = models.DateTimeField(auto_now_add=True)
-    expires_at = models.DateTimeField()
-    is_used = models.BooleanField(default=False)
-
-    def is_expired(self):
-        return timezone.now() > self.expires_at

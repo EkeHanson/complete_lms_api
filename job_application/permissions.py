@@ -1,0 +1,2 @@
+
+from talent_engine.permissions import IsSubscribedAndAuthorized

@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import Role, Group, GroupMembership
 from users.serializers import UserSerializer
-from users.models import User
+from users.models import CustomUser
 
 class RoleSerializer(serializers.ModelSerializer):
     class Meta:
@@ -11,7 +11,7 @@ class RoleSerializer(serializers.ModelSerializer):
 class GroupMembershipSerializer(serializers.ModelSerializer):
     user = UserSerializer(read_only=True)
     user_id = serializers.PrimaryKeyRelatedField(
-        queryset=User.objects.all(),
+        queryset=CustomUser.objects.all(),
         write_only=True
     )
     group = serializers.PrimaryKeyRelatedField(

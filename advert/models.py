@@ -1,7 +1,7 @@
 # models.py
 from django.db import models
 from django.utils import timezone
-from users.models import User, UserActivity
+from users.models import CustomUser, UserActivity
 
 class Advert(models.Model):
     STATUS_CHOICES = [
@@ -26,7 +26,7 @@ class Advert(models.Model):
     priority = models.PositiveIntegerField(default=1)
     target = models.CharField(max_length=20, choices=TARGET_CHOICES, default='all')
     creator = models.ForeignKey(
-        User,
+        CustomUser,
         on_delete=models.CASCADE,
         related_name='created_adverts'
     )
