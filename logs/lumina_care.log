@@ -1,3 +1,1355 @@
 2025-07-05 18:05:12,286 [INFO] core: Saving tenant with schema_name: proliance
 2025-07-05 18:06:06,116 [INFO] core: Saving tenant with schema_name: render
 2025-07-05 18:11:03,765 [INFO] core: Saving tenant with schema_name: render
+2025-07-05 18:39:41,190 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-05 18:43:14,232 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-05 18:57:35,030 [INFO] core: Saving tenant with schema_name: public
+2025-07-05 18:57:36,868 [INFO] core: Saving tenant with schema_name: public
+2025-07-05 18:58:16,412 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 12:43:36,469 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 12:44:29,235 [INFO] django.server: "OPTIONS /api/token/ HTTP/1.1" 200 0
+2025-07-06 12:44:37,838 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 12:44:47,130 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 12:44:47,131 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:44:47,131 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 12:44:47,137 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:44:47,158 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 12:44:47,177 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 12:44:47,183 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 12:44:47,203 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 12:44:47,246 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 12:44:47,278 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 12:44:47,331 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 12:44:47,365 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 12:44:47,497 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,517 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,518 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,568 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,627 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 12:44:47,640 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 12:44:47,681 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,713 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 12:44:47,715 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 12:44:47,736 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,791 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:47,822 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 12:44:47,837 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 12:44:47,864 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:48,013 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:48,200 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 12:44:48,205 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 12:44:48,232 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 12:44:48,294 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 12:44:48,388 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 12:44:48,413 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 12:44:48,394 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 12:44:48,500 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:48,751 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:44:48,855 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53171)
+2025-07-06 12:44:48,898 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:44:48,992 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53173)
+2025-07-06 12:44:49,313 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 12:44:49,347 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:44:49,348 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 12:44:49,351 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 12:44:49,369 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53174)
+2025-07-06 12:44:49,370 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53175)
+2025-07-06 12:44:49,386 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53176)
+2025-07-06 12:44:49,436 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53172)
+2025-07-06 12:54:11,008 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 12:54:14,878 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 12:55:00,380 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 12:55:03,973 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 12:56:16,357 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 12:56:19,311 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 12:56:19,312 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:56:19,314 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 12:56:19,314 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 12:56:19,558 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:56:19,559 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 12:56:19,589 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 12:56:19,592 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 12:56:19,678 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 12:56:19,683 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 12:56:19,697 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 12:56:19,699 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 12:56:19,715 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 12:56:19,727 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,738 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,790 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 12:56:19,792 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,800 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,799 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 12:56:19,850 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,850 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,855 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 12:56:19,988 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:19,997 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:20,143 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 12:56:20,150 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 12:56:20,164 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:20,256 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 12:56:20,268 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 12:56:20,271 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 12:56:20,286 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 12:56:20,374 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 12:56:20,480 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:20,496 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 12:56:20,504 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 12:56:20,702 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:56:20,774 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 12:56:20,826 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53930)
+2025-07-06 12:56:20,828 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53915)
+2025-07-06 12:56:20,967 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 12:56:21,058 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53931)
+2025-07-06 12:56:21,120 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 12:56:21,132 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 12:56:21,134 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 12:56:21,137 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53913)
+2025-07-06 12:56:21,139 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53933)
+2025-07-06 12:56:21,140 [INFO] django.server: - Broken pipe from ('127.0.0.1', 53932)
+2025-07-06 13:01:07,108 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:01:11,234 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:03:33,472 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:03:37,757 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:06:23,059 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:06:26,294 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:11:23,350 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:11:31,528 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:11:31,528 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:11:31,530 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:11:31,530 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:11:31,712 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:11:31,716 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:11:31,730 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:11:31,743 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:11:31,913 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:11:31,916 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:11:31,924 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:11:31,926 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:11:31,926 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:11:31,930 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:11:31,931 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:11:31,936 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:11:31,987 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:11:32,072 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:11:32,296 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:11:32,301 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:11:32,304 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:11:32,306 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:11:32,308 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,312 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:11:32,313 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,396 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:11:32,406 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:11:32,413 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,422 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:11:32,426 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,628 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:11:32,632 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:11:32,633 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:11:32,635 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,645 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:11:32,651 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:11:32,712 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:11:32,722 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:11:32,727 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:11:32,746 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,755 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:11:32,783 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:11:32,873 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:32,884 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:32,885 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:32,921 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:11:32,927 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:11:32,951 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:32,964 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:11:32,964 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:11:32,965 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:11:32,976 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:11:33,040 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,041 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,100 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,106 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:11:33,112 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:11:33,131 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,133 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,140 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:11:33,144 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:11:33,159 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:11:33,173 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:11:33,287 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:11:33,289 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:11:33,357 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:11:33,360 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:11:33,361 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:11:33,432 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:11:33,480 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,483 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:11:33,643 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:11:33,649 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54524)
+2025-07-06 13:11:33,926 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:11:33,928 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54502)
+2025-07-06 13:12:33,412 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:12:36,713 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:13:35,587 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:13:38,793 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:15:06,633 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:15:10,224 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:15:10,224 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:10,226 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:10,227 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:15:10,480 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:10,482 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:10,519 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:10,532 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:15:10,533 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:10,541 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:15:10,544 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:15:10,553 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:10,601 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:15:10,623 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:15:10,624 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:15:10,638 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:15:10,829 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:15:10,949 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:10,952 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:15:11,093 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:15:11,132 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:15:11,139 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:15:11,139 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:11,157 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:15:11,159 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:15:11,165 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,167 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,184 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:15:11,211 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:15:11,267 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,420 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:11,427 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:11,451 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:11,457 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:11,499 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:15:11,505 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:15:11,507 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:15:11,514 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,514 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,516 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:11,572 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,587 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,588 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,578 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:11,621 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,621 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,648 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,681 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,773 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,798 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,828 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:15:11,833 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,938 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:15:11,946 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:11,951 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:15:11,976 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:15:11,979 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:15:12,007 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:12,009 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:15:12,168 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:15:12,184 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:15:12,196 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:15:12,204 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:12,226 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:12,299 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:12,300 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:12,305 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:15:12,319 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:15:12,721 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:12,726 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54716)
+2025-07-06 13:15:12,787 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:12,790 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54717)
+2025-07-06 13:15:28,728 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:15:46,182 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:15:46,188 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,207 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:46,209 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:46,212 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:46,216 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:46,232 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,234 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:46,439 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:15:46,443 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:46,541 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:15:46,545 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,574 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:15:46,578 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:15:46,579 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:15:46,582 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,618 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:15:46,629 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:46,684 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:15:46,705 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,749 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:15:46,753 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,878 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:15:46,881 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:15:46,966 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:15:46,980 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:15:46,983 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:15:46,991 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:46,995 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:15:46,998 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:47,025 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:47,037 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:47,042 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:47,045 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:15:47,168 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:47,172 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:15:47,197 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:15:47,205 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:47,210 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:15:47,214 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:47,233 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:15:47,242 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:15:47,256 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:15:47,286 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:47,267 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:15:47,261 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:15:47,277 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:47,296 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:15:47,311 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:15:47,366 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:15:47,642 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:15:47,646 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:15:47,664 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:15:47,677 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:15:47,864 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:15:47,903 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54805)
+2025-07-06 13:15:47,993 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:15:48,031 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:15:48,034 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:15:48,035 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54718)
+2025-07-06 13:15:48,042 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54697)
+2025-07-06 13:15:48,049 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54806)
+2025-07-06 13:15:48,121 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:15:48,127 [INFO] django.server: - Broken pipe from ('127.0.0.1', 54715)
+2025-07-06 13:20:35,281 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:20:39,655 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:21:08,650 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:21:12,491 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:23:59,698 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:24:04,259 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:24:19,428 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:24:24,383 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:24:34,590 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:24:39,228 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:25:15,723 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:25:19,896 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:25:38,400 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:30:57,890 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:30:57,898 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:30:57,906 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:30:57,916 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:30:57,919 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:30:57,920 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:30:57,935 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:30:57,937 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:30:57,938 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:30:57,954 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:30:58,097 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:30:58,099 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:30:58,443 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:30:58,502 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:30:58,504 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:30:58,506 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:30:58,508 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:30:58,512 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:30:58,515 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:30:58,515 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:30:58,518 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:30:58,521 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:30:58,550 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:30:58,571 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:30:58,766 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:30:58,772 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:30:58,783 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:30:58,791 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:30:58,792 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:30:58,806 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:30:58,864 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:30:58,876 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:30:58,880 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:30:58,881 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:30:58,882 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:30:58,887 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:30:59,028 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:30:59,032 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:30:59,033 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:30:59,042 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:30:59,074 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:30:59,087 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:30:59,228 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:30:59,232 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:30:59,236 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,246 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,271 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,289 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:30:59,291 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:30:59,298 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,302 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,317 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:30:59,319 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:30:59,320 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:30:59,322 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:30:59,322 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,324 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:30:59,342 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:30:59,417 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:30:59,422 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:30:59,549 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,550 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,551 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,592 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:30:59,597 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:30:59,646 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:30:59,663 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:30:59,682 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,692 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:30:59,872 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:30:59,882 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55364)
+2025-07-06 13:31:00,229 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:31:00,233 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55358)
+2025-07-06 13:31:00,257 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:31:00,259 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55363)
+2025-07-06 13:31:24,210 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:31:30,218 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:31:30,222 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:31:30,222 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:31:30,224 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,249 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:31:30,251 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,452 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:31:30,453 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:31:30,464 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:31:30,473 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:31:30,481 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:31:30,494 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:31:30,494 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,502 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,500 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:31:30,519 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:31:30,599 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:31:30,614 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:31:30,788 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:31:30,793 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:31:30,797 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:31:30,803 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:31:30,805 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:31:30,814 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,846 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,866 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:31:30,878 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:31:30,920 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:31:30,940 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:31:30,953 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:31:31,120 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:31:31,124 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,148 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:31:31,150 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:31:31,153 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,156 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:31:31,187 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:31:31,188 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,210 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:31:31,212 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:31:31,225 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:31:31,229 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,241 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,246 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,343 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:31:31,347 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,348 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:31:31,490 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:31:31,494 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:31:31,513 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:31:31,529 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:31:31,562 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:31:31,573 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:31:31,575 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,579 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,662 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,666 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,667 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,668 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,688 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:31:31,702 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:31:31,720 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:31:31,758 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:31:31,765 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:31:31,938 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:31:31,940 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55365)
+2025-07-06 13:31:32,099 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:31:32,104 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:31:32,105 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55357)
+2025-07-06 13:31:32,111 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55359)
+2025-07-06 13:32:05,760 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:32:15,987 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:32:15,992 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:32:15,994 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:32:16,003 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:32:16,005 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,007 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:32:16,267 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:32:16,274 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:32:16,292 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:32:16,305 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:32:16,306 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:32:16,308 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:32:16,310 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,311 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,367 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:32:16,372 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:32:16,383 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:32:16,407 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:32:16,555 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:32:16,560 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,615 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:32:16,629 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,673 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:32:16,680 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,751 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:32:16,757 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:32:16,833 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:32:16,855 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:32:16,857 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:32:16,859 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,890 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:32:16,894 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:32:16,933 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:32:16,940 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:32:16,964 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:32:16,965 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:32:17,015 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:32:17,025 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:32:17,027 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:32:17,079 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:32:17,082 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:32:17,290 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:32:17,295 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:32:17,296 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:32:17,303 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:32:17,354 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:32:17,367 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:32:17,389 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:32:17,397 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:32:17,412 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:32:17,418 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:32:17,419 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:32:17,673 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:32:17,688 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55442)
+2025-07-06 13:32:17,837 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:32:17,841 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55444)
+2025-07-06 13:32:17,906 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:32:17,911 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55513)
+2025-07-06 13:32:17,913 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:32:17,950 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:32:17,958 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55514)
+2025-07-06 13:32:17,962 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55443)
+2025-07-06 13:32:17,993 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:32:17,995 [INFO] django.server: - Broken pipe from ('127.0.0.1', 55512)
+2025-07-06 13:37:40,604 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:38:59,560 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:39:01,620 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:39:01,623 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:39:01,652 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:39:01,677 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:39:01,724 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:39:01,918 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:39:01,922 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:39:01,924 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:39:01,937 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:39:01,939 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:39:01,942 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:39:01,945 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:39:01,947 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:39:01,947 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:39:01,950 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:39:01,951 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:39:02,146 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:39:02,148 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:39:02,165 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:39:02,173 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:39:02,213 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:39:02,219 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:39:02,219 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:39:02,221 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:39:02,230 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:39:02,238 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:39:02,262 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:39:02,264 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:39:02,406 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:39:02,409 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:39:02,410 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:39:02,412 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:39:02,439 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:39:02,441 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:39:02,477 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:39:02,480 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:39:02,621 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:39:02,624 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:39:02,685 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:39:02,688 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:39:02,941 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:02,946 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:02,952 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,044 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,077 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,088 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,095 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,244 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,252 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,266 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,356 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:03,387 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:39:25,552 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:49:23,173 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:49:27,265 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:50:34,851 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:50:39,233 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:50:44,440 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:50:48,538 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:51:35,317 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 13:51:39,193 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:57:17,299 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:57:21,708 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:57:27,671 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 13:57:34,268 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 13:57:39,264 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:57:39,264 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:57:39,264 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:57:39,275 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:57:39,280 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56457)
+2025-07-06 13:57:39,287 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56451)
+2025-07-06 13:57:39,290 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:57:39,292 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56452)
+2025-07-06 13:57:39,327 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56458)
+2025-07-06 13:57:39,341 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56453)
+2025-07-06 13:57:39,354 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:57:39,394 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56456)
+2025-07-06 13:58:01,792 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:58:45,199 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:58:45,200 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:58:45,355 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:58:45,370 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:58:45,588 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:58:45,593 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:58:45,685 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:58:45,692 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:58:45,753 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:58:45,762 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:58:45,808 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:58:45,818 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:58:45,820 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:58:45,836 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:58:45,872 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:58:45,887 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:58:45,899 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:58:45,923 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:58:46,254 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:58:46,285 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:58:46,316 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:58:46,330 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,330 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,336 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:58:46,338 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:58:46,348 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,350 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:58:46,359 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,456 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:58:46,463 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:58:46,545 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,551 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,576 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:58:46,584 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:58:46,587 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,588 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:58:46,675 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,593 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:58:46,685 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:58:46,689 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:58:46,708 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,759 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,796 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:58:46,804 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:58:46,840 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,848 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,854 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,974 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:58:46,978 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,979 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:46,983 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:58:47,085 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:58:47,095 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:58:47,101 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:58:47,116 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:58:47,149 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:58:47,150 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:58:47,241 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:58:47,244 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:58:47,365 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:58:47,378 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:58:47,480 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:58:47,486 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:58:47,495 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:58:47,499 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:58:47,497 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:47,512 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:58:47,519 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:58:47,586 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:58:47,587 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:58:47,654 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56523)
+2025-07-06 13:58:47,692 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56521)
+2025-07-06 13:58:47,934 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:58:47,936 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56528)
+2025-07-06 13:58:47,939 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:58:47,940 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56522)
+2025-07-06 13:59:16,793 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 13:59:30,048 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:59:30,050 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,062 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:59:30,100 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,278 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:59:30,281 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:59:30,321 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:59:30,327 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:59:30,347 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:59:30,350 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:59:30,352 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,362 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:59:30,389 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:59:30,391 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:59:30,396 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:59:30,399 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,529 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:59:30,540 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:59:30,547 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:59:30,561 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,645 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:59:30,654 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,809 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:59:30,813 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:59:30,817 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 13:59:30,819 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,854 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 13:59:30,908 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:59:30,909 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 13:59:30,913 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 13:59:30,928 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:59:30,947 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 13:59:31,079 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 13:59:31,081 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:59:31,093 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:59:31,148 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 13:59:31,154 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 13:59:31,166 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:59:31,175 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:59:31,198 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:59:31,270 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 13:59:31,276 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 13:59:31,280 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 13:59:31,285 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 13:59:31,302 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 13:59:31,311 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 13:59:31,414 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 13:59:31,420 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:59:31,421 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 13:59:31,423 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 13:59:31,709 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 13:59:31,754 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56524)
+2025-07-06 13:59:31,790 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 13:59:31,799 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56608)
+2025-07-06 13:59:31,928 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 13:59:31,947 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 13:59:31,965 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56606)
+2025-07-06 13:59:31,997 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56469)
+2025-07-06 13:59:32,008 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 13:59:32,009 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56607)
+2025-07-06 13:59:32,157 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 13:59:32,160 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56609)
+2025-07-06 14:00:03,651 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:01:09,721 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:01:09,731 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:01:09,886 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:01:09,892 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,025 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:01:10,028 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:01:10,065 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:01:10,100 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:01:10,109 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:01:10,120 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,159 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:01:10,164 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:01:10,237 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:01:10,242 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:01:10,284 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:01:10,289 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,310 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:01:10,315 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:01:10,430 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:01:10,431 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,510 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:01:10,513 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,547 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:01:10,582 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:01:10,602 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:01:10,603 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 14:01:10,613 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,617 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 14:01:10,643 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:01:10,684 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,737 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:01:10,748 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:01:10,801 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:01:10,936 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:01:10,939 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:01:10,968 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:01:11,014 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:01:11,023 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:01:11,041 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:01:11,037 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:01:11,054 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:01:11,059 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:01:11,060 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:01:11,063 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:01:11,081 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:01:11,083 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:01:11,479 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:01:11,490 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56644)
+2025-07-06 14:01:11,585 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:01:11,589 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:01:11,592 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:01:11,593 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56706)
+2025-07-06 14:01:11,627 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:01:11,628 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56702)
+2025-07-06 14:01:11,630 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56705)
+2025-07-06 14:01:11,632 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56707)
+2025-07-06 14:01:11,636 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:01:11,637 [INFO] django.server: - Broken pipe from ('127.0.0.1', 56704)
+2025-07-06 14:02:21,207 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 14:02:24,617 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:02:35,368 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 14:02:39,191 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:05:37,231 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:05:41,552 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:05:46,818 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:05:49,893 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:06:22,054 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:06:25,681 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:08:30,231 [ERROR] django.request: Internal Server Error: /api/token/
+2025-07-06 14:08:30,239 [ERROR] django.server: "POST /api/token/ HTTP/1.1" 500 81
+2025-07-06 14:10:48,564 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 14:10:53,266 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:11:38,427 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:11:42,679 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:12:05,652 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:12:29,491 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:12:29,496 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:12:29,510 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:12:29,525 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:12:29,538 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:12:29,541 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:12:29,544 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:12:29,545 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:12:29,553 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:12:29,558 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:12:29,605 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:12:29,608 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:12:29,925 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:12:30,013 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:12:30,063 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:12:30,066 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:12:30,085 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:12:30,089 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:12:30,090 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:12:30,093 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:12:30,096 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,124 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 14:12:30,098 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:12:30,103 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:12:30,109 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:12:30,120 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:12:30,121 [INFO] django.server: "OPTIONS /api/token/refresh/ HTTP/1.1" 200 0
+2025-07-06 14:12:30,129 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,106 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:12:30,184 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,419 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:12:30,420 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,447 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:12:30,450 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:12:30,474 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:12:30,476 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:12:30,479 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,479 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,576 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:12:30,581 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,626 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:12:30,631 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 14:12:30,685 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:12:30,688 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:12:30,689 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:12:30,692 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:12:30,695 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:30,706 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,764 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:30,795 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,913 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:30,915 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:12:30,938 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:30,943 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:12:31,016 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:12:31,022 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:12:31,023 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:12:31,027 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:12:31,128 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:31,143 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:12:31,156 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:31,177 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:12:31,290 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:31,309 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57143)
+2025-07-06 14:12:31,317 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:31,379 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57145)
+2025-07-06 14:12:31,468 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:12:31,480 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57140)
+2025-07-06 14:12:31,581 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:12:31,586 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57139)
+2025-07-06 14:12:31,666 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:12:31,672 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57141)
+2025-07-06 14:12:31,675 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:12:31,678 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57142)
+2025-07-06 14:15:26,453 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:15:30,690 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:15:50,184 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 14:15:54,300 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:16:29,716 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:16:55,205 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:16:55,207 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:16:55,215 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:16:55,230 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:16:55,459 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:16:55,462 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:16:55,467 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:16:55,474 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:16:55,489 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:16:55,490 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:16:55,498 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:16:55,502 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:16:55,503 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:16:55,514 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:16:55,515 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:16:55,517 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:16:55,718 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:16:55,724 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:16:55,967 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:16:55,975 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 14:16:55,995 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:16:56,007 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:16:56,010 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:16:56,017 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:16:56,031 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,033 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,035 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,037 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,074 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:16:56,096 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 14:16:56,275 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:56,277 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,316 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:56,328 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:56,335 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:16:56,336 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,342 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:16:56,345 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:16:56,358 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,365 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,407 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:16:56,416 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,599 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:56,607 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,655 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:56,666 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:16:56,681 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:16:56,702 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,703 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:16:56,708 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:16:56,909 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:16:57,017 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57368)
+2025-07-06 14:16:57,174 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:16:57,180 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57335)
+2025-07-06 14:16:57,221 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:57,226 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57367)
+2025-07-06 14:16:57,271 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:57,274 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:57,276 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:16:57,278 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57365)
+2025-07-06 14:16:57,280 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57366)
+2025-07-06 14:16:57,281 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57343)
+2025-07-06 14:34:20,998 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:38:36,007 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:38:52,407 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:40:12,050 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\views.py changed, reloading.
+2025-07-06 14:40:15,656 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:40:48,619 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:40:48,620 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:40:48,625 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:40:48,642 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:40:48,647 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:40:48,656 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:41:43,580 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:41:43,581 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:41:43,583 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:41:43,584 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:41:51,139 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:41:53,531 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:41:53,532 [WARNING] django.server: "GET /api/groups/groups/ HTTP/1.1" 401 58
+2025-07-06 14:41:53,560 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:41:53,562 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:41:53,571 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:41:53,585 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:41:53,823 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:41:53,970 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:41:53,972 [WARNING] django.request: Unauthorized: /api/groups/roles/
+2025-07-06 14:41:53,974 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:41:53,976 [WARNING] django.server: "GET /api/groups/roles/ HTTP/1.1" 401 58
+2025-07-06 14:41:53,978 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 179
+2025-07-06 14:41:53,998 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:41:54,002 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,005 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:41:54,016 [WARNING] django.server: "GET /api/users/users/?page_size=1000 HTTP/1.1" 401 58
+2025-07-06 14:41:54,019 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:41:54,068 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:41:54,245 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:54,249 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,286 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:54,289 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,291 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:54,294 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,303 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:54,312 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,322 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:41:54,323 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 179
+2025-07-06 14:41:54,475 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:41:54,476 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:41:54,651 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:41:54,656 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:41:54,667 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,673 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:41:54,764 [WARNING] django.request: Unauthorized: /api/groups/roles/
+2025-07-06 14:41:54,767 [WARNING] django.server: "GET /api/groups/roles/ HTTP/1.1" 401 58
+2025-07-06 14:41:54,870 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:41:54,874 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57837)
+2025-07-06 14:41:55,063 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:41:55,066 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57836)
+2025-07-06 14:41:55,099 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:55,104 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57838)
+2025-07-06 14:41:55,311 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:55,314 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57833)
+2025-07-06 14:41:55,321 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:55,323 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57834)
+2025-07-06 14:41:55,351 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:41:55,353 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57835)
+2025-07-06 14:42:12,122 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:42:17,875 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:42:17,876 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:17,898 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:17,899 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,109 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:42:18,112 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:42:18,136 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:18,143 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:42:18,269 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:42:18,274 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:42:18,318 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:42:18,326 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,331 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:42:18,345 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:42:18,357 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:42:18,359 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,361 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:42:18,398 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:42:18,443 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:42:18,466 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,608 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:42:18,610 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 179
+2025-07-06 14:42:18,613 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:42:18,617 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,645 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:42:18,651 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:42:18,671 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,692 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 179
+2025-07-06 14:42:18,770 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:42:18,781 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,828 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:18,834 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,862 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:18,873 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:42:18,922 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:18,927 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:19,181 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:42:19,183 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:42:19,426 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:19,428 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57904)
+2025-07-06 14:42:19,478 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:19,502 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:42:19,503 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57877)
+2025-07-06 14:42:19,513 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57905)
+2025-07-06 14:42:19,518 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:19,536 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57906)
+2025-07-06 14:42:19,599 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:19,603 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57876)
+2025-07-06 14:42:19,689 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:42:19,692 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57903)
+2025-07-06 14:42:36,303 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:42:40,384 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:42:40,388 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:40,389 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:40,390 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:42:40,578 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:40,581 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:42:40,582 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:42:40,583 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:42:40,745 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:42:40,755 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:42:40,776 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:42:40,778 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:42:40,799 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:42:40,804 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:42:40,832 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:42:40,833 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:42:40,857 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:42:40,875 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:42:40,891 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:42:40,929 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 179
+2025-07-06 14:42:41,115 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:42:41,117 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,134 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:42:41,136 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:42:41,139 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:42:41,141 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,151 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 179
+2025-07-06 14:42:41,185 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,193 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:42:41,195 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,269 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:41,309 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,421 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:41,427 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,508 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:41,528 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:42:41,528 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,542 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:42:41,649 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:42:41,652 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:42:41,661 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:41,672 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,742 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:41,750 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,798 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:42:41,809 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:42:41,892 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:41,897 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:42:42,032 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:42:42,035 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57971)
+2025-07-06 14:42:42,374 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:42:42,390 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57987)
+2025-07-06 14:42:42,455 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:42,462 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:42,467 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:42:42,480 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57985)
+2025-07-06 14:42:42,483 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57988)
+2025-07-06 14:42:42,492 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57986)
+2025-07-06 14:42:42,553 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:42:42,595 [INFO] django.server: - Broken pipe from ('127.0.0.1', 57969)
+2025-07-06 14:43:03,445 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:43:41,774 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:43:41,776 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:43:41,815 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:43:41,817 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:43:41,833 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:43:41,835 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:43:41,838 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:43:41,850 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:43:41,854 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:43:41,861 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:43:41,863 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:43:41,865 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:43:42,049 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:43:42,052 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:43:42,267 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:43:42,278 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,281 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:43:42,288 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:43:42,434 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:43:42,437 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:43:42,440 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,445 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 179
+2025-07-06 14:43:42,535 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:43:42,542 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,590 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:43:42,608 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,638 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:43:42,642 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:43:42,643 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,647 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 179
+2025-07-06 14:43:42,754 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:42,756 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,841 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:43:42,845 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:43:42,923 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:43:42,929 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:43:42,981 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:42,990 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:43:42,999 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:43:43,005 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:43:43,104 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:43,132 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:43:43,160 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:43,162 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:43:43,203 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:43:43,207 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58033)
+2025-07-06 14:43:43,456 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:43:43,460 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58032)
+2025-07-06 14:43:43,477 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:43,478 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58031)
+2025-07-06 14:43:43,518 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:43,526 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:43:43,527 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58028)
+2025-07-06 14:43:43,540 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58029)
+2025-07-06 14:43:43,546 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:43:43,550 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58030)
+2025-07-06 14:43:57,434 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:44:15,811 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:56:10,103 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:56:13,808 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:56:36,059 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:56:37,953 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:56:46,791 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:56:52,202 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:57:49,710 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:57:54,866 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:58:04,679 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-06 14:58:09,307 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-06 14:58:18,242 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:58:18,244 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:18,254 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:18,257 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:58:18,280 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:58:18,284 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:18,286 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:18,289 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:18,334 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:58:18,336 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:58:18,477 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:58:18,481 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:58:18,597 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:58:18,610 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:58:18,613 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:58:18,615 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:58:18,664 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:58:18,679 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:58:18,743 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:58:18,865 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:58:18,927 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:58:19,020 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:58:19,079 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,129 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:58:19,138 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:58:19,139 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,222 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:58:19,226 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:19,227 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,236 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 14:58:19,241 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 14:58:19,245 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,460 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:19,466 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,473 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:19,485 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:19,539 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:58:19,543 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:58:19,546 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:58:19,553 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:19,602 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:19,629 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,756 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:19,763 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,811 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:19,815 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,824 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:19,826 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:19,881 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:19,883 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:20,125 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:58:20,140 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:58:20,471 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:20,476 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58593)
+2025-07-06 14:58:20,564 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:20,567 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58587)
+2025-07-06 14:58:20,610 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:20,612 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58586)
+2025-07-06 14:58:20,625 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:58:20,632 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:58:20,635 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58590)
+2025-07-06 14:58:20,644 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58592)
+2025-07-06 14:58:20,727 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:58:20,729 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58594)
+2025-07-06 14:58:30,120 [INFO] django.server: "OPTIONS /api/token/ HTTP/1.1" 200 0
+2025-07-06 14:58:39,717 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 773
+2025-07-06 14:58:46,194 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:46,195 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:58:46,211 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:46,214 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:58:46,217 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:58:46,222 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:58:46,232 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:46,234 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:58:46,239 [WARNING] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:46,265 [WARNING] django.server: "GET /api/users/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:46,474 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:58:46,480 [WARNING] django.server: "GET /payments/payment-config HTTP/1.1" 401 58
+2025-07-06 14:58:46,543 [WARNING] django.request: Not Found: /courses/certificates/
+2025-07-06 14:58:46,546 [WARNING] django.server: "GET /courses/certificates/ HTTP/1.1" 404 5333
+2025-07-06 14:58:46,583 [WARNING] django.request: Unauthorized: /api/groups/groups/
+2025-07-06 14:58:46,586 [WARNING] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:58:46,590 [WARNING] django.request: Unauthorized: /schedule/api/schedules/upcoming/
+2025-07-06 14:58:46,603 [WARNING] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 401 58
+2025-07-06 14:58:46,665 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
+2025-07-06 14:58:46,666 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 58
+2025-07-06 14:58:46,755 [WARNING] django.request: Unauthorized: /adverts/api/adverts/
+2025-07-06 14:58:46,757 [WARNING] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 401 58
+2025-07-06 14:58:46,790 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
+2025-07-06 14:58:46,797 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:46,854 [WARNING] django.request: Unauthorized: /schedule/api/schedules/stats/
+2025-07-06 14:58:46,857 [WARNING] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 401 58
+2025-07-06 14:58:47,058 [WARNING] django.request: Not Found: /courses/faqs/stats/
+2025-07-06 14:58:47,064 [WARNING] django.server: "GET /courses/faqs/stats/ HTTP/1.1" 404 5327
+2025-07-06 14:58:47,075 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:47,085 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:47,087 [WARNING] django.request: Unauthorized: /api/courses/courses/
+2025-07-06 14:58:47,088 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:47,089 [WARNING] django.server: "GET /api/courses/courses/ HTTP/1.1" 401 58
+2025-07-06 14:58:47,098 [WARNING] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 401 58
+2025-07-06 14:58:47,117 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:47,191 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:47,203 [WARNING] django.request: Unauthorized: /api/users/user-activities/
+2025-07-06 14:58:47,216 [WARNING] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 401 58
+2025-07-06 14:58:47,455 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:47,459 [WARNING] django.server: "POST /api/token/refresh/ HTTP/1.1" 401 58
+2025-07-06 14:58:47,542 [WARNING] django.request: Unauthorized: /api/users/users/
+2025-07-06 14:58:47,561 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58638)
+2025-07-06 14:58:47,649 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:47,700 [WARNING] django.request: Unauthorized: /payments/payment-config
+2025-07-06 14:58:47,710 [WARNING] django.request: Unauthorized: /api/users/stats/
+2025-07-06 14:58:47,713 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58640)
+2025-07-06 14:58:47,715 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58641)
+2025-07-06 14:58:47,717 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58671)
+2025-07-06 14:58:47,809 [WARNING] django.request: Unauthorized: /api/token/refresh/
+2025-07-06 14:58:47,811 [INFO] django.server: - Broken pipe from ('127.0.0.1', 58637)

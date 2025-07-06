@@ -6,14 +6,14 @@
 
 #python manage.py shell
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='render').exists():
+if not Tenant.objects.filter(schema_name='public').exists():
     tenant = Tenant.objects.create(
-        name='render',
-        schema_name='render'
+        name='public',
+        schema_name='public'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com', is_primary=True)
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
     
@@ -28,12 +28,12 @@ tenant = Tenant.objects.get(schema_name='proliance')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
         username='admin',
-        email='admin@prolianceltd.com',
+        email='info@prolianceltd.com',
         password='qwertyqwerty',
         role='admin',
-        first_name='Hanson',
-        last_name='Manuel',
-        job_role='Cordinator',
+        first_name='Escobar',
+        last_name='Marcus',
+        job_role='Land mower',
         tenant=tenant
     )
 

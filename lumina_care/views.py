@@ -27,31 +27,24 @@ logger = logging.getLogger('lumina_care')
 class CookieJWTAuthentication(JWTAuthentication):
     def authenticate(self, request):
         access_token = request.COOKIES.get('access_token')
-
-        if not access_token:
-            logger.warning(f"[{request.path}] No access token in cookies")
-            return None
-    
-        logger.debug(f"[{request.path}] Access token: {access_token[:10]}... (truncated)")
         if not access_token:
             logger.warning(f"[{request.path}] No access token in cookies")
             return None
         try:
             validated_token = self.get_validated_token(access_token)
-            logger.debug(f"[{request.path}] Token payload: {dict(validated_token)}")
-            user = self.get_user(validated_token)
             tenant_id = validated_token.get('tenant_id')
-            if not tenant_id:
-                logger.warning(f"[{request.path}] No tenant_id in token")
+            tenant_schema = validated_token.get('tenant_schema')
+            if not tenant_id or not tenant_schema:
+                logger.warning(f"[{request.path}] Missing tenant_id or tenant_schema in token")
                 return None
-            tenant = Tenant.objects.get(id=tenant_id)
+            tenant = Tenant.objects.get(id=tenant_id, schema_name=tenant_schema)
             connection.set_schema(tenant.schema_name)
+            user = self.get_user(validated_token)
             logger.debug(f"[{request.path}] Authenticated user: {user.email}, Tenant: {tenant.schema_name}")
             return (user, validated_token)
         except Exception as e:
             logger.error(f"[{request.path}] Token validation failed: {str(e)}", exc_info=True)
-            return None
-        
+            return None     
 
 class TenantBaseView(APIView):
     """Base view to handle tenant schema setting and logging."""
@@ -201,7 +194,6 @@ class CustomTokenRefreshSerializer(TokenRefreshSerializer):
                 logger.error(f"[{tenant.schema_name}] Token refresh failed: {str(e)}")
                 raise serializers.ValidationError({"refresh": "Token refresh failed."})
 
-# lumina_care/views.py
 class CookieTokenObtainPairView(TenantBaseView, TokenObtainPairView):
     serializer_class = CustomTokenSerializer
 
@@ -212,9 +204,12 @@ class CookieTokenObtainPairView(TenantBaseView, TokenObtainPairView):
             access_token = data.pop('access', None)
             refresh_token = data.pop('refresh', None)
 
+            print("access_token :",  access_token)
+            print("refresh_token: ", refresh_token)
+
             if access_token and refresh_token:
                 secure = not settings.DEBUG
-                samesite = 'None' if settings.DEBUG else 'Lax'  # Align with settings.py
+                samesite = 'None'
                 response.set_cookie(
                     key='access_token',
                     value=access_token,
@@ -222,7 +217,8 @@ class CookieTokenObtainPairView(TenantBaseView, TokenObtainPairView):
                     secure=secure,
                     samesite=samesite,
                     max_age=60 * 60 * 2,
-                    path='/'
+                    path='/',
+                    domain=None
                 )
                 response.set_cookie(
                     key='refresh_token',
@@ -231,38 +227,41 @@ class CookieTokenObtainPairView(TenantBaseView, TokenObtainPairView):
                     secure=secure,
                     samesite=samesite,
                     max_age=60 * 60 * 24 * 7,
-                    path='/'
+                    path='/',
+                    domain=None
                 )
-                logger.debug(f"Setting refresh_token cookie: {refresh_token}")
-                logger.info(f"[{request.tenant.schema_name}] Tokens set in cookies for user: {data.get('user', {}).get('email')}")
+                logger.info(f"[{request.tenant.schema_name}] Set-Cookie headers sent: access_token={access_token[:10]}..., refresh_token={refresh_token[:10]}..., secure={secure}, samesite={samesite}")
+                logger.debug(f"[{request.tenant.schema_name}] Full response headers: {dict(response.headers)}")
             else:
-                logger.warning(f"[{request.tenant.schema_name}] Token generation failed")
+                logger.warning(f"[{request.tenant.schema_name}] Token generation failed: no access or refresh token")
                 return Response({"detail": "Failed to generate tokens"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
             return Response(data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"[{request.tenant.schema_name}] Error obtaining token: {str(e)}", exc_info=True)
-            return Response({"detail": f"Error obtaining token: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+            return Response({"detail": f"Error obtaining token: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)       
 class CookieTokenRefreshView(APIView):
+    def options(self, request, *args, **kwargs):
+        return Response(status=status.HTTP_200_OK)
+
     def post(self, request, *args, **kwargs):
         refresh_token = request.COOKIES.get('refresh_token')
-        logger.debug(f"Refresh token received: {refresh_token}")
+        logger.debug(f"Refresh token received: {refresh_token[:10]}... (truncated)")
         if not refresh_token:
-            logger.warning("No refresh token provided")
-            return Response({"detail": "No refresh token provided"}, status=401)
+            logger.warning("No refresh token provided in cookies")
+            return Response({"detail": "No refresh token provided"}, status=status.HTTP_401_UNAUTHORIZED)
         try:
             untyped_token = UntypedToken(refresh_token)
             tenant_id = untyped_token.payload.get('tenant_id')
-            logger.debug(f"Tenant ID: {tenant_id}")
+            logger.debug(f"Tenant ID from token: {tenant_id}")
             if not tenant_id:
-                logger.error("Missing tenant_id in token")
-                raise Exception("Missing tenant_id in token")
+                logger.error("Missing tenant_id in refresh token")
+                return Response({"detail": "Missing tenant_id in token"}, status=status.HTTP_401_UNAUTHORIZED)
             tenant = Tenant.objects.get(id=tenant_id)
             connection.set_schema(tenant.schema_name)
             logger.debug(f"[{tenant.schema_name}] Schema set for token refresh")
             token = RefreshToken(refresh_token)
             user_id = token.get('user_id')
-            logger.debug(f"User ID: {user_id}")
+            logger.debug(f"User ID from token: {user_id}")
             user = CustomUser.objects.get(id=user_id)
             new_refresh = RefreshToken.for_user(user)
             new_access = new_refresh.access_token
@@ -276,7 +275,7 @@ class CookieTokenRefreshView(APIView):
                 "tenant_schema": tenant.schema_name
             })
             secure = not settings.DEBUG
-            samesite = 'None' if settings.DEBUG else 'Lax'  # Align with settings.py
+            samesite = 'None'
             response.set_cookie(
                 'access_token',
                 str(new_access),
@@ -284,7 +283,8 @@ class CookieTokenRefreshView(APIView):
                 secure=secure,
                 samesite=samesite,
                 max_age=60 * 60 * 2,
-                path='/'
+                path='/',
+                domain=None
             )
             response.set_cookie(
                 'refresh_token',
@@ -293,37 +293,31 @@ class CookieTokenRefreshView(APIView):
                 secure=secure,
                 samesite=samesite,
                 max_age=60 * 60 * 24 * 7,
-                path='/'
+                path='/',
+                domain=None
             )
             logger.info(f"[{tenant.schema_name}] Token refreshed successfully for user_id: {user_id}")
             return response
         except Exception as e:
-            logger.error(f"[{tenant.schema_name}] Token refresh failed: {str(e)}", exc_info=True)
-            return Response({"detail": f"Token refresh failed: {str(e)}"}, status=401)
+            logger.error(f"Token refresh failed: {str(e)}", exc_info=True)
+            return Response({"detail": f"Token refresh failed: {str(e)}"}, status=status.HTTP_401_UNAUTHORIZED)
 
-class TokenValidateView(APIView):
+class TokenValidateView(TenantBaseView, APIView):
     permission_classes = [IsAuthenticated]
     authentication_classes = [CookieJWTAuthentication]
 
     def get(self, request):
         try:
-            # Get tenant from token claims
-            access_token = request.COOKIES.get('access_token')
-            untyped_token = UntypedToken(access_token)
-            tenant_id = untyped_token.payload.get('tenant_id')
-            tenant = Tenant.objects.get(id=tenant_id)
-            
-            with tenant_context(tenant):
-                user = request.user
-                user_data = CustomUserSerializer(user).data
-                return Response({
-                    'user': user_data,
-                    'tenant_id': str(tenant.id),
-                    'tenant_schema': tenant.schema_name
-                })
+            logger.info(f"[{request.tenant.schema_name}] Validating token for user: {request.user.email}")
+            return Response({
+                'user': CustomUserSerializer(request.user).data,
+                'tenant_id': str(request.tenant.id),
+                'tenant_schema': request.tenant.schema_name
+            })
         except Exception as e:
-            logger.error(f"Token validation failed: {str(e)}")
-            return Response({'detail': 'Invalid token'}, status=401)
+            logger.error(f"[{request.tenant.schema_name}] Token validation failed: {str(e)}", exc_info=True)
+            return Response({'detail': 'Invalid token'}, status=status.HTTP_401_UNAUTHORIZED)
+        
 
 class LogoutView(TenantBaseView, APIView):
     """Handle user logout by blacklisting the refresh token."""
