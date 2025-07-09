@@ -3213,3 +3213,4 @@ django.db.utils.OperationalError: connection to server at "dpg-d1kleuqdbo4c73a1a
 2025-07-09 23:56:46,150 [WARNING] django.server: "GET /courses/categories/ HTTP/1.1" 404 1840
 2025-07-09 23:56:49,963 [WARNING] django.request: Not Found: /courses/categories/
 2025-07-09 23:56:49,965 [WARNING] django.server: "GET /courses/categories/ HTTP/1.1" 404 1840
+2025-07-10 00:08:16,611 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
