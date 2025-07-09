@@ -113,27 +113,27 @@ SOCIALACCOUNT_PROVIDERS = {
 # -----------------------------------------------------------
 # DATABASE & TENANCY
 # -----------------------------------------------------------
-# DATABASES = {
-#     'default': {
-#         'ENGINE':   'django_tenants.postgresql_backend',
-#         'NAME':     'multi_tenant_lms',
-#         'USER':     'postgres',
-#         'PASSWORD': 'qwerty',
-#         'HOST':     'localhost',
-#         'PORT':     '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'lms_dbbb',
-        'USER': 'lms_dbbb_user',
-        'PASSWORD': 'QTcRliQDlSykdQGwla5jZ8phd9e44GeN',
-        'HOST': 'dpg-d1kleuqdbo4c73a1ahk0-a.oregon-postgres.render.com',
-        'PORT': '5432',
+        'ENGINE':   'django_tenants.postgresql_backend',
+        'NAME':     'multi_tenant_lms',
+        'USER':     'postgres',
+        'PASSWORD': 'qwerty',
+        'HOST':     'localhost',
+        'PORT':     '5432',
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_tenants.postgresql_backend',
+#         'NAME': 'lms_dbbb',
+#         'USER': 'lms_dbbb_user',
+#         'PASSWORD': 'QTcRliQDlSykdQGwla5jZ8phd9e44GeN',
+#         'HOST': 'dpg-d1kleuqdbo4c73a1ahk0-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
