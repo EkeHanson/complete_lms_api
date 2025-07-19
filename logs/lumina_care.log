@@ -1879,3 +1879,4 @@ LINE 1: ..."."created_at", "advert_advert"."updated_at" FROM "advert_ad...
 2025-07-19 17:50:14,691 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 2593
 2025-07-19 17:50:14,707 [ERROR] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 500 29713
 2025-07-19 17:51:55,450 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-19 17:52:00,899 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
