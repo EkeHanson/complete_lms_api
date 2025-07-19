@@ -1,10 +1,12 @@
 import logging
 import uuid
 from datetime import datetime, timedelta
+from django.core.exceptions import ValidationError
 
 import pandas as pd
 from rest_framework import serializers
 import requests
+import numpy as np
 from django.db import transaction, connection
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
@@ -23,6 +25,8 @@ from django.shortcuts import get_object_or_404
 from django.http import JsonResponse
 from django.db.models import Count, Q
 from core.models import Tenant
+import re
+
 from .models import CustomUser, UserProfile, UserActivity
 from .serializers import (
     UserSerializer,
@@ -88,24 +92,30 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
     """Register a new user in the tenant's schema."""
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
-
     def create(self, request, *args, **kwargs):
         tenant = request.tenant
         serializer = self.get_serializer(data=request.data)
         try:
             serializer.is_valid(raise_exception=True)
-        except serializers.ValidationError as e:
-            logger.error(f"[{tenant.schema_name}] User registration validation failed: {str(e)}")
-            raise
+        except serializers.ValidationError:
+            logger.error(
+                f"[{tenant.schema_name}] User registration validation failed: {serializer.errors}"
+            )
+            return Response(
+                {"detail": "Validation failed", "errors": serializer.errors},
+                status=status.HTTP_400_BAD_REQUEST
+            )
+        
         with tenant_context(tenant), transaction.atomic():
             user = serializer.save()
             UserActivity.objects.create(
                 user=user,
                 activity_type='user_registered',
-                details=f'User "{user.email}" registered',
+                details=f'User \"{user.email}\" registered',
                 status='success'
             )
             logger.info(f"[{tenant.schema_name}] User registered: {user.email}")
+        
         return Response({
             'detail': 'User created successfully',
             'data': serializer.data
@@ -202,7 +212,7 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
     permission_classes = [IsAuthenticated, IsAdminUser]
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter]
-    filterset_fields = ['role', 'status']
+    filterset_fields = ['role', 'status', 'is_locked']
     search_fields = ['first_name', 'last_name', 'email']
 
     def get_queryset(self):
@@ -211,6 +221,7 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
             queryset = CustomUser.objects.filter(tenant=tenant, is_deleted=False).select_related('tenant')
             role = self.request.query_params.get('role')
             status = self.request.query_params.get('status')
+            is_locked = self.request.query_params.get('is_locked')
             search = self.request.query_params.get('search')
             date_from = self.request.query_params.get('date_from')
             date_to = self.request.query_params.get('date_to')
@@ -218,6 +229,8 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
                 queryset = queryset.filter(role=role)
             if status and status != 'all':
                 queryset = queryset.filter(status=status)
+            if is_locked is not None:
+                queryset = queryset.filter(is_locked=is_locked.lower() == 'true')
             if search:
                 queryset = queryset.filter(
                     Q(first_name__icontains=search) |
@@ -304,6 +317,81 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.info(f"[{tenant.schema_name}] User soft-deleted: {user.email}")
             return Response({"detail": "User deleted successfully"}, status=status.HTTP_204_NO_CONTENT)
 
+    @action(detail=True, methods=['post'])
+    def lock(self, request, pk=None):
+        tenant = request.tenant
+        if not (request.user.is_superuser or request.user.role == 'admin'):
+            logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.email} attempted to lock user")
+            return Response({"detail": "Only admins or superusers can lock accounts"}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            with tenant_context(tenant):
+                user = get_object_or_404(CustomUser, pk=pk, tenant=tenant, is_deleted=False)
+                if user.is_locked:
+                    logger.warning(f"[{tenant.schema_name}] User {user.email} already locked")
+                    return Response({"detail": "User is already locked"}, status=status.HTTP_400_BAD_REQUEST)
+                user.lock_account(reason=f"Account locked by {request.user.email}")
+                logger.info(f"[{tenant.schema_name}] User {user.email} locked by {request.user.email}")
+                return Response({"detail": f"User {user.email} locked successfully"})
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error locking user with pk {pk}: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['post'])
+    def unlock(self, request, pk=None):
+        tenant = request.tenant
+        if not (request.user.is_superuser or request.user.role == 'admin'):
+            logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.email} attempted to unlock user")
+            return Response({"detail": "Only admins or superusers can unlock accounts"}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            with tenant_context(tenant):
+                user = get_object_or_404(CustomUser, pk=pk, tenant=tenant, is_deleted=False)
+                if not user.is_locked:
+                    logger.warning(f"[{tenant.schema_name}] User {user.email} already unlocked")
+                    return Response({"detail": "User is already unlocked"}, status=status.HTTP_400_BAD_REQUEST)
+                user.unlock_account(reason=f"Account unlocked by {request.user.email}")
+                logger.info(f"[{tenant.schema_name}] User {user.email} unlocked by {request.user.email}")
+                return Response({"detail": f"User {user.email} unlocked successfully"})
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error unlocking user with pk {pk}: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['post'])
+    def reset_password(self, request, pk=None):
+        tenant = request.tenant
+        if not (request.user.is_superuser or request.user.role == 'admin'):
+            logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.email} attempted to reset password")
+            return Response({"detail": "Only admins or superusers can reset passwords"}, status=status.HTTP_403_FORBIDDEN)
+        try:
+            with tenant_context(tenant):
+                user = get_object_or_404(CustomUser, pk=pk, tenant=tenant, is_deleted=False)
+                # Generate a password reset token and send email
+                from django.contrib.auth.tokens import default_token_generator
+                from django.utils.http import urlsafe_base64_encode
+                from django.utils.encoding import force_bytes
+                from django.core.mail import send_mail
+                token = default_token_generator.make_token(user)
+                uid = urlsafe_base64_encode(force_bytes(user.pk))
+                reset_link = f"{request.scheme}://{request.get_host()}/reset-password/{uid}/{token}/"
+                print(reset_link)
+                send_mail(
+                    subject='Password Reset Request',
+                    message=f'Click the following link to reset your password: {reset_link}',
+                    from_email='no-reply@yourdomain.com',
+                    recipient_list=[user.email],
+                    fail_silently=False,
+                )
+                UserActivity.objects.create(
+                    user=user,
+                    activity_type='password_reset_initiated',
+                    details=f'Password reset initiated by {request.user.email}',
+                    status='success'
+                )
+                logger.info(f"[{tenant.schema_name}] Password reset initiated for user {user.email} by {request.user.email}")
+                return Response({"detail": f"Password reset email sent to {user.email}"})
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error resetting password for user with pk {pk}: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
     @action(detail=False, methods=['get'])
     def stats(self, request):
         tenant = request.tenant
@@ -315,6 +403,7 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
                     'active_users': CustomUser.objects.filter(tenant=tenant, is_deleted=False, status='active').count(),
                     'new_signups': CustomUser.objects.filter(tenant=tenant, is_deleted=False, signup_date__gte=thirty_days_ago).count(),
                     'suspicious_activity': CustomUser.objects.filter(tenant=tenant, is_deleted=False, login_attempts__gt=3).count(),
+                    'locked_accounts': CustomUser.objects.filter(tenant=tenant, is_deleted=False, is_locked=True).count(),
                 }
                 logger.info(f"[{tenant.schema_name}] User stats retrieved")
                 return Response(stats)
@@ -331,7 +420,8 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
                     total=Count('id'),
                     active=Count('id', filter=Q(status='active')),
                     pending=Count('id', filter=Q(status='pending')),
-                    suspended=Count('id', filter=Q(status='suspended'))
+                    suspended=Count('id', filter=Q(status='suspended')),
+                    locked=Count('id', filter=Q(is_locked=True))
                 )
                 thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
                 role_info = {
@@ -353,6 +443,7 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
                         'active': role['active'],
                         'pending': role['pending'],
                         'suspended': role['suspended'],
+                        'locked': role['locked'],
                         'last_30_days': CustomUser.objects.filter(
                             tenant=tenant, is_deleted=False, role=role['role'], signup_date__gte=thirty_days_ago
                         ).count(),
@@ -368,65 +459,125 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], parser_classes=[MultiPartParser, FormParser])
     def bulk_upload(self, request):
-        tenant = request.tenant
-        if request.user.role != 'admin' and not request.user.is_superuser:
-            logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.email} attempted bulk upload")
-            return Response({"detail": "Only admins or superusers can perform bulk uploads"}, status=status.HTTP_403_FORBIDDEN)
-        if 'file' not in request.FILES:
-            logger.warning(f"[{tenant.schema_name}] No file uploaded for bulk user upload")
-            return Response({"detail": "No file uploaded"}, status=status.HTTP_400_BAD_REQUEST)
-        file = request.FILES['file']
-        valid_extensions = ['.xlsx', '.xls', '.csv']
-        if not any(file.name.lower().endswith(ext) for ext in valid_extensions):
-            logger.warning(f"[{tenant.schema_name}] Invalid file type uploaded: {file.name}")
-            return Response({"detail": "Invalid file type", "allowed_types": valid_extensions}, status=status.HTTP_400_BAD_REQUEST)
+        if not request.user.is_authenticated or not (request.user.is_staff or request.user.is_superuser):
+            logger.warning(f"[{request.tenant.schema_name}] Non-admin user {request.user.email} attempted bulk upload")
+            return Response({"detail": "Only admin users can perform bulk uploads"}, status=status.HTTP_403_FORBIDDEN)
+
+        file = request.FILES.get('file')
+        if not file:
+            logger.error(f"[{request.tenant.schema_name}] No file provided for bulk upload")
+            return Response({"detail": "No file provided"}, status=status.HTTP_400_BAD_REQUEST)
+
         try:
-            with tenant_context(tenant), transaction.atomic():
-                df = pd.read_csv(file) if file.name.lower().endswith('.csv') else pd.read_excel(file)
-                required_columns = ['firstName', 'lastName', 'email', 'password', 'role']
-                if not all(col in df.columns for col in required_columns):
-                    logger.warning(f"[{tenant.schema_name}] Missing required columns in uploaded file: {file.name}")
-                    return Response({"detail": "Missing required columns", "required_columns": required_columns}, status=status.HTTP_400_BAD_REQUEST)
-                created_users = []
-                errors = []
+            if not file.name.endswith('.csv'):
+                logger.error(f"[{request.tenant.schema_name}] Unsupported file format: {file.name}")
+                return Response({"detail": "Unsupported file format. Use CSV."}, status=status.HTTP_400_BAD_REQUEST)
+
+            df = pd.read_csv(file)
+
+            required_columns = ['firstName', 'lastName', 'email', 'password', 'role']
+            missing_columns = [col for col in required_columns if col not in df.columns]
+            if missing_columns:
+                logger.error(f"[{request.tenant.schema_name}] Missing required columns: {missing_columns}")
+                return Response({
+                    "detail": f"Missing required columns: {', '.join(missing_columns)}",
+                    "required_columns": required_columns,
+                    "optional_columns": ['phone', 'title', 'bio', 'status']
+                }, status=status.HTTP_400_BAD_REQUEST)
+
+            created_users = []
+            errors = []
+            created_count = 0
+
+            valid_statuses = ['active', 'pending', 'suspended']
+
+            with transaction.atomic():
                 for index, row in df.iterrows():
                     try:
+                        row = row.replace({pd.NA: None, np.nan: None, pd.NaT: None})
+
+                        user_status = row.get('status', 'pending')
+                        if user_status not in valid_statuses:
+                            user_status = 'pending'
+                            logger.warning(f"[{request.tenant.schema_name}] Invalid status in row {index + 2}: {row.get('status')}. Using default 'pending'.")
+
                         user_data = {
-                            'email': row['email'],
-                            'password': row['password'],
                             'first_name': row['firstName'],
                             'last_name': row['lastName'],
-                            'role': row['role'].lower(),
-                            'status': row.get('status', 'active').lower(),
-                            'tenant': tenant
+                            'email': row['email'],
+                            'password': row['password'],
+                            'role': row['role'],
+                            'phone': row.get('phone'),
+                            'title': row.get('title'),
+                            'bio': row.get('bio'),
+                            'status': user_status,
+                            'tenant': request.tenant,
+                            'is_locked': False
                         }
-                        for field in ['phone', 'birth_date', 'title', 'bio']:
-                            if field in row and pd.notna(row[field]):
-                                user_data[field] = row[field]
+
+                        for field in ['first_name', 'last_name', 'email', 'password', 'role']:
+                            if not user_data[field]:
+                                raise ValidationError(f"Missing required field: {field}")
+
+                        if not re.match(r'^[^\s@]+@[^\s@]+\.[^\s@]+$', user_data['email']):
+                            raise ValidationError(f"Invalid email format: {user_data['email']}")
+
+                        valid_roles = [r[0] for r in CustomUser.ROLES]
+                        if user_data['role'] not in valid_roles:
+                            raise ValidationError(f"Invalid role: {user_data['role']}. Must be one of {valid_roles}")
+
+                        if not user_data['status']:
+                            user_data['status'] = 'pending'
+                            logger.warning(f"[{request.tenant.schema_name}] Status missing in row {index + 2}. Using default 'pending'.")
+
+                        if CustomUser.objects.filter(email=user_data['email'], tenant=request.tenant, is_deleted=False).exists():
+                            raise ValidationError(f"Email {user_data['email']} already exists")
+
                         user = CustomUser.objects.create_user(**user_data)
-                        UserProfile.objects.create(user=user)
-                        created_users.append({'id': user.id, 'email': user.email, 'name': user.get_full_name()})
+                        created_users.append({
+                            'id': user.id,
+                            'email': user.email,
+                            'name': user.get_full_name(),
+                            'role': user.role,
+                            'status': user.status,
+                            'is_locked': user.is_locked
+                        })
+                        created_count += 1
+                        logger.info(f"[{request.tenant.schema_name}] Created user: {user.email}")
                     except Exception as e:
-                        errors.append({'row': index + 2, 'error': str(e), 'data': dict(row)})
-                UserActivity.objects.bulk_create([
-                    UserActivity(
-                        user=CustomUser.objects.get(id=user['id']),
-                        activity_type='user_management',
-                        details=f'New user created with email: {user["email"]}',
-                        status='success'
-                    ) for user in created_users
-                ])
-                logger.info(f"[{tenant.schema_name}] Bulk uploaded {len(created_users)} users")
+                        logger.error(f"[{request.tenant.schema_name}] Error in row {index + 2}: {str(e)}")
+                        errors.append({
+                            'row': index + 2,
+                            'error': str(e),
+                            'data': row.to_dict()
+                        })
+
+                if errors:
+                    logger.error(f"[{request.tenant.schema_name}] Bulk upload failed with {len(errors)} errors")
+                    return Response({
+                        'detail': f"Failed to create {len(errors)} user(s)",
+                        'created_count': created_count,
+                        'created_users': created_users,
+                        'error_count': len(errors),
+                        'errors': errors,
+                        'required_columns': required_columns,
+                        'optional_columns': ['phone', 'title', 'bio', 'status']
+                    }, status=status.HTTP_400_BAD_REQUEST)
+
+                logger.info(f"[{request.tenant.schema_name}] Successfully created {created_count} users")
                 return Response({
-                    'detail': f'Created {len(created_users)} users',
-                    'created_count': len(created_users),
+                    'detail': f"Created {created_count} users successfully",
+                    'created_count': created_count,
                     'created_users': created_users,
-                    'error_count': len(errors),
-                    'errors': errors
+                    'error_count': 0,
+                    'errors': [],
+                    'required_columns': required_columns,
+                    'optional_columns': ['phone', 'title', 'bio', 'status']
                 }, status=status.HTTP_201_CREATED)
+
         except Exception as e:
-            logger.error(f"[{tenant.schema_name}] Error processing bulk upload: {str(e)}", exc_info=True)
-            return Response({"detail": f"Error processing file: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
+            logger.error(f"[{request.tenant.schema_name}] Bulk upload failed: {str(e)}", exc_info=True)
+            return Response({"detail": f"Failed to process file: {str(e)}"}, status=status.HTTP_400_BAD_REQUEST)
 
     @action(detail=True, methods=['post'])
     def impersonate(self, request, pk=None):
@@ -532,13 +683,7 @@ class UserAccountSuspendView(TenantBaseView, generics.GenericAPIView):
                     logger.warning(f"[{tenant.schema_name}] User {user.email} already suspended")
                     return Response({"detail": "User is already suspended"}, status=status.HTTP_400_BAD_REQUEST)
                 with transaction.atomic():
-                    user.suspend_account(reason="Suspended via API")
-                    UserActivity.objects.create(
-                        user=user,
-                        activity_type='user_suspended',
-                        details=f'User "{user.email}" suspended by {request.user.email}',
-                        status='success'
-                    )
+                    user.suspend_account(reason=f"Suspended by {request.user.email}")
                     logger.info(f"[{tenant.schema_name}] User {user.email} suspended")
                     return Response({"detail": f"User {user.email} suspended successfully"})
         except Exception as e:
@@ -559,12 +704,6 @@ class UserAccountActivateView(TenantBaseView, generics.GenericAPIView):
                     return Response({"detail": "User is already active"}, status=status.HTTP_400_BAD_REQUEST)
                 with transaction.atomic():
                     user.activate_account()
-                    UserActivity.objects.create(
-                        user=user,
-                        activity_type='user_activated',
-                        details=f'User "{user.email}" activated by {request.user.email}',
-                        status='success'
-                    )
                     logger.info(f"[{tenant.schema_name}] User {user.email} activated")
                     return Response({"detail": f"User {user.email} activated successfully"})
         except Exception as e:
@@ -592,13 +731,7 @@ class UserAccountBulkDeleteView(TenantBaseView, generics.GenericAPIView):
                     return Response({"detail": "No active users found"}, status=status.HTTP_404_NOT_FOUND)
                 deleted_count = 0
                 for user in users:
-                    user.delete_account(reason="Bulk deleted via API")
-                    UserActivity.objects.create(
-                        user=user,
-                        activity_type='user_deleted',
-                        details=f'User "{user.email}" soft-deleted by {request.user.email}',
-                        status='success'
-                    )
+                    user.delete_account(reason=f"Bulk deleted by {request.user.email}")
                     deleted_count += 1
                 logger.info(f"[{tenant.schema_name}] Soft-deleted {deleted_count} users")
                 return Response({"detail": f"Soft-deleted {deleted_count} user(s)"})

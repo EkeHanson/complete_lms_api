@@ -849,3 +849,5 @@ class FAQViewSet(TenantBaseView, viewsets.ModelViewSet):
 
     def get_permissions(self):
         return [IsAdminUser()] if self.action in ['compile', 'update', 'partial_update', 'destroy', 'reorder'] else [IsAuthenticated()]
+
+

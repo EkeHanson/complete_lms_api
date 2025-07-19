@@ -14,13 +14,12 @@ class CustomUserManager(BaseUserManager):
             raise ValueError('Users must have an email address')
         email = self.normalize_email(email)
         if 'role' not in extra_fields:
-            extra_fields['role'] = 'carer'  # Default role from your ROLES
+            extra_fields['role'] = 'carer'  # Default role
         user = self.model(email=email, **extra_fields)
         if password:
             self.validate_password(password)
             user.set_password(password)
         user.save(using=self._db)
-        # Create activity log for user creation
         UserActivity.objects.create(
             user=user,
             activity_type='user_management',
@@ -34,12 +33,12 @@ class CustomUserManager(BaseUserManager):
         extra_fields.setdefault('is_superuser', True)
         extra_fields.setdefault('role', 'admin')
         extra_fields.setdefault('status', 'active')
+        extra_fields.setdefault('is_locked', False)
         if extra_fields.get('is_staff') is not True:
             raise ValueError('Superuser must have is_staff=True.')
         if extra_fields.get('is_superuser') is not True:
             raise ValueError('Superuser must have is_superuser=True.')
         user = self.create_user(email, password, **extra_fields)
-        # Create activity log for superuser creation
         UserActivity.objects.create(
             user=user,
             activity_type='user_management',
@@ -57,6 +56,7 @@ class CustomUserManager(BaseUserManager):
 
 class CustomUser(AbstractUser):
     ROLES = (
+        ('learner', 'Learner'),
         ('admin', 'Admin'),
         ('hr', 'HR'),
         ('carer', 'Carer'),
@@ -96,6 +96,7 @@ class CustomUser(AbstractUser):
     login_attempts = models.PositiveIntegerField(default=0)
     signup_date = models.DateTimeField(auto_now_add=True)
     is_deleted = models.BooleanField(default=False)
+    is_locked = models.BooleanField(default=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -109,6 +110,7 @@ class CustomUser(AbstractUser):
             models.Index(fields=['email']),
             models.Index(fields=['role']),
             models.Index(fields=['status']),
+            models.Index(fields=['is_locked']),
         ]
 
     def __str__(self):
@@ -124,13 +126,46 @@ class CustomUser(AbstractUser):
     def increment_login_attempts(self):
         self.login_attempts += 1
         if self.login_attempts >= 5:
-            self.status = 'suspended'
+            self.is_locked = True
+            UserActivity.objects.create(
+                user=self,
+                activity_type='account_locked',
+                details='Account locked due to excessive login attempts',
+                status='system'
+            )
         self.save()
 
     def reset_login_attempts(self):
         self.login_attempts = 0
         self.last_login = timezone.now()
         self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='login_attempts_reset',
+            details='Login attempts reset by admin',
+            status='success'
+        )
+
+    def lock_account(self, reason=""):
+        self.is_locked = True
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_locked',
+            details=reason or 'Account locked by admin',
+            status='system'
+        )
+
+    def unlock_account(self, reason=""):
+        self.is_locked = False
+        self.login_attempts = 0
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_unlocked',
+            details=reason or 'Account unlocked by admin',
+            status='success'
+        )
 
     def suspend_account(self, reason=""):
         self.status = 'suspended'
@@ -191,6 +226,8 @@ class CustomUser(AbstractUser):
                 details=f"Profile updated: {'; '.join(changes)}",
                 status='success'
             )
+
+
 
 class UserProfile(models.Model):
     user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)

@@ -5,7 +5,7 @@ from django.conf import settings
 from django.conf.urls.static import static
 from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
 from drf_spectacular.views import SpectacularAPIView, SpectacularSwaggerView
-from .views import CookieTokenObtainPairView, CookieTokenRefreshView, TokenValidateView, LogoutView
+from .views import TokenObtainPairView, TokenRefreshView, TokenValidateView, LogoutView
 
 def root_view(request):
     return JsonResponse({
@@ -37,8 +37,8 @@ urlpatterns = [
     path('adverts/', include('advert.urls')),
     path('payments/', include('payments.urls')),
     path('api/forums/', include('forum.urls')),
-    path('api/token/', CookieTokenObtainPairView.as_view(), name='token_obtain_cookie'),
-    path('api/token/refresh/', CookieTokenRefreshView.as_view(), name='token_refresh_cookie'),
+    path('api/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/token/validate/', TokenValidateView.as_view(), name='token_validate'),
     path('api/logout/', LogoutView.as_view(), name='logout'),
     path('admin/', admin.site.urls),

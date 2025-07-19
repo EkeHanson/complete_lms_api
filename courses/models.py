@@ -132,6 +132,7 @@ class Lesson(models.Model):
         ('assignment', 'Assignment'),
         ('text', 'Text'),
         ('file', 'File'),
+        ('link', 'Link'),  # Add 'link' as a valid choice
     ]
     
     module = models.ForeignKey(Module, on_delete=models.CASCADE, related_name='lessons')

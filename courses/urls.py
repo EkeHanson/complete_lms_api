@@ -40,3 +40,5 @@ urlpatterns = [
     path('enrollments/user/<int:user_id>/', EnrollmentViewSet.as_view({'get': 'user_enrollments'}), name='user-enrollments'),
     path('enrollments/all/', EnrollmentViewSet.as_view({'get': 'all_enrollments'}), name='all-enrollments'),
 ]
+
+

@@ -9,6 +9,10 @@ import os
 import sys
 from logging.handlers import RotatingFileHandler
 
+# FRONTEND URL
+# -----------------------------------------------------------
+FRONTEND_URL = 'http://localhost:5173'  # Define in uppercase, placed before CORS settings
+
 # -----------------------------------------------------------
 # BASE PATHS
 # -----------------------------------------------------------
@@ -113,27 +117,27 @@ SOCIALACCOUNT_PROVIDERS = {
 # -----------------------------------------------------------
 # DATABASE & TENANCY
 # -----------------------------------------------------------
-DATABASES = {
-    'default': {
-        'ENGINE':   'django_tenants.postgresql_backend',
-        'NAME':     'multi_tenant_lms',
-        'USER':     'postgres',
-        'PASSWORD': 'qwerty',
-        'HOST':     'localhost',
-        'PORT':     '5432',
-    }
-}
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django_tenants.postgresql_backend',
-#         'NAME': 'lms_dbbb',
-#         'USER': 'lms_dbbb_user',
-#         'PASSWORD': 'QTcRliQDlSykdQGwla5jZ8phd9e44GeN',
-#         'HOST': 'dpg-d1kleuqdbo4c73a1ahk0-a.oregon-postgres.render.com',
-#         'PORT': '5432',
+#         'ENGINE':   'django_tenants.postgresql_backend',
+#         'NAME':     'multi_tenant_lms',
+#         'USER':     'postgres',
+#         'PASSWORD': 'qwerty',
+#         'HOST':     'localhost',
+#         'PORT':     '5432',
 #     }
 # }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_tenants.postgresql_backend',
+        'NAME': 'lms_dbbb',
+        'USER': 'lms_dbbb_user',
+        'PASSWORD': 'QTcRliQDlSykdQGwla5jZ8phd9e44GeN',
+        'HOST': 'dpg-d1kleuqdbo4c73a1ahk0-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    }
+}
 
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
@@ -179,8 +183,10 @@ CORS_ALLOWED_ORIGINS = [
     'https://crm-frontend-react.vercel.app',
 ]
 CORS_ALLOW_CREDENTIALS = True
-
-CSRF_TRUSTED_ORIGINS = CORS_ALLOWED_ORIGINS + [
+CSRF_TRUSTED_ORIGINS = [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://crm-frontend-react.vercel.app',
     'https://*.onrender.com',
 ]
 
@@ -201,27 +207,27 @@ CORS_ALLOW_HEADERS = [
 # COOKIE FLAGS
 # -----------------------------------------------------------
 SESSION_COOKIE_SAMESITE = 'None'
-CSRF_COOKIE_SAMESITE   = 'None'
-SESSION_COOKIE_SECURE  = False
-CSRF_COOKIE_SECURE     = False
+CSRF_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = False  # For local development (http)
+CSRF_COOKIE_SECURE = False    # For local development (http)
 SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY    = False
-SESSION_COOKIE_PATH     = '/'
-CSRF_COOKIE_PATH        = '/'
+CSRF_COOKIE_HTTPONLY = False
+SESSION_COOKIE_PATH = '/'
+CSRF_COOKIE_PATH = '/'
 
 # -----------------------------------------------------------
 # SIMPLE JWT  (Cookie‑based)
 # -----------------------------------------------------------
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME':  timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'AUTH_COOKIE':            'access_token',
-    'AUTH_COOKIE_REFRESH':    'refresh_token',
-    'AUTH_COOKIE_SECURE':     True,
-    'AUTH_COOKIE_HTTP_ONLY':  True,
-    'AUTH_COOKIE_SAMESITE':   'None',
-    'SIGNING_KEY':            SECRET_KEY,
-    'TOKEN_OBTAIN_SERIALIZER':'lumina_care.views.CustomTokenSerializer',
+    'AUTH_COOKIE': 'access_token',
+    'AUTH_COOKIE_REFRESH': 'refresh_token',
+    'AUTH_COOKIE_SECURE': False,  # Set to False for local development
+    'AUTH_COOKIE_HTTP_ONLY': True,
+    'AUTH_COOKIE_SAMESITE': 'None',
+    'SIGNING_KEY': SECRET_KEY,
+    'TOKEN_OBTAIN_SERIALIZER': 'lumina_care.views.CustomTokenSerializer',
 }
 
 # -----------------------------------------------------------
