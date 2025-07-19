@@ -1628,3 +1628,4 @@ DETAIL:  Key (module_id, "order")=(4, 0) already exists.
 2025-07-19 17:33:29,718 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\groups\models.py changed, reloading.
 2025-07-19 17:33:33,676 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
 2025-07-19 17:37:45,117 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-07-19 17:37:50,777 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
