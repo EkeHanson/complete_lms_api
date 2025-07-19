@@ -1,6 +1,7 @@
 import logging
 from django.db import connection, transaction
 from django_tenants.utils import tenant_context
+from django.http import Http404
 from rest_framework import viewsets, status
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -200,14 +201,20 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         try:
             with tenant_context(tenant):
                 course = Course.objects.annotate(
-                    enrollment_count=Count('enrollments')
-                ).order_by('-enrollment_count').first()
+                    enrollment_count=Count('enrollments', distinct=True)
+                ).filter(enrollment_count__gt=0).order_by('-enrollment_count').first()
                 if not course:
-                    logger.warning(f"[{tenant.schema_name}] No courses found for most_popular")
-                    return Response({"detail": "No courses found"}, status=status.HTTP_404_NOT_FOUND)
+                    logger.warning(f"[{tenant.schema_name}] No courses with enrollments found for most_popular")
+                    return Response({"detail": "No courses with enrollments found"}, status=status.HTTP_404_NOT_FOUND)
                 serializer = CourseSerializer(course)
+                response_data = {
+                    'course': serializer.data,
+                    'enrollment_count': Course.objects.filter(id=course.id).annotate(
+                        enrollment_count=Count('enrollments', distinct=True)
+                    ).values('enrollment_count')[0]['enrollment_count']
+                }
                 logger.info(f"[{tenant.schema_name}] Most popular course: {course.title}")
-                return Response(serializer.data)
+                return Response(response_data)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error fetching most popular course: {str(e)}", exc_info=True)
             return Response({"detail": "Error fetching most popular course"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -218,18 +225,27 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         try:
             with tenant_context(tenant):
                 course = Course.objects.annotate(
-                    enrollment_count=Count('enrollments')
-                ).order_by('enrollment_count').first()
+                    enrollment_count=Count('enrollments', distinct=True)
+                ).filter(enrollment_count__gt=0).order_by('enrollment_count').first()
                 if not course:
-                    logger.warning(f"[{tenant.schema_name}] No courses found for least_popular")
-                    return Response({"detail": "No courses found"}, status=status.HTTP_404_NOT_FOUND)
+                    logger.warning(f"[{tenant.schema_name}] No courses with enrollments found for least_popular")
+                    return Response({"detail": "No courses with enrollments found"}, status=status.HTTP_404_NOT_FOUND)
+                # print("course")
+                # print(course)
+                # print("course")
                 serializer = CourseSerializer(course)
-                logger.info(f"[{tenant.schema_name}] Least popular course: {course.title}")
-                return Response(serializer.data)
+                response_data = {
+                    'course': serializer.data,
+                    'enrollment_count': Course.objects.filter(id=course.id).annotate(
+                        enrollment_count=Count('enrollments', distinct=True)
+                    ).values('enrollment_count')[0]['enrollment_count']
+                }
+               # logger.info(f"[{tenant.schema_name}] Least popular course: {course.title}")
+                return Response(response_data)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error fetching least popular course: {str(e)}", exc_info=True)
             return Response({"detail": "Error fetching least popular course"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
     def list(self, request, *args, **kwargs):
         tenant = request.tenant
         with tenant_context(tenant):
@@ -414,6 +430,7 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
             logger.error(f"[{tenant.schema_name}] Error listing enrollments: {str(e)}", exc_info=True)
             return Response({"detail": "Error fetching enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
     @action(detail=False, methods=['post'], url_path='course/(?P<course_id>[^/.]+)')
     def enroll_to_course(self, request, course_id=None):
         tenant = request.tenant
@@ -431,30 +448,42 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
                 serializer = EnrollmentSerializer(enrollment)
                 logger.info(f"[{tenant.schema_name}] User {user_id} enrolled in course {course_id}")
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+        except Http404:
+            logger.warning(f"[{tenant.schema_name}] Course {course_id} not found or not published")
+            return Response({"detail": "Course not found or not published"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error enrolling user: {str(e)}", exc_info=True)
             return Response({"detail": "Error processing enrollment"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
     @action(detail=False, methods=['post'], url_path='course/(?P<course_id>[^/.]+)/bulk')
     def bulk_enroll(self, request, course_id=None):
         tenant = request.tenant
         try:
             with tenant_context(tenant):
-                course = get_object_or_404(Course, id=course_id, status='Published')
-                user_ids = request.data.get(')initiation_id', [])
+                course = get_object_or_404(Course, id=course_id)  # Remove status='Published' for admin flexibility
+                user_ids = request.data.get('user_ids', [])
                 if not isinstance(user_ids, list):
                     logger.warning(f"[{tenant.schema_name}] Invalid user_ids for bulk enrollment")
                     return Response({"detail": "user_ids must be a list"}, status=status.HTTP_400_BAD_REQUEST)
+                if not user_ids:
+                    logger.warning(f"[{tenant.schema_name}] No user_ids provided for bulk enrollment")
+                    return Response({"detail": "user_ids is required"}, status=status.HTTP_400_BAD_REQUEST)
                 existing = set(Enrollment.objects.filter(user_id__in=user_ids, course=course).values_list('user_id', flat=True))
                 new_enrollments = [Enrollment(user_id=user_id, course=course) for user_id in user_ids if user_id not in existing]
                 with transaction.atomic():
-                    Enrollment.objects.bulk_create(new_enrollments)
-                logger.info(f"[{tenant.schema_name}] Bulk enrolled {len(new_enrollments)} users to course {course_id}")
-                return Response({
-                    "detail": f"Enrolled {len(new_enrollments)} users",
-                    "created": len(new_enrollments),
-                    "already_enrolled": len(existing)
-                }, status=status.HTTP_201_CREATED)
+                    if new_enrollments:
+                        Enrollment.objects.bulk_create(new_enrollments)
+                    logger.info(f"[{tenant.schema_name}] Bulk enrolled {len(new_enrollments)} users to course {course_id}")
+                    return Response({
+                        "detail": f"Enrolled {len(new_enrollments)} users",
+                        "created": len(new_enrollments),
+                        "already_enrolled": len(existing)
+                    }, status=status.HTTP_201_CREATED)
+                return Response({"detail": "No new enrollments created (all users already enrolled)"}, status=status.HTTP_200_OK)
+        except Http404:
+            logger.warning(f"[{tenant.schema_name}] Course {course_id} not found")
+            return Response({"detail": "Course not found"}, status=status.HTTP_404_NOT_FOUND)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error in bulk enrollment: {str(e)}", exc_info=True)
             return Response({"detail": "Error processing bulk enrollment"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
