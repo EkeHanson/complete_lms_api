@@ -11,7 +11,7 @@ from rest_framework_simplejwt.tokens import RefreshToken, UntypedToken
 from rest_framework import status, exceptions
 from django.conf import settings
 from core.models import Domain, Tenant
-from users.models import CustomUser, UserActivity
+from users.models import CustomUser, UserActivity, FailedLogin
 from users.serializers import CustomUserSerializer
 from rest_framework import serializers
 
@@ -52,6 +52,8 @@ class TenantBaseView(APIView):
             raise exceptions.ValidationError({"detail": "Tenant not found."})
         connection.set_schema(tenant.schema_name)
         logger.debug(f"[{tenant.schema_name}] Schema set for request")
+
+
 
 class CustomTokenSerializer(TokenObtainPairSerializer):
     """Custom token serializer for tenant-aware authentication with login attempt tracking."""
@@ -106,6 +108,15 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
                 if user.login_attempts >= 5:
                     user.status = 'suspended'
                     user.save()
+
+                    FailedLogin.objects.create(
+                        user=user,  # Associate with the CustomUser instance
+                        username=email,
+                        ip_address=self.context['request'].META.get('REMOTE_ADDR'),
+                        attempts=user.login_attempts,
+                        status='active'  # Use 'active' as per model choices
+                    )
+                    
                     UserActivity.objects.create(
                         user=user,
                         activity_type='account_suspended',
@@ -151,6 +162,10 @@ class CustomTokenSerializer(TokenObtainPairSerializer):
             except exceptions.AuthenticationFailed as e:
                 logger.error(f"[{tenant.schema_name}] Authentication failed: {str(e)}")
                 raise
+
+
+
+
 
 class CustomTokenRefreshSerializer(TokenRefreshSerializer):
     """Custom token refresh serializer for tenant-aware token refresh."""

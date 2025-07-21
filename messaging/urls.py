@@ -8,6 +8,8 @@ router.register(r'attachments', MessageAttachmentViewSet, basename='attachment')
 router.register(r'message-types', MessageTypeViewSet, basename='message-type')
 
 urlpatterns = [
-    path('api/', include(router.urls)),  # Maps to /messaging/api/messages/, /messaging/api/attachments/, etc.
+    path('api/', include(router.urls)),
     path('api/messages/unread_count/', MessageViewSet.as_view({'get': 'unread_count'}), name='unread-message-count'),
+    path('api/messages/stats/', MessageViewSet.as_view({'get': 'stats'}), name='message-stats'),
 ]
+

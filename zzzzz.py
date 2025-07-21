@@ -4,7 +4,7 @@
 # python manage.py migrate_schemas
 
 
-# python manage.py makemigrations token_blacklist users, courses
+# python manage.py makemigrations token_blacklist users, courses, forum, messaging
 # python manage.py migrate_schemas --shared
 # python manage.py migrate_schemas
 

@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import CustomUser, UserProfile, UserActivity
+from .models import CustomUser, UserProfile, UserActivity, FailedLogin, BlockedIP, VulnerabilityAlert, ComplianceReport
 from core.models import Module, Tenant, Domain
 from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from django.contrib.auth.hashers import make_password
@@ -163,3 +163,39 @@ class UserActivitySerializer(serializers.ModelSerializer):
     class Meta:
         model = UserActivity
         fields = '__all__'
+
+
+
+
+class FailedLoginSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FailedLogin
+        fields = ['id', 'ip_address', 'username', 'timestamp', 'attempts', 'status']
+
+# class BlockedIPSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = BlockedIP
+#         fields = ['id', 'ip_address', 'reason', 'timestamp', 'action']
+class BlockedIPSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = BlockedIP
+        fields = ['id', 'ip_address', 'action', 'reason', 'timestamp']
+        read_only_fields = ['id', 'timestamp']
+
+    def validate_ip_address(self, value):
+        import re
+        ipv4_pattern = r'^(?:(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)\.){3}(?:25[0-5]|2[0-4][0-9]|[01]?[0-9][0-9]?)$'
+        ipv6_pattern = r'^([0-9a-fA-F]{1,4}:){7,7}[0-9a-fA-F]{1,4}$'
+        if not (re.match(ipv4_pattern, value) or re.match(ipv6_pattern, value)):
+            raise serializers.ValidationError("Invalid IP address format")
+        return value
+
+class VulnerabilityAlertSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = VulnerabilityAlert
+        fields = ['id', 'severity', 'title', 'component', 'detected', 'status']
+
+class ComplianceReportSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ComplianceReport
+        fields = ['id', 'type', 'status', 'last_audit', 'next_audit']

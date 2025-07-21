@@ -280,3 +280,63 @@ class UserActivity(models.Model):
         if not self.id:
             self.timestamp = timezone.now()
         super().save(*args, **kwargs)
+
+
+
+
+class FailedLogin(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    ip_address = models.GenericIPAddressField()
+    username = models.CharField(max_length=150)
+    timestamp = models.DateTimeField(default=timezone.now)
+    attempts = models.PositiveIntegerField(default=1)
+    status = models.CharField(max_length=20, choices=(('active', 'Active'), ('blocked', 'Blocked')))
+
+    class Meta:
+        indexes = [models.Index(fields=['ip_address', 'timestamp'])]
+
+    def __str__(self):
+        return f"Failed login: {self.username} from {self.ip_address} at {self.timestamp}"
+
+class BlockedIP(models.Model):
+    ip_address = models.GenericIPAddressField(unique=True)
+    reason = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+    action = models.CharField(max_length=50, choices=(('auto-blocked', 'Auto-blocked'), ('manual-block', 'Manual Block')))
+
+    class Meta:
+        indexes = [models.Index(fields=['ip_address', 'timestamp'])]
+
+    def __str__(self):
+        return f"Blocked IP: {self.ip_address} at {self.timestamp}"
+
+class VulnerabilityAlert(models.Model):
+    SEVERITY_CHOICES = (
+        ('high', 'High'),
+        ('medium', 'Medium'),
+        ('low', 'Low'),
+    )
+    title = models.CharField(max_length=255)
+    component = models.CharField(max_length=100)
+    severity = models.CharField(max_length=20, choices=SEVERITY_CHOICES)
+    detected = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=20, choices=(('pending', 'Pending'), ('in-progress', 'In Progress'), ('resolved', 'Resolved')))
+
+    class Meta:
+        indexes = [models.Index(fields=['severity', 'detected'])]
+
+    def __str__(self):
+        return f"{self.severity} - {self.title} ({self.status})"
+
+class ComplianceReport(models.Model):
+    type = models.CharField(max_length=50, choices=(('GDPR', 'GDPR'), ('CCPA', 'CCPA'), ('PCI DSS', 'PCI DSS')))
+    status = models.CharField(max_length=20, choices=(('compliant', 'Compliant'), ('pending-review', 'Pending Review')))
+    last_audit = models.DateField()
+    next_audit = models.DateField()
+    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [models.Index(fields=['type', 'status'])]
+
+    def __str__(self):
+        return f"{self.type} - {self.status}"

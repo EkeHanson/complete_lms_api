@@ -11,3 +11,4 @@ router.register(r'queue', ModerationQueueViewSet)
 urlpatterns = [
     path('', include(router.urls)),
 ]
+

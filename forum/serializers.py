@@ -72,3 +72,4 @@ class ModerationQueueSerializer(serializers.ModelSerializer):
 
     def get_content_snippet(self, obj):
         return obj.content[:100] + ('...' if len(obj.content) > 100 else '')
+    

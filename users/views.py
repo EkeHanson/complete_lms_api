@@ -1,16 +1,18 @@
 import logging
+import re
 import uuid
-from datetime import datetime, timedelta
-from django.core.exceptions import ValidationError
-
-import pandas as pd
-from rest_framework import serializers
-import requests
+from datetime import datetime, timedelta, timezone
 import numpy as np
+import pandas as pd
+import requests
+from django.core.exceptions import ValidationError
 from django.db import transaction, connection
+from django.db.models import Count, Q
+from django.http import JsonResponse
+from django.shortcuts import get_object_or_404
 from django.utils import timezone
 from django_filters.rest_framework import DjangoFilterBackend
-from rest_framework import viewsets, generics, status
+from rest_framework import serializers, viewsets, generics, status
 from rest_framework.decorators import action
 from rest_framework.filters import SearchFilter
 from rest_framework.pagination import PageNumberPagination
@@ -21,18 +23,19 @@ from rest_framework.views import APIView
 from rest_framework_simplejwt.tokens import RefreshToken
 from allauth.socialaccount.models import SocialAccount
 from django_tenants.utils import tenant_context
-from django.shortcuts import get_object_or_404
-from django.http import JsonResponse
-from django.db.models import Count, Q
-from core.models import Tenant
-import re
-
-from .models import CustomUser, UserProfile, UserActivity
-from .serializers import (
-    UserSerializer,
-    AdminUserCreateSerializer,
-    UserActivitySerializer,
+from .models import (
+    FailedLogin, BlockedIP, VulnerabilityAlert,
+    ComplianceReport, CustomUser, UserProfile, UserActivity,
 )
+from .serializers import (
+    FailedLoginSerializer, BlockedIPSerializer, VulnerabilityAlertSerializer, ComplianceReportSerializer,
+    UserSerializer, AdminUserCreateSerializer, UserActivitySerializer,
+)
+from reportlab.lib import colors
+from reportlab.lib.pagesizes import letter
+from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer, Table, TableStyle
+from reportlab.lib.styles import getSampleStyleSheet
+from io import BytesIO
 
 logger = logging.getLogger('users')
 
@@ -364,7 +367,6 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
         try:
             with tenant_context(tenant):
                 user = get_object_or_404(CustomUser, pk=pk, tenant=tenant, is_deleted=False)
-                # Generate a password reset token and send email
                 from django.contrib.auth.tokens import default_token_generator
                 from django.utils.http import urlsafe_base64_encode
                 from django.utils.encoding import force_bytes
@@ -395,21 +397,30 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def stats(self, request):
         tenant = request.tenant
-        try:
-            with tenant_context(tenant):
-                thirty_days_ago = datetime.now(timezone.utc) - timedelta(days=30)
-                stats = {
-                    'total_users': CustomUser.objects.filter(tenant=tenant, is_deleted=False).count(),
-                    'active_users': CustomUser.objects.filter(tenant=tenant, is_deleted=False, status='active').count(),
-                    'new_signups': CustomUser.objects.filter(tenant=tenant, is_deleted=False, signup_date__gte=thirty_days_ago).count(),
-                    'suspicious_activity': CustomUser.objects.filter(tenant=tenant, is_deleted=False, login_attempts__gt=3).count(),
-                    'locked_accounts': CustomUser.objects.filter(tenant=tenant, is_deleted=False, is_locked=True).count(),
-                }
-                logger.info(f"[{tenant.schema_name}] User stats retrieved")
-                return Response(stats)
-        except Exception as e:
-            logger.error(f"[{tenant.schema_name}] Error retrieving user stats: {str(e)}", exc_info=True)
-            return Response({"detail": "Error retrieving user stats"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        with tenant_context(tenant):
+            seven_days_ago = timezone.now() - timedelta(days=7)
+            one_day_ago = timezone.now() - timedelta(days=1)
+            stats = {
+                'total_users': CustomUser.objects.count(),
+                'active_users': CustomUser.objects.filter(status='active').count(),
+                'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                'suspicious_activity': UserActivity.objects.filter(
+                    activity_type__in=['login', 'account_suspended'], 
+                    status='failed',
+                    timestamp__gte=seven_days_ago
+                ).count(),
+                'locked_accounts': CustomUser.objects.filter(is_locked=True).count(),
+                'failed_logins': FailedLogin.objects.filter(
+                    timestamp__gte=one_day_ago
+                ).count(),
+                'blocked_ips': BlockedIP.objects.count(),
+                'active_alerts': VulnerabilityAlert.objects.filter(status='pending').count(),
+                'audit_events': UserActivity.objects.filter(timestamp__gte=seven_days_ago).count(),
+                'compliance_status': f"{ComplianceReport.objects.filter(status='compliant').count()}/{ComplianceReport.objects.count()}",
+                'data_requests': 0,
+            }
+            logger.info(f"[{tenant.schema_name}] Dashboard stats retrieved")
+            return Response(stats)
 
     @action(detail=False, methods=['get'])
     def role_stats(self, request):
@@ -635,6 +646,26 @@ class UserActivityViewSet(TenantBaseView, viewsets.ReadOnlyModelViewSet):
             logger.error(f"[{tenant.schema_name}] Error listing user activities: {str(e)}", exc_info=True)
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @action(detail=False, methods=['get'])
+    def recent_events(self, request):
+        tenant = self.request.tenant
+        try:
+            with tenant_context(tenant):
+                security_types = ['user_login', 'user_logout', 'password_reset_initiated', 'user_impersonated', 'blocked_ip_added', 'blocked_ip_removed', 'vulnerability_resolved']
+                queryset = UserActivity.objects.filter(
+                    user__tenant=tenant,
+                    activity_type__in=security_types
+                ).select_related('user').order_by('-timestamp')[:50]
+                serializer = self.get_serializer(queryset, many=True)
+                logger.info(f"[{tenant.schema_name}] Retrieved recent security events")
+                return Response({
+                    'detail': f'Retrieved {queryset.count()} recent security events',
+                    'data': serializer.data
+                })
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error retrieving recent security events: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 class UserProfileUpdateView(TenantBaseView, generics.GenericAPIView):
     """Update the authenticated user's profile."""
     permission_classes = [IsAuthenticated]
@@ -747,7 +778,7 @@ def generate_cmvp_token(request):
         return JsonResponse({"detail": "Tenant not found"}, status=400)
     try:
         with tenant_context(tenant):
-            user_email = "ekenehanson@gmail.com"  # Should be dynamically obtained
+            user_email = "ekenehanson@gmail.com"
             token = str(uuid.uuid4())
             response = requests.post(
                 "http://127.0.0.1:9091/api/accounts/auth/api/register-token/",
@@ -762,3 +793,163 @@ def generate_cmvp_token(request):
     except Exception as e:
         logger.error(f"[{tenant.schema_name}] Error generating CMVP token: {str(e)}", exc_info=True)
         return JsonResponse({"detail": str(e)}, status=500)
+
+class FailedLoginViewSet(TenantBaseView, viewsets.ReadOnlyModelViewSet):
+    serializer_class = FailedLoginSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['status']
+    search_fields = ['ip_address', 'username']
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return FailedLogin.objects.all().order_by('-timestamp')
+
+class BlockedIPViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = BlockedIPSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['action']
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return BlockedIP.objects.all().order_by('-timestamp')
+
+    def perform_create(self, serializer):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            if BlockedIP.objects.filter(ip_address=serializer.validated_data['ip_address']).exists():
+                raise serializers.ValidationError("This IP is already blocked")
+            serializer.save()
+            UserActivity.objects.create(
+                user=self.request.user,
+                activity_type='blocked_ip_added',
+                details=f"IP {serializer.validated_data['ip_address']} blocked by {self.request.user.email}",
+                status='success'
+            )
+
+    @action(detail=False, methods=['post'], url_path='unblock')
+    def unblock(self, request):
+        tenant = self.request.tenant
+        ip_address = request.data.get('ip_address')
+        if not ip_address:
+            logger.warning(f"[{tenant.schema_name}] No IP address provided for unblock")
+            return Response({"detail": "IP address is required"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            with tenant_context(tenant):
+                blocked_ip = get_object_or_404(BlockedIP, ip_address=ip_address)
+                blocked_ip.delete()
+                UserActivity.objects.create(
+                    user=self.request.user,
+                    activity_type='blocked_ip_removed',
+                    details=f"IP {ip_address} unblocked by {self.request.user.email}",
+                    status='success'
+                )
+                logger.info(f"[{tenant.schema_name}] IP {ip_address} unblocked by {self.request.user.email}")
+                return Response({"detail": f"IP {ip_address} unblocked successfully"})
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error unblocking IP {ip_address}: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class VulnerabilityAlertViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = VulnerabilityAlertSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend, SearchFilter]
+    filterset_fields = ['severity', 'status']
+    search_fields = ['title', 'component']
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return VulnerabilityAlert.objects.all().order_by('-detected')
+
+    def perform_update(self, serializer):
+        serializer.save()
+        if serializer.validated_data.get('status') == 'resolved':
+            UserActivity.objects.create(
+                user=self.request.user,
+                activity_type='vulnerability_resolved',
+                details=f"Vulnerability {serializer.validated_data['title']} resolved by {self.request.user.email}",
+                status='success'
+            )
+
+
+
+
+
+class ComplianceReportViewSet(TenantBaseView, viewsets.ModelViewSet):  # Changed to ModelViewSet
+    serializer_class = ComplianceReportSerializer
+    permission_classes = [IsAuthenticated, IsAdminUser]
+    pagination_class = CustomPagination
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['type', 'status']
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return ComplianceReport.objects.filter(tenant=tenant).order_by('type')
+
+    @action(detail=True, methods=['get'], url_path='generate')
+    def generate_report(self, request, pk=None):
+        tenant = self.request.tenant
+        try:
+            with tenant_context(tenant):
+                report = get_object_or_404(ComplianceReport, pk=pk, tenant=tenant)
+                buffer = BytesIO()
+                doc = SimpleDocTemplate(buffer, pagesize=letter)
+                styles = getSampleStyleSheet()
+                elements = []
+
+                elements.append(Paragraph(f"Compliance Report: {report.type}", styles['Title']))
+                elements.append(Spacer(1, 12))
+                elements.append(Paragraph(f"Status: {report.status}", styles['Normal']))
+                elements.append(Spacer(1, 12))
+                elements.append(Paragraph(f"Last Audit: {report.lastAudit or 'N/A'}", styles['Normal']))
+                elements.append(Spacer(1, 12))
+                elements.append(Paragraph(f"Next Audit: {report.nextAudit or 'N/A'}", styles['Normal']))
+                elements.append(Spacer(1, 12))
+                elements.append(Paragraph(f"Details: {report.details or 'No details available'}", styles['Normal']))
+
+                doc.build(elements)
+                buffer.seek(0)
+                logger.info(f"[{tenant.schema_name}] Generated compliance report for {report.type}")
+                return HttpResponse(buffer, content_type='application/pdf', headers={'Content-Disposition': f'attachment; filename=compliance_report_{pk}.pdf'})
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error generating report for pk {pk}: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['post'], url_path='schedule')
+    def schedule_audit(self, request, pk=None):
+        tenant = self.request.tenant
+        audit_date = request.data.get('audit_date')
+        if not audit_date:
+            logger.warning(f"[{tenant.schema_name}] No audit date provided for schedule")
+            return Response({"detail": "Audit date is required"}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            with tenant_context(tenant):
+                report = get_object_or_404(ComplianceReport, pk=pk, tenant=tenant)
+                from datetime import datetime
+                try:
+                    parsed_date = datetime.strptime(audit_date, '%Y-%m-%d').date()
+                except ValueError:
+                    logger.warning(f"[{tenant.schema_name}] Invalid audit date format: {audit_date}")
+                    return Response({"detail": "Invalid date format. Use YYYY-MM-DD."}, status=status.HTTP_400_BAD_REQUEST)
+                report.nextAudit = parsed_date
+                report.save()
+                UserActivity.objects.create(
+                    user=self.request.user,
+                    activity_type='audit_scheduled',
+                    details=f"Audit scheduled for {report.type} on {audit_date} by {self.request.user.email}",
+                    status='success'
+                )
+                logger.info(f"[{tenant.schema_name}] Audit scheduled for {report.type} on {audit_date}")
+                return Response({"detail": f"Audit scheduled for {audit_date}"})
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error scheduling audit for pk {pk}: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
