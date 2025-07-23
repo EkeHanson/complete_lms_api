@@ -1,5 +1,5 @@
 # python manage.py showmigrations talent_engine
-# python manage.py makemigrations token_blacklist users, courses, subscriptions, core, schedule, payments, courses, forum, groups, messaging, advert
+# python manage.py makemigrations token_blacklist users, courses, core, courses, forum, groups, messaging, advert, subscriptions
 # python manage.py migrate_schemas --shared
 # python manage.py migrate_schemas
 
@@ -12,10 +12,10 @@
 
 #python manage.py shell
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='public').exists():
+if not Tenant.objects.filter(schema_name='proliance').exists():
     tenant = Tenant.objects.create(
-        name='public',
-        schema_name='public'
+        name='proliance',
+        schema_name='proliance'
     )
     tenant.auto_create_schema = False
     tenant.save()
@@ -33,22 +33,32 @@ if not Tenant.objects.filter(schema_name='public').exists():
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
-tenant = Tenant.objects.get(schema_name='netwiver')
+tenant = Tenant.objects.get(schema_name='proliance')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
-        username='admin',
-        email='support@netwiver.com',
+        email='admin@appbrew.com',
         password='qwertyqwerty',
         role='admin',
-        first_name='Manelius',
-        last_name='Grok',
-        job_role='User Admin',
+        first_name='Monday',
+        last_name='Davidson',
         tenant=tenant
     )
 
 
 
+from core.models import Tenant, Domain
+if not Tenant.objects.filter(schema_name='render').exists():
+    tenant = Tenant.objects.create(
+        name='render',
+        schema_name='render'
+    )
+    tenant.auto_create_schema = False
+    tenant.save()
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com', is_primary=True)
 
+
+
+    
 from core.models import Tenant
 from subscriptions.models import Subscription
 tenant = Tenant.objects.get(schema_name='proliance')

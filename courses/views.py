@@ -25,6 +25,7 @@ from .serializers import (
     LearningPathSerializer, EnrollmentSerializer, CertificateSerializer, CourseRatingSerializer
 )
 
+
 logger = logging.getLogger('lesson')
 
 class StandardResultsPagination(PageNumberPagination):
@@ -164,6 +165,9 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         tenant = request.tenant
         with tenant_context(tenant):
             instance = self.get_object()
+            print("request.data")
+            print(request.data)
+            print("request.data")
             serializer = self.get_serializer(instance, data=request.data, partial=kwargs.get('partial', False))
             try:
                 serializer.is_valid(raise_exception=True)

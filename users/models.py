@@ -5,6 +5,11 @@ from django.utils import timezone
 from django.core.exceptions import ValidationError
 import logging
 import uuid
+from django.contrib.auth.models import AbstractBaseUser, PermissionsMixin
+from django.db import models
+from django.utils.translation import gettext as _
+from django_tenants.utils import tenant_context
+from groups.models import Group, GroupMembership, Role
 
 logger = logging.getLogger(__name__)
 
@@ -54,87 +59,120 @@ class CustomUserManager(BaseUserManager):
                 code='password_too_short',
             )
 
-class CustomUser(AbstractUser):
-    ROLES = (
-        ('learner', 'Learner'),
-        ('admin', 'Admin'),
-        ('hr', 'HR'),
-        ('carer', 'Carer'),
-        ('client', 'Client'),
-        ('family', 'Family'),
-        ('auditor', 'Auditor'),
-        ('tutor', 'Tutor'),
-        ('assessor', 'Assessor'),
-        ('iqa', 'IQA'),
-        ('eqa', 'EQA'),
-    )
-    STATUS_CHOICES = (
-        ('active', 'Active'),
-        ('pending', 'Pending'),
-        ('suspended', 'Suspended'),
-        ('deleted', 'Deleted'),
-    )
 
-    username = models.CharField(max_length=150, blank=True, null=True, unique=False)
-    email = models.EmailField(_('email address'), unique=True)
-    role = models.CharField(max_length=20, choices=ROLES, default='carer')
-    job_role = models.CharField(max_length=255, blank=True, null=True, default='staff')
-    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE, null=True)
-    status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
-    first_name = models.CharField(_('first name'), max_length=150, blank=True)
-    last_name = models.CharField(_('last name'), max_length=150, blank=True)
-    phone = models.CharField(max_length=20, blank=True, null=True)
-    birth_date = models.DateField(blank=True, null=True)
-    profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
-    bio = models.TextField(blank=True)
-    facebook_link = models.URLField(blank=True)
-    twitter_link = models.URLField(blank=True)
-    linkedin_link = models.URLField(blank=True)
-    title = models.CharField(max_length=100, blank=True)
-    last_login_ip = models.GenericIPAddressField(blank=True, null=True)
-    last_login_device = models.CharField(max_length=200, blank=True, null=True)
-    login_attempts = models.PositiveIntegerField(default=0)
-    signup_date = models.DateTimeField(auto_now_add=True)
-    is_deleted = models.BooleanField(default=False)
+
+class CustomUser(AbstractBaseUser, PermissionsMixin):
+    email = models.EmailField(unique=True)
+    first_name = models.CharField(max_length=30, blank=True)
+    last_name = models.CharField(max_length=30, blank=True)
+    role = models.CharField(max_length=20, blank=True, help_text="User role code (e.g., admin, instructor)")
+    is_active = models.BooleanField(default=True)
+    is_staff = models.BooleanField(default=False)
+    date_joined = models.DateTimeField(auto_now_add=True)
+    last_login = models.DateTimeField(null=True, blank=True)
     is_locked = models.BooleanField(default=False)
+    status = models.CharField(max_length=20, default='pending')
+    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE, null=True)
+    is_deleted = models.BooleanField(default=False)
+    
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
+
     objects = CustomUserManager()
 
-    class Meta:
-        verbose_name = _('user')
-        verbose_name_plural = _('users')
-        ordering = ['date_joined']
-        indexes = [
-            models.Index(fields=['email']),
-            models.Index(fields=['role']),
-            models.Index(fields=['status']),
-            models.Index(fields=['is_locked']),
-        ]
+    def save(self, *args, **kwargs):
+        created = not self.pk
+        super().save(*args, **kwargs)
+        if created or kwargs.get('update_fields', None) in (None, ['role']):
+            self.sync_group_memberships()
+
+    def sync_group_memberships(self):
+        """Sync user with system groups based on their role."""
+        from django.db import connection
+        from groups.models import Group, GroupMembership, Role
+        tenant = connection.tenant
+        if not tenant:
+            return
+        with tenant_context(tenant):
+            system_groups = Group.objects.filter(is_system=True)
+            for group in system_groups:
+                should_be_member = group.role.code == self.role
+                membership_exists = GroupMembership.objects.filter(user=self, group=group).exists()
+                if should_be_member and not membership_exists:
+                    GroupMembership.objects.create(
+                        user=self,
+                        group=group,
+                        role=group.role,
+                        is_active=True,
+                        is_primary=(self.role == group.role.code)
+                    )
+                    # Log activity
+                    UserActivity.objects.create(
+                        user=self,
+                        activity_type='group_membership_added',
+                        details=f'User added to group {group.name} via role sync',
+                        status='success'
+                    )
+                elif not should_be_member and membership_exists:
+                    GroupMembership.objects.filter(user=self, group=group).delete()
+                    # Log activity
+                    UserActivity.objects.create(
+                        user=self,
+                        activity_type='group_membership_removed',
+                        details=f'User removed from group {group.name} via role sync',
+                        status='success'
+                    )
 
     def __str__(self):
-        return f"{self.get_full_name() or self.email} ({self.role})"
+        return self.email
 
-    def get_full_name(self):
-        full_name = f"{self.first_name} {self.last_name}"
-        return full_name.strip()
-
-    def get_short_name(self):
-        return self.first_name
-
-    def increment_login_attempts(self):
-        self.login_attempts += 1
-        if self.login_attempts >= 5:
-            self.is_locked = True
-            UserActivity.objects.create(
-                user=self,
-                activity_type='account_locked',
-                details='Account locked due to excessive login attempts',
-                status='system'
-            )
+    def update_profile(self, updated_fields):
+        for field, value in updated_fields.items():
+            setattr(self, field, value)
         self.save()
 
+    def lock_account(self, reason):
+        self.is_locked = True
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_locked',
+            details=reason,
+            status='success'
+        )
+
+    def unlock_account(self, reason):
+        self.is_locked = False
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_unlocked',
+            details=reason,
+            status='success'
+        )
+
+    def suspend_account(self, reason):
+        self.status = 'suspended'
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_suspended',
+            details=reason,
+            status='success'
+        )
+
+    def activate_account(self):
+        self.status = 'active'
+        self.save()
+        UserActivity.objects.create(
+            user=self,
+            activity_type='account_activated',
+            details='Account activated',
+            status='success'
+        )
+
+        
     def reset_login_attempts(self):
         self.login_attempts = 0
         self.last_login = timezone.now()
@@ -146,86 +184,206 @@ class CustomUser(AbstractUser):
             status='success'
         )
 
-    def lock_account(self, reason=""):
-        self.is_locked = True
-        self.save()
-        UserActivity.objects.create(
-            user=self,
-            activity_type='account_locked',
-            details=reason or 'Account locked by admin',
-            status='system'
-        )
-
-    def unlock_account(self, reason=""):
-        self.is_locked = False
-        self.login_attempts = 0
-        self.save()
-        UserActivity.objects.create(
-            user=self,
-            activity_type='account_unlocked',
-            details=reason or 'Account unlocked by admin',
-            status='success'
-        )
-
-    def suspend_account(self, reason=""):
-        self.status = 'suspended'
-        self.save()
-        UserActivity.objects.create(
-            user=self,
-            activity_type='account_suspended',
-            details=reason or 'Account suspended by admin',
-            status='system'
-        )
-
-    def activate_account(self):
-        self.status = 'active'
-        self.login_attempts = 0
-        self.save()
-        UserActivity.objects.create(
-            user=self,
-            activity_type='account_activated',
-            details='Account activated by admin',
-            status='success'
-        )
-
-    def delete_account(self, reason=""):
-        self.status = 'deleted'
-        self.email = f"deleted_{self.id}_{self.email}"
-        self.is_active = False
+    def delete_account(self, reason):
         self.is_deleted = True
+        self.is_active = False
         self.save()
         UserActivity.objects.create(
             user=self,
-            activity_type='user_management',
-            details=reason or 'Account deleted by admin',
-            status='system'
+            activity_type='account_deleted',
+            details=reason,
+            status='success'
         )
 
-    def update_profile(self, updated_fields):
-        old_data = {
-            'email': self.email,
-            'role': self.role,
-            'status': self.status,
-            'first_name': self.first_name,
-            'last_name': self.last_name,
-            'phone': self.phone,
-            'title': self.title,
-            'bio': self.bio
-        }
-        for field, value in updated_fields.items():
-            setattr(self, field, value)
-        self.save()
-        changes = []
-        for field, new_value in updated_fields.items():
-            if old_data.get(field) != new_value:
-                changes.append(f"{field}: {old_data.get(field)} -> {new_value}")
-        if changes:
-            UserActivity.objects.create(
-                user=self,
-                activity_type='profile_update',
-                details=f"Profile updated: {'; '.join(changes)}",
-                status='success'
-            )
+        from django.contrib.auth.models import AbstractBaseUser
+
+
+    @property
+    def is_anonymous(self):
+        return False  # Or implement your logic
+
+    @property
+    def is_authenticated(self):
+        return True   # Or implement your logic
+
+    class Meta:
+        verbose_name = _('User')
+        verbose_name_plural = _('Users')
+
+
+
+# class CustomUser(AbstractUser):
+#     ROLES = (
+#         ('learner', 'Learner'),
+#         ('admin', 'Admin'),
+#         ('hr', 'HR'),
+#         ('carer', 'Carer'),
+#         ('client', 'Client'),
+#         ('family', 'Family'),
+#         ('auditor', 'Auditor'),
+#         ('tutor', 'Tutor'),
+#         ('assessor', 'Assessor'),
+#         ('iqa', 'IQA'),
+#         ('eqa', 'EQA'),
+#     )
+#     STATUS_CHOICES = (
+#         ('active', 'Active'),
+#         ('pending', 'Pending'),
+#         ('suspended', 'Suspended'),
+#         ('deleted', 'Deleted'),
+#     )
+
+#     username = models.CharField(max_length=150, blank=True, null=True, unique=False)
+#     email = models.EmailField(_('email address'), unique=True)
+#     role = models.CharField(max_length=20, choices=ROLES, default='carer')
+#     job_role = models.CharField(max_length=255, blank=True, null=True, default='staff')
+#     tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE, null=True)
+#     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default='pending')
+#     first_name = models.CharField(_('first name'), max_length=150, blank=True)
+#     last_name = models.CharField(_('last name'), max_length=150, blank=True)
+#     phone = models.CharField(max_length=20, blank=True, null=True)
+#     birth_date = models.DateField(blank=True, null=True)
+#     profile_picture = models.ImageField(upload_to='profile_pics/', blank=True, null=True)
+#     bio = models.TextField(blank=True)
+#     facebook_link = models.URLField(blank=True)
+#     twitter_link = models.URLField(blank=True)
+#     linkedin_link = models.URLField(blank=True)
+#     title = models.CharField(max_length=100, blank=True)
+#     last_login_ip = models.GenericIPAddressField(blank=True, null=True)
+#     last_login_device = models.CharField(max_length=200, blank=True, null=True)
+#     login_attempts = models.PositiveIntegerField(default=0)
+#     signup_date = models.DateTimeField(auto_now_add=True)
+#     is_deleted = models.BooleanField(default=False)
+#     is_locked = models.BooleanField(default=False)
+
+#     USERNAME_FIELD = 'email'
+#     REQUIRED_FIELDS = []
+#     objects = CustomUserManager()
+
+#     class Meta:
+#         verbose_name = _('user')
+#         verbose_name_plural = _('users')
+#         ordering = ['date_joined']
+#         indexes = [
+#             models.Index(fields=['email']),
+#             models.Index(fields=['role']),
+#             models.Index(fields=['status']),
+#             models.Index(fields=['is_locked']),
+#         ]
+
+#     def __str__(self):
+#         return f"{self.get_full_name() or self.email} ({self.role})"
+
+#     def get_full_name(self):
+#         full_name = f"{self.first_name} {self.last_name}"
+#         return full_name.strip()
+
+#     def get_short_name(self):
+#         return self.first_name
+
+#     def increment_login_attempts(self):
+#         self.login_attempts += 1
+#         if self.login_attempts >= 5:
+#             self.is_locked = True
+#             UserActivity.objects.create(
+#                 user=self,
+#                 activity_type='account_locked',
+#                 details='Account locked due to excessive login attempts',
+#                 status='system'
+#             )
+#         self.save()
+
+#     def reset_login_attempts(self):
+#         self.login_attempts = 0
+#         self.last_login = timezone.now()
+#         self.save()
+#         UserActivity.objects.create(
+#             user=self,
+#             activity_type='login_attempts_reset',
+#             details='Login attempts reset by admin',
+#             status='success'
+#         )
+
+#     def lock_account(self, reason=""):
+#         self.is_locked = True
+#         self.save()
+#         UserActivity.objects.create(
+#             user=self,
+#             activity_type='account_locked',
+#             details=reason or 'Account locked by admin',
+#             status='system'
+#         )
+
+#     def unlock_account(self, reason=""):
+#         self.is_locked = False
+#         self.login_attempts = 0
+#         self.save()
+#         UserActivity.objects.create(
+#             user=self,
+#             activity_type='account_unlocked',
+#             details=reason or 'Account unlocked by admin',
+#             status='success'
+#         )
+
+#     def suspend_account(self, reason=""):
+#         self.status = 'suspended'
+#         self.save()
+#         UserActivity.objects.create(
+#             user=self,
+#             activity_type='account_suspended',
+#             details=reason or 'Account suspended by admin',
+#             status='system'
+#         )
+
+#     def activate_account(self):
+#         self.status = 'active'
+#         self.login_attempts = 0
+#         self.save()
+#         UserActivity.objects.create(
+#             user=self,
+#             activity_type='account_activated',
+#             details='Account activated by admin',
+#             status='success'
+#         )
+
+#     def delete_account(self, reason=""):
+#         self.status = 'deleted'
+#         self.email = f"deleted_{self.id}_{self.email}"
+#         self.is_active = False
+#         self.is_deleted = True
+#         self.save()
+#         UserActivity.objects.create(
+#             user=self,
+#             activity_type='user_management',
+#             details=reason or 'Account deleted by admin',
+#             status='system'
+#         )
+
+#     def update_profile(self, updated_fields):
+#         old_data = {
+#             'email': self.email,
+#             'role': self.role,
+#             'status': self.status,
+#             'first_name': self.first_name,
+#             'last_name': self.last_name,
+#             'phone': self.phone,
+#             'title': self.title,
+#             'bio': self.bio
+#         }
+#         for field, value in updated_fields.items():
+#             setattr(self, field, value)
+#         self.save()
+#         changes = []
+#         for field, new_value in updated_fields.items():
+#             if old_data.get(field) != new_value:
+#                 changes.append(f"{field}: {old_data.get(field)} -> {new_value}")
+#         if changes:
+#             UserActivity.objects.create(
+#                 user=self,
+#                 activity_type='profile_update',
+#                 details=f"Profile updated: {'; '.join(changes)}",
+#                 status='success'
+#             )
 
 
 

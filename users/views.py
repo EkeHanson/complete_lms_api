@@ -4,6 +4,7 @@ import uuid
 from datetime import datetime, timedelta, timezone
 import numpy as np
 import pandas as pd
+from django.http import HttpResponse
 import requests
 from django.core.exceptions import ValidationError
 from django.db import transaction, connection
@@ -91,38 +92,46 @@ class SocialLoginCallbackView(TenantBaseView, APIView):
             logger.error(f"[{tenant.schema_name}] Error in social login callback: {str(e)}", exc_info=True)
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
 class RegisterView(TenantBaseView, generics.CreateAPIView):
     """Register a new user in the tenant's schema."""
     serializer_class = UserSerializer
     permission_classes = [AllowAny]
+
     def create(self, request, *args, **kwargs):
         tenant = request.tenant
+        if not tenant:
+            logger.error("No tenant associated with the request")
+            return Response({"detail": "Tenant not found"}, status=status.HTTP_400_BAD_REQUEST)
+
         serializer = self.get_serializer(data=request.data)
         try:
             serializer.is_valid(raise_exception=True)
-        except serializers.ValidationError:
-            logger.error(
-                f"[{tenant.schema_name}] User registration validation failed: {serializer.errors}"
-            )
+        except serializers.ValidationError as e:
+            logger.error(f"[{tenant.schema_name}] User registration validation failed: {e}")
             return Response(
                 {"detail": "Validation failed", "errors": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
             )
-        
-        with tenant_context(tenant), transaction.atomic():
-            user = serializer.save()
-            UserActivity.objects.create(
-                user=user,
-                activity_type='user_registered',
-                details=f'User \"{user.email}\" registered',
-                status='success'
-            )
-            logger.info(f"[{tenant.schema_name}] User registered: {user.email}")
-        
-        return Response({
-            'detail': 'User created successfully',
-            'data': serializer.data
-        }, status=status.HTTP_201_CREATED)
+
+        try:
+            with tenant_context(tenant), transaction.atomic():
+                user = serializer.save()
+                user.sync_group_memberships()  # Sync user with system groups
+                UserActivity.objects.create(
+                    user=user,
+                    activity_type='user_registered',
+                    details=f'User "{user.email}" registered',
+                    status='success'
+                )
+                logger.info(f"[{tenant.schema_name}] User registered: {user.email}")
+                return Response({
+                    'detail': 'User created successfully',
+                    'data': serializer.data
+                }, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error registering user: {str(e)}", exc_info=True)
+            return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class ProfileView(TenantBaseView, APIView):
     """Retrieve the authenticated user's profile."""
@@ -253,7 +262,7 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
                     logger.warning(f"[{tenant.schema_name}] Invalid date_to format: {date_to}")
                     raise serializers.ValidationError("Invalid date_to format")
             logger.debug(f"[{tenant.schema_name}] User query: {queryset.query}")
-            return queryset.order_by('-signup_date')
+            return queryset.order_by('-date_joined')
 
     def create(self, request, *args, **kwargs):
         tenant = request.tenant

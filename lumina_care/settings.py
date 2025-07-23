@@ -129,17 +129,17 @@ SOCIALACCOUNT_PROVIDERS = {
 #     }
 # }
 
+
 DATABASES = {
     'default': {
         'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'lms_dbbb',
-        'USER': 'lms_dbbb_user',
-        'PASSWORD': 'QTcRliQDlSykdQGwla5jZ8phd9e44GeN',
-        'HOST': 'dpg-d1kleuqdbo4c73a1ahk0-a.oregon-postgres.render.com',
+        'NAME': 'complete_multi_tenant_lms_database',
+        'USER': 'complete_multi_tenant_lms_database_user',
+        'PASSWORD': 'Tfxz3hVULlkbFWRWtSoN7YxRil2wWFck',
+        'HOST': 'dpg-d20kmg7fte5s7391ahag-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
-
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
 TENANT_MODEL = 'core.Tenant'

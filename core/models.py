@@ -1,7 +1,6 @@
 # apps/core/models.py
 from django_tenants.models import TenantMixin, DomainMixin
 from django.db import models
-from users.models import CustomUser
 import logging
 logger = logging.getLogger('core')
 
@@ -32,15 +31,6 @@ class Module(models.Model):
     is_active = models.BooleanField(default=True)
     tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE)
 
-# apps/core/models.py
-class RolePermission(models.Model):
-    role = models.CharField(max_length=20, choices=CustomUser.ROLES)
-    module = models.ForeignKey(Module, on_delete=models.CASCADE)
-    can_view = models.BooleanField(default=False)
-    can_create = models.BooleanField(default=False)
-    can_edit = models.BooleanField(default=False)
-    can_delete = models.BooleanField(default=False)
-    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE)
 
 #Log AI decisions in a dedicated model:
 class AIDecisionLog(models.Model):

@@ -1,1003 +1,339 @@
-2025-07-21 11:11:08,054 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:11:08,069 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:11:08,070 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:11:08,075 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:11:16,370 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\messaging\views.py changed, reloading.
-2025-07-21 11:11:20,011 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
-2025-07-21 11:12:08,589 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:12:08,613 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:12:08,622 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:12:08,644 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:13:08,074 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:13:08,078 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:13:08,097 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:13:08,102 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:14:08,063 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:14:08,068 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:14:08,070 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:14:08,081 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:15:08,505 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:15:08,506 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:15:08,506 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:15:08,507 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:16:08,972 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:16:08,977 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:16:08,979 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:16:08,981 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:17:27,073 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:17:27,251 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:17:27,967 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:17:27,985 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:17:27,996 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:17:27,996 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:17:28,160 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:17:28,169 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:17:28,183 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:17:28,329 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:17:28,372 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:17:28,376 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:17:28,407 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:17:28,412 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:17:28,421 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:17:28,569 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:17:28,641 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:17:28,777 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:17:29,146 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:17:29,463 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:18:27,966 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:18:27,971 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:18:27,975 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:18:27,977 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:19:27,970 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:19:27,970 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:19:27,970 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:19:28,060 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:20:28,125 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:20:28,147 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:20:28,152 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:20:28,159 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:21:28,020 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:21:28,027 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:21:28,029 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:21:28,031 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:22:27,974 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
-2025-07-21 11:22:27,975 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 172
-2025-07-21 11:22:27,988 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
-2025-07-21 11:22:27,989 [WARNING] django.request: Unauthorized: /api/forums/forums/stats/
-2025-07-21 11:22:27,990 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 172
-2025-07-21 11:22:27,991 [WARNING] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 401 172
-2025-07-21 11:22:28,133 [WARNING] django.request: Unauthorized: /api/forums/queue/pending_count/
-2025-07-21 11:22:28,139 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:22:28,140 [WARNING] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 401 172
-2025-07-21 11:22:28,158 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:22:28,167 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:22:28,367 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:22:28,376 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:22:28,376 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:22:28,395 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:22:28,515 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:22:58,625 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:22:58,798 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:22:59,385 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:22:59,404 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:22:59,410 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:22:59,416 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:22:59,595 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:22:59,602 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:22:59,613 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:22:59,628 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:22:59,796 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:22:59,841 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:22:59,948 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:22:59,948 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:22:59,955 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:23:00,029 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:23:00,063 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:23:00,223 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:23:00,239 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:23:00,742 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:23:59,215 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:23:59,220 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:23:59,221 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:23:59,224 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:24:59,990 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:25:00,013 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:25:00,019 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:25:00,027 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:25:14,536 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:25:14,751 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:25:15,320 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:25:15,328 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:25:15,337 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:25:15,538 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:25:15,539 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:25:15,647 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:25:15,664 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:25:15,699 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:25:15,756 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:25:15,893 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:25:15,988 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:25:16,015 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:25:16,025 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:25:16,046 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:25:16,151 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:25:16,331 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:25:16,378 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:25:16,763 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:26:15,991 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:26:16,000 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:26:16,004 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:26:16,005 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:27:10,946 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:27:11,029 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:27:11,336 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:27:11,346 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:27:11,356 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:27:11,417 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:27:11,464 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:27:11,517 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:27:11,559 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:27:11,569 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:27:11,571 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:27:11,584 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:27:11,605 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:27:11,671 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:27:11,686 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:27:11,712 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:27:11,855 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:27:11,899 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:27:11,992 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:27:12,141 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:27:13,416 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:28:11,982 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:28:12,000 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:28:12,008 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:28:12,012 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:29:11,262 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:29:11,273 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:29:11,278 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:29:11,279 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:29:57,320 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:29:57,517 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:29:57,766 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:29:57,779 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:29:57,779 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:29:57,790 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:29:57,790 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:29:57,798 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:29:57,898 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:29:57,968 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:29:57,971 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:29:57,972 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:29:57,979 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:29:58,085 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:29:58,160 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:29:58,172 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:29:58,263 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:29:58,369 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:29:58,434 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:29:58,669 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:30:57,717 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:30:57,727 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:30:57,728 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:30:57,735 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:31:58,331 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:31:58,332 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:31:58,333 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:31:58,341 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:32:57,967 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:32:57,970 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:32:57,972 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:32:57,977 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:33:23,045 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:33:23,398 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:33:24,648 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:33:24,671 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:33:24,681 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:33:24,690 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:33:24,831 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:33:24,843 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:33:24,892 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:33:24,907 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:33:25,038 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:33:25,039 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:33:25,062 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:33:25,073 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:33:25,119 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:33:25,154 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:33:25,235 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:33:25,424 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:33:25,579 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:33:26,025 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:33:30,327 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:34:24,998 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:34:24,998 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:34:25,001 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:34:25,005 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:34:55,064 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:34:55,232 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:34:55,928 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:34:55,939 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:34:55,953 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:34:55,985 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:34:56,003 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:34:56,007 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:34:56,419 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:34:56,474 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:34:56,487 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:34:56,563 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:34:56,571 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:34:56,583 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:34:56,852 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:34:56,859 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:34:57,070 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:34:57,203 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:34:57,278 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:34:57,668 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:35:55,965 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:35:55,970 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:35:55,974 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:35:55,976 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:36:05,861 [INFO] django.server: "OPTIONS /api/users/users/?search=e&page_size=50 HTTP/1.1" 200 0
-2025-07-21 11:36:06,107 [INFO] django.server: "GET /api/users/users/?search=e&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:36:07,216 [INFO] django.server: "OPTIONS /api/users/users/?search=ekene&page_size=50 HTTP/1.1" 200 0
-2025-07-21 11:36:07,319 [INFO] django.server: "GET /api/users/users/?search=ekene&page_size=50 HTTP/1.1" 200 686
-2025-07-21 11:36:08,322 [INFO] django.server: "OPTIONS /api/users/users/?search=eken&page_size=50 HTTP/1.1" 200 0
-2025-07-21 11:36:08,427 [INFO] django.server: "GET /api/users/users/?search=eken&page_size=50 HTTP/1.1" 200 686
-2025-07-21 11:36:10,562 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:36:14,112 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:36:18,665 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:36:55,610 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:36:55,610 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:36:55,617 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:36:55,622 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:36:56,965 [INFO] django.server: "OPTIONS /schedule/api/schedules/?page=1&page_size=10&show_past=false HTTP/1.1" 200 0
-2025-07-21 11:36:56,965 [INFO] django.server: "OPTIONS /api/groups/groups/?page_size=50 HTTP/1.1" 200 0
-2025-07-21 11:36:56,966 [INFO] django.server: "OPTIONS /schedule/api/schedules/?page=1&page_size=10&show_past=false HTTP/1.1" 200 0
-2025-07-21 11:36:56,966 [INFO] django.server: "OPTIONS /api/groups/groups/?page_size=50 HTTP/1.1" 200 0
-2025-07-21 11:36:57,094 [INFO] django.server: "GET /api/groups/groups/?page_size=50 HTTP/1.1" 200 2
-2025-07-21 11:36:57,109 [INFO] django.server: "GET /schedule/api/schedules/?page=1&page_size=10&show_past=false HTTP/1.1" 200 2
-2025-07-21 11:36:57,219 [INFO] django.server: "GET /api/groups/groups/?page_size=50 HTTP/1.1" 200 2
-2025-07-21 11:36:57,265 [INFO] django.server: "GET /schedule/api/schedules/?page=1&page_size=10&show_past=false HTTP/1.1" 200 2
-2025-07-21 11:36:57,467 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:36:57,740 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:36:59,520 [INFO] django.server: "OPTIONS /api/forums/forums/?page=1&page_size=10&is_active=true HTTP/1.1" 200 0
-2025-07-21 11:36:59,520 [INFO] django.server: "OPTIONS /api/forums/forums/?page=1&page_size=10&is_active=true HTTP/1.1" 200 0
-2025-07-21 11:36:59,606 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:36:59,682 [WARNING] django.request: Not Found: /api/forums/forums/
-2025-07-21 11:36:59,684 [WARNING] django.server: "GET /api/forums/forums/?page=1&page_size=10&is_active=true HTTP/1.1" 404 8364
-2025-07-21 11:36:59,707 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:36:59,785 [WARNING] django.request: Not Found: /api/forums/forums/
-2025-07-21 11:36:59,786 [WARNING] django.server: "GET /api/forums/forums/?page=1&page_size=10&is_active=true HTTP/1.1" 404 8364
-2025-07-21 11:37:04,972 [INFO] django.server: "OPTIONS /api/forums/queue/?page=1&page_size=10&status=pending HTTP/1.1" 200 0
-2025-07-21 11:37:04,972 [INFO] django.server: "OPTIONS /api/forums/queue/?page=1&page_size=10&status=pending HTTP/1.1" 200 0
-2025-07-21 11:37:05,053 [WARNING] django.request: Not Found: /api/forums/queue/
-2025-07-21 11:37:05,054 [WARNING] django.server: "GET /api/forums/queue/?page=1&page_size=10&status=pending HTTP/1.1" 404 8361
-2025-07-21 11:37:05,158 [WARNING] django.request: Not Found: /api/forums/queue/
-2025-07-21 11:37:05,158 [WARNING] django.server: "GET /api/forums/queue/?page=1&page_size=10&status=pending HTTP/1.1" 404 8361
-2025-07-21 11:37:06,732 [WARNING] django.request: Not Found: /api/forums/forums/
-2025-07-21 11:37:06,733 [WARNING] django.server: "GET /api/forums/forums/?page=1&page_size=10&is_active=true HTTP/1.1" 404 8364
-2025-07-21 11:37:06,745 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:37:06,833 [WARNING] django.request: Not Found: /api/forums/forums/
-2025-07-21 11:37:06,834 [WARNING] django.server: "GET /api/forums/forums/?page=1&page_size=10&is_active=true HTTP/1.1" 404 8364
-2025-07-21 11:37:06,960 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:37:07,259 [INFO] django.server: "GET /api/groups/groups/?page_size=50 HTTP/1.1" 200 2
-2025-07-21 11:37:07,268 [INFO] django.server: "GET /schedule/api/schedules/?page=1&page_size=10&show_past=false HTTP/1.1" 200 2
-2025-07-21 11:37:07,372 [INFO] django.server: "GET /api/groups/groups/?page_size=50 HTTP/1.1" 200 2
-2025-07-21 11:37:07,407 [INFO] django.server: "GET /schedule/api/schedules/?page=1&page_size=10&show_past=false HTTP/1.1" 200 2
-2025-07-21 11:37:07,574 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:37:07,881 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:37:08,126 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:37:08,134 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:37:08,143 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:37:08,163 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:37:08,370 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:37:08,406 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:37:08,411 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:37:08,543 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:37:08,761 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:37:09,140 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:37:55,987 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
-2025-07-21 11:37:55,989 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
-2025-07-21 11:37:55,991 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 172
-2025-07-21 11:37:55,992 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 172
-2025-07-21 11:37:55,997 [WARNING] django.request: Unauthorized: /api/forums/queue/pending_count/
-2025-07-21 11:37:56,000 [WARNING] django.request: Unauthorized: /api/forums/forums/stats/
-2025-07-21 11:37:56,001 [WARNING] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 401 172
-2025-07-21 11:37:56,001 [WARNING] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 401 172
-2025-07-21 11:37:56,151 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:37:56,173 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:37:56,180 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:37:56,188 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:37:56,323 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:37:56,352 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:37:56,359 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:37:56,367 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:38:29,440 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:38:29,591 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:38:30,411 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:38:30,412 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:38:30,444 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:38:30,445 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:38:30,447 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:38:30,470 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:38:30,653 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:38:30,720 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:38:30,751 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:38:30,760 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:38:30,970 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:38:31,123 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:38:31,379 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:38:31,415 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:38:31,427 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:38:31,682 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:38:31,806 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:38:32,269 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:39:30,987 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:39:30,994 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:39:30,997 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:39:31,002 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:40:27,224 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:40:27,454 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:40:28,096 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:40:28,100 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:40:28,104 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:40:28,113 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:40:28,147 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:40:28,387 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:40:28,515 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:40:28,571 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:40:28,589 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:40:28,703 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:40:28,795 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:40:28,853 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:40:28,886 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:40:28,976 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:40:29,128 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:40:29,291 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:40:29,317 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:40:29,751 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:41:19,652 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:41:19,871 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:41:20,907 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:41:20,948 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:41:20,964 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:41:20,966 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:41:20,990 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:41:20,998 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:41:21,322 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:41:21,385 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:41:21,503 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:41:21,511 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:41:21,610 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:41:21,610 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:41:21,799 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:41:21,909 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:41:21,957 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:41:22,205 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:41:22,313 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:41:22,774 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:42:20,977 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:42:20,994 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:42:20,997 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:42:20,997 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:42:46,790 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:42:46,997 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:42:47,764 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:42:47,776 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:42:47,777 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:42:47,786 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:42:47,802 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:42:47,856 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:42:47,999 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:42:48,007 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:42:48,011 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:42:48,047 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:42:48,062 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:42:48,117 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:42:48,186 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:42:48,192 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:42:48,239 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:42:48,385 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:42:48,996 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:42:49,565 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:43:19,510 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:43:19,701 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:43:20,267 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:43:20,285 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:43:20,286 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:43:20,295 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:43:20,331 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:43:20,345 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:43:20,498 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:43:20,597 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:43:20,598 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:43:20,671 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:43:20,694 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:43:20,726 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:43:20,874 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:43:20,946 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:43:21,081 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:43:21,278 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:43:21,314 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:43:21,750 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:44:20,980 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:44:21,022 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:44:21,074 [INFO] django.server: - Broken pipe from ('127.0.0.1', 49173)
-2025-07-21 11:44:21,082 [INFO] django.server: - Broken pipe from ('127.0.0.1', 49175)
-2025-07-21 11:44:26,175 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:44:26,310 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:44:27,051 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:44:27,052 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:44:27,066 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:44:27,079 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:44:27,256 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:44:27,266 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:44:27,266 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:44:27,290 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:44:27,394 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:44:27,479 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:44:27,480 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:44:27,494 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:44:27,505 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:44:27,522 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:44:27,683 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:44:27,839 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:44:27,931 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:44:28,261 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:45:26,968 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:45:26,971 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:45:26,972 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:45:26,978 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:46:27,278 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:46:27,407 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:46:27,476 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:46:27,480 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:47:27,019 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:47:27,023 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:47:27,024 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:47:27,039 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:48:21,872 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:48:22,059 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:48:23,208 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:48:23,220 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:48:23,246 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:48:23,246 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:48:23,265 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:48:23,325 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:48:23,474 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:48:23,477 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:48:23,497 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:48:23,504 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:48:23,538 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:48:23,539 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:48:23,696 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:48:23,700 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:48:23,729 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:48:23,921 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:48:24,235 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:48:24,634 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:49:14,856 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:49:15,059 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:49:16,219 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:49:16,248 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:49:16,255 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:49:16,328 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:49:16,533 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:49:16,584 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:49:16,596 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:49:20,904 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:49:21,104 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:49:22,377 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:49:22,380 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:49:22,380 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:49:22,406 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:49:22,409 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:49:22,442 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:49:22,578 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:49:22,579 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:49:22,631 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:49:22,652 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:49:22,661 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:49:22,665 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:49:22,739 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:49:22,842 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:49:22,866 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:49:22,976 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:49:23,160 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:49:23,623 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:50:07,605 [INFO] django.server: "OPTIONS /messaging/api/messages/ HTTP/1.1" 200 0
-2025-07-21 11:50:07,718 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 11:50:07,719 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 66
-2025-07-21 11:50:11,019 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 11:50:11,020 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 66
-2025-07-21 11:50:22,274 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:50:22,286 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:50:22,296 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:50:22,301 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:51:23,078 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:51:23,082 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:51:23,084 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:51:23,085 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:52:23,042 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:52:23,047 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:52:23,055 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:52:23,061 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:53:23,011 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
-2025-07-21 11:53:23,013 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
-2025-07-21 11:53:23,015 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 172
-2025-07-21 11:53:23,015 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 172
-2025-07-21 11:53:23,023 [WARNING] django.request: Unauthorized: /api/forums/queue/pending_count/
-2025-07-21 11:53:23,026 [WARNING] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 401 172
-2025-07-21 11:53:23,032 [WARNING] django.request: Unauthorized: /api/forums/forums/stats/
-2025-07-21 11:53:23,033 [WARNING] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 401 172
-2025-07-21 11:53:23,228 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:53:23,230 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:53:23,239 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:53:23,245 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 11:53:23,414 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:53:23,420 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:53:23,420 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:53:23,426 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:54:23,040 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:54:23,049 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:54:23,052 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:54:23,054 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:54:33,300 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:54:33,467 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:54:34,207 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:54:34,231 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:54:34,239 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:54:34,244 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:54:34,397 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:54:34,434 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:54:34,439 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:54:34,466 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:54:34,590 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:54:34,609 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:54:34,612 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:54:34,684 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:54:34,718 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:54:34,719 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:54:34,791 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:54:35,040 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:54:35,106 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:54:35,467 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:55:31,772 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 11:55:31,773 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 73
-2025-07-21 11:55:34,059 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:55:34,066 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:55:34,070 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:55:34,070 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:56:35,042 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:56:35,050 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:56:35,054 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:56:35,055 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:57:35,003 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:57:35,004 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:57:35,010 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:57:35,013 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:57:48,203 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:57:48,519 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:57:49,879 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:57:49,892 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:57:49,906 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:57:49,958 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:57:49,973 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:57:50,002 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:57:50,336 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:57:50,383 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:57:50,436 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:57:50,448 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:57:50,465 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:57:50,564 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:57:50,815 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:57:50,852 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:57:51,018 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:57:51,228 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:57:51,252 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:57:51,679 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:58:28,604 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 11:58:28,604 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 70
-2025-07-21 11:58:50,058 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:58:50,065 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:58:50,068 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:58:50,068 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:59:33,960 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:59:34,235 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 11:59:35,122 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:59:35,139 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:59:35,351 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:59:35,367 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:59:35,512 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:59:35,674 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:59:35,758 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 11:59:35,840 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:59:35,945 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 11:59:35,991 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 11:59:36,039 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 11:59:36,180 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 11:59:36,276 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:59:36,332 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 11:59:36,465 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:59:36,649 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 11:59:36,666 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 11:59:37,092 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:00:23,399 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:00:23,400 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 73
-2025-07-21 12:00:34,714 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:00:34,718 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:00:34,718 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:00:34,821 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:01:35,287 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:01:35,287 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:01:35,291 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:01:35,298 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:02:11,787 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:02:11,930 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:02:12,585 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:02:12,615 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:02:12,638 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:02:12,681 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:02:12,766 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:02:13,174 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:02:13,313 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:02:13,323 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:02:13,355 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:02:13,357 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:02:13,463 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:02:13,463 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:02:13,722 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:02:13,784 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:02:13,801 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:02:14,113 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:02:14,222 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:02:14,834 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:02:55,674 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:02:55,674 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 70
-2025-07-21 12:03:12,981 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:03:12,986 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:03:12,986 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:03:12,990 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:03:29,924 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:03:30,171 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:03:31,302 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:03:31,303 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:03:31,338 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:03:31,373 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:03:31,374 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:03:31,382 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:03:31,529 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:03:31,549 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:03:31,590 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:03:31,596 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:03:31,635 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:03:31,704 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:03:31,721 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:03:31,755 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:03:31,801 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:03:31,942 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:03:32,206 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:03:32,629 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:03:58,673 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\messaging\urls.py changed, reloading.
-2025-07-21 12:04:03,141 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
-2025-07-21 12:04:32,483 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:04:32,494 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:04:32,494 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:04:32,494 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:05:32,038 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:05:32,053 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:05:32,060 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:05:32,064 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:06:32,061 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:06:32,069 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:06:32,071 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:06:32,075 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:07:32,056 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:07:32,078 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:07:32,081 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:07:32,083 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:08:31,145 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
-2025-07-21 12:08:31,150 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
-2025-07-21 12:08:31,151 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 172
-2025-07-21 12:08:31,156 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 172
-2025-07-21 12:08:31,169 [WARNING] django.request: Unauthorized: /api/forums/queue/pending_count/
-2025-07-21 12:08:31,175 [WARNING] django.request: Unauthorized: /api/forums/forums/stats/
-2025-07-21 12:08:31,176 [WARNING] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 401 172
-2025-07-21 12:08:31,183 [WARNING] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 401 172
-2025-07-21 12:08:31,380 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:08:31,386 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:08:31,419 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:08:31,424 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:08:31,547 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:08:31,577 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:08:31,584 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:08:31,588 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:09:31,177 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:09:31,199 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:09:31,205 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:09:31,216 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:10:32,112 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:10:32,113 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:10:32,119 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:10:32,124 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:11:39,771 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:11:39,772 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:11:39,788 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:11:39,789 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:12:31,163 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:12:31,166 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:12:31,170 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:12:31,273 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:13:31,186 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:13:31,195 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:13:31,203 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:13:31,211 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:14:31,164 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:14:31,182 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:14:31,183 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:14:31,191 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:15:12,944 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:15:12,945 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 70
-2025-07-21 12:15:32,117 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:15:32,130 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:15:32,132 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:15:32,216 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:15:58,504 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:15:58,695 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:15:59,584 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:15:59,597 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:15:59,600 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:15:59,616 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:15:59,807 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:15:59,822 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:15:59,822 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:15:59,837 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:15:59,937 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:15:59,963 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:16:00,032 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:16:00,047 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:16:00,050 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:16:00,072 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:16:00,189 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:16:00,350 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:16:00,619 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:16:01,084 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:17:00,130 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:17:00,131 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:17:00,136 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:17:00,148 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:17:59,882 [INFO] django.server: "OPTIONS /messaging/api/messages/unread_count/ HTTP/1.1" 200 0
-2025-07-21 12:17:59,883 [INFO] django.server: "OPTIONS /messaging/api/messages/stats/ HTTP/1.1" 200 0
-2025-07-21 12:18:00,094 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:18:00,106 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:18:00,106 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:18:00,108 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:19:03,797 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:19:03,970 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:19:04,772 [INFO] django.server: "OPTIONS /api/forums/forums/stats/ HTTP/1.1" 200 0
-2025-07-21 12:19:04,785 [INFO] django.server: "OPTIONS /api/forums/queue/pending_count/ HTTP/1.1" 200 0
-2025-07-21 12:19:04,999 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:19:05,029 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:19:05,031 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:05,029 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:19:05,041 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:19:05,069 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:19:05,216 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:19:05,217 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:19:05,282 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:05,296 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:19:05,301 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:19:05,304 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:19:05,422 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:19:05,439 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:19:05,469 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:05,623 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:06,086 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:19:06,554 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:19:30,921 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:19:31,074 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:19:32,166 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:19:32,178 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:19:32,186 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:32,196 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:19:32,236 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:19:32,263 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:19:32,471 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:19:32,480 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:19:32,483 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:32,549 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:19:32,564 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:19:32,567 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:19:32,731 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:19:32,732 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:19:32,732 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:32,904 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:19:33,229 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:19:33,583 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:20:15,511 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:20:15,512 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 73
-2025-07-21 12:20:32,045 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:20:32,074 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:20:32,086 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:20:32,129 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:21:31,999 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:21:32,018 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:21:32,021 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:21:32,029 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:22:24,401 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:22:24,564 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:22:25,552 [INFO] django.server: "OPTIONS /messaging/api/message-types/ HTTP/1.1" 200 0
-2025-07-21 12:22:25,759 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:22:25,772 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:22:25,798 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:25,812 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:22:25,923 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:22:26,022 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:26,153 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:22:26,169 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:22:26,170 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:22:26,354 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:22:26,355 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:26,386 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:22:26,537 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:22:26,551 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:22:26,569 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:22:26,609 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:27,733 [INFO] django.server: - Broken pipe from ('127.0.0.1', 51498)
-2025-07-21 12:22:27,804 [INFO] django.server: - Broken pipe from ('127.0.0.1', 51496)
-2025-07-21 12:22:31,611 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:22:31,817 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:22:32,618 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:22:32,630 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:22:32,641 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:22:32,650 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:32,828 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:22:32,838 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:22:32,862 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:22:32,862 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:22:32,967 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:22:33,032 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:22:33,081 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:33,107 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:22:33,257 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:22:33,267 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:22:33,328 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:33,485 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:22:33,559 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:22:33,973 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:22:58,368 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:22:58,370 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 73
-2025-07-21 12:23:32,395 [WARNING] django.request: Unauthorized: /messaging/api/messages/unread_count/
-2025-07-21 12:23:32,397 [WARNING] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 401 172
-2025-07-21 12:23:32,421 [WARNING] django.request: Unauthorized: /api/forums/queue/pending_count/
-2025-07-21 12:23:32,426 [WARNING] django.request: Unauthorized: /messaging/api/messages/stats/
-2025-07-21 12:23:32,426 [WARNING] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 401 172
-2025-07-21 12:23:32,431 [WARNING] django.request: Unauthorized: /api/forums/forums/stats/
-2025-07-21 12:23:32,438 [WARNING] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 401 172
-2025-07-21 12:23:32,439 [WARNING] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 401 172
-2025-07-21 12:23:32,589 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:23:32,632 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:23:32,651 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:23:32,664 [INFO] django.server: "POST /api/token/refresh/ HTTP/1.1" 200 353
-2025-07-21 12:23:32,775 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:23:32,798 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:23:32,836 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:23:32,836 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:24:33,062 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:24:33,062 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:24:33,074 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:24:33,076 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:25:35,863 [INFO] django.server: "OPTIONS /api/token/validate/ HTTP/1.1" 200 0
-2025-07-21 12:25:36,076 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:25:36,255 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:25:36,808 [INFO] django.server: "OPTIONS /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 0
-2025-07-21 12:25:36,811 [INFO] django.server: "OPTIONS /api/groups/groups/ HTTP/1.1" 200 0
-2025-07-21 12:25:37,056 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:25:37,078 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:25:37,107 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:25:37,158 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:25:37,160 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:25:37,289 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:25:37,312 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:25:37,325 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:25:37,398 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:25:37,403 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:25:37,488 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:25:37,555 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:25:37,589 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:25:37,612 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:25:37,664 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:25:37,755 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:25:38,448 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:25:38,998 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:26:29,997 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:26:29,998 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 70
-2025-07-21 12:26:37,138 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:26:37,139 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:26:37,151 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:26:37,152 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:27:37,071 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:27:37,084 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:27:37,087 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:27:37,089 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:27:49,735 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:27:49,923 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:27:51,035 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:27:51,044 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:27:51,052 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:27:51,072 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:27:51,100 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:27:51,234 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:27:51,389 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:27:51,425 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:27:51,442 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:27:51,451 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:27:51,466 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:27:51,668 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:27:51,828 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:27:51,834 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:27:51,875 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:27:51,926 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:27:52,432 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:27:52,969 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:28:34,902 [WARNING] django.request: Bad Request: /messaging/api/messages/
-2025-07-21 12:28:34,903 [WARNING] django.server: "POST /messaging/api/messages/ HTTP/1.1" 400 73
-2025-07-21 12:28:50,864 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:28:50,870 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:28:50,874 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:28:50,879 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:29:51,075 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:29:51,076 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:29:51,087 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:29:51,092 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:30:38,647 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:30:38,830 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 771
-2025-07-21 12:30:39,840 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:30:39,877 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:30:39,892 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:30:39,904 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:30:39,905 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:30:39,932 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:30:40,078 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:30:40,094 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 2
-2025-07-21 12:30:40,096 [INFO] django.server: "GET /messaging/api/message-types/ HTTP/1.1" 200 265
-2025-07-21 12:30:40,134 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:30:40,150 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:30:40,171 [INFO] django.server: "GET /messaging/api/messages/?page=1&page_size=10 HTTP/1.1" 200 2
-2025-07-21 12:30:40,273 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:30:40,324 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:30:40,378 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:30:40,478 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:30:40,676 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:30:41,151 [INFO] django.server: "GET /api/users/users/?search=&page_size=50 HTTP/1.1" 200 25136
-2025-07-21 12:31:40,391 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:31:40,400 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:31:40,404 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:31:40,411 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:32:40,089 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:32:40,093 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:32:40,093 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:32:40,098 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:33:40,079 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:33:40,079 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:33:40,085 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:33:40,092 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:34:40,083 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:34:40,101 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:34:40,105 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:34:40,110 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:35:40,078 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:35:40,091 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:35:40,097 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:35:40,104 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:36:39,659 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:36:39,671 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:36:39,674 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:36:39,680 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:37:40,066 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
-2025-07-21 12:37:40,073 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
-2025-07-21 12:37:40,077 [INFO] django.server: "GET /api/forums/queue/pending_count/ HTTP/1.1" 200 11
-2025-07-21 12:37:40,079 [INFO] django.server: "GET /api/forums/forums/stats/ HTTP/1.1" 200 35
-2025-07-21 12:38:27,758 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
-2025-07-21 12:38:32,091 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-23 21:48:45,193 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-23 21:51:18,888 [INFO] django.server: "OPTIONS /api/token/ HTTP/1.1" 200 0
+2025-07-23 21:51:26,959 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 983
+2025-07-23 21:51:26,995 [INFO] django.server: "OPTIONS /api/token/validate/ HTTP/1.1" 200 0
+2025-07-23 21:51:27,230 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 380
+2025-07-23 21:51:27,716 [INFO] django.server: "OPTIONS /api/users/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:27,719 [INFO] django.server: "OPTIONS /api/courses/courses/ HTTP/1.1" 200 0
+2025-07-23 21:51:27,725 [INFO] django.server: "OPTIONS /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-23 21:51:27,729 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-23 21:51:27,733 [INFO] django.server: "OPTIONS /api/users/user-activities/?limit=10 HTTP/1.1" 200 0
+2025-07-23 21:51:27,983 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 78
+2025-07-23 21:51:27,990 [INFO] django.server: "OPTIONS /messaging/api/messages/unread_count/ HTTP/1.1" 200 0
+2025-07-23 21:51:27,998 [INFO] django.server: "OPTIONS /schedule/api/schedules/upcoming/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,049 [INFO] django.server: "OPTIONS /payments/payment-config HTTP/1.1" 200 0
+2025-07-23 21:51:28,059 [INFO] django.server: "OPTIONS /adverts/api/adverts/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,063 [INFO] django.server: "OPTIONS /api/groups/groups/?limit=10 HTTP/1.1" 200 0
+2025-07-23 21:51:28,064 [INFO] django.server: "OPTIONS /messaging/api/messages/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,077 [INFO] django.server: "OPTIONS /schedule/api/schedules/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,079 [INFO] django.server: "OPTIONS /api/courses/certificates/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,087 [INFO] django.server: "OPTIONS /api/courses/faqs/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,088 [INFO] django.server: "OPTIONS /messaging/api/messages/unread_count/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,111 [INFO] django.server: "OPTIONS /schedule/api/schedules/upcoming/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,119 [INFO] django.server: "OPTIONS /api/groups/groups/?limit=10 HTTP/1.1" 200 0
+2025-07-23 21:51:28,129 [INFO] django.server: "OPTIONS /payments/payment-config HTTP/1.1" 200 0
+2025-07-23 21:51:28,130 [INFO] django.server: "OPTIONS /api/courses/certificates/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,135 [INFO] django.server: "OPTIONS /messaging/api/messages/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,143 [INFO] django.server: "OPTIONS /adverts/api/adverts/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,147 [INFO] django.server: "OPTIONS /schedule/api/schedules/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,148 [INFO] django.server: "OPTIONS /api/courses/faqs/stats/ HTTP/1.1" 200 0
+2025-07-23 21:51:28,311 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 78
+2025-07-23 21:51:28,323 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1369
+2025-07-23 21:51:28,376 [INFO] users: [proliance] Retrieved 26 user activity records
+2025-07-23 21:51:28,409 [INFO] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 200 5304
+2025-07-23 21:51:28,412 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 78
+2025-07-23 21:51:28,437 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
+2025-07-23 21:51:28,696 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
+2025-07-23 21:51:28,758 [INFO] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 200 2
+2025-07-23 21:51:28,832 [ERROR] django.request: Internal Server Error: /api/users/stats/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\users\views.py", line 415, in stats
+    'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into field. Choices are: activities, badges, course_ratings, created_adverts, created_categories, created_courses, created_schedules, date_joined, email, emailaddress, enrollments, failedlogin, first_name, groupmembership, groups, id, instructor_profile, is_active, is_deleted, is_locked, is_staff, is_superuser, last_login, last_name, logentry, outstandingtoken, password, points, received_messages, role, schedule_participations, sent_messages, socialaccount, status, tenant, tenant_id, user_permissions, userprofile
+2025-07-23 21:51:28,835 [ERROR] django.request: Internal Server Error: /schedule/api/schedules/upcoming/
+2025-07-23 21:51:28,867 [INFO] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 200 1813
+2025-07-23 21:51:28,904 [ERROR] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 500 46
+2025-07-23 21:51:28,915 [ERROR] django.server: "GET /api/users/stats/ HTTP/1.1" 500 29352
+2025-07-23 21:51:29,014 [ERROR] django.request: Internal Server Error: /schedule/api/schedules/stats/
+2025-07-23 21:51:29,080 [ERROR] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 500 42
+2025-07-23 21:51:29,183 [INFO] django.server: "GET /api/courses/certificates/ HTTP/1.1" 200 2
+2025-07-23 21:51:29,184 [ERROR] django.request: Internal Server Error: /payments/payment-config
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\payments\views.py", line 54, in list
+    config = PaymentConfig.objects.first()
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1104, in first
+    for obj in queryset[:1]:
+               ~~~~~~~~^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+2025-07-23 21:51:29,253 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 78
+2025-07-23 21:51:29,568 [ERROR] django.server: "GET /payments/payment-config HTTP/1.1" 500 29511
+2025-07-23 21:51:29,633 [WARNING] django.request: Not Found: /api/courses/faqs/stats/
+2025-07-23 21:51:29,659 [WARNING] django.server: "GET /api/courses/faqs/stats/ HTTP/1.1" 404 25420
+2025-07-23 21:51:29,692 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
+2025-07-23 21:51:29,704 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
+2025-07-23 21:51:29,707 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1369
+2025-07-23 21:51:29,733 [INFO] users: [proliance] Retrieved 26 user activity records
+2025-07-23 21:51:29,756 [INFO] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 200 5304
+2025-07-23 21:51:29,949 [ERROR] django.request: Internal Server Error: /schedule/api/schedules/upcoming/
+2025-07-23 21:51:29,955 [INFO] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 200 2
+2025-07-23 21:51:29,981 [ERROR] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 500 46
+2025-07-23 21:51:30,069 [INFO] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 200 1813
+2025-07-23 21:51:30,077 [ERROR] django.request: Internal Server Error: /schedule/api/schedules/stats/
+2025-07-23 21:51:30,093 [ERROR] django.server: "GET /schedule/api/schedules/stats/ HTTP/1.1" 500 42
+2025-07-23 21:51:30,098 [INFO] django.server: "GET /api/courses/certificates/ HTTP/1.1" 200 2
+2025-07-23 21:51:30,249 [ERROR] django.request: Internal Server Error: /api/users/stats/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\users\views.py", line 415, in stats
+    'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into field. Choices are: activities, badges, course_ratings, created_adverts, created_categories, created_courses, created_schedules, date_joined, email, emailaddress, enrollments, failedlogin, first_name, groupmembership, groups, id, instructor_profile, is_active, is_deleted, is_locked, is_staff, is_superuser, last_login, last_name, logentry, outstandingtoken, password, points, received_messages, role, schedule_participations, sent_messages, socialaccount, status, tenant, tenant_id, user_permissions, userprofile
+2025-07-23 21:51:30,346 [ERROR] django.request: Internal Server Error: /payments/payment-config
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\payments\views.py", line 54, in list
+    config = PaymentConfig.objects.first()
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1104, in first
+    for obj in queryset[:1]:
+               ~~~~~~~~^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+2025-07-23 21:51:30,372 [WARNING] django.request: Not Found: /api/courses/faqs/stats/
+2025-07-23 21:51:30,372 [ERROR] django.server: "GET /api/users/stats/ HTTP/1.1" 500 29352
+2025-07-23 21:51:30,423 [ERROR] django.server: "GET /payments/payment-config HTTP/1.1" 500 29511
+2025-07-23 21:51:30,449 [WARNING] django.server: "GET /api/courses/faqs/stats/ HTTP/1.1" 404 25420
+2025-07-23 21:51:30,460 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 78
+2025-07-23 21:51:30,491 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1369
+2025-07-23 21:51:30,635 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 78
+2025-07-23 21:51:30,715 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1369
+2025-07-23 21:52:57,509 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.

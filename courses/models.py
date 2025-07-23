@@ -2,7 +2,7 @@ from django.db import models
 from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
-import os
+import json
 
 def course_thumbnail_path(instance, filename):
     return f'courses/{instance.slug}/thumbnails/{filename}'
@@ -48,6 +48,10 @@ class Category(models.Model):
         if not self.slug:
             self.slug = slugify(self.name)
         super().save(*args, **kwargs)
+
+
+
+
 
 class Course(models.Model):
     STATUS_CHOICES = [
@@ -101,14 +105,38 @@ class Course(models.Model):
     def __str__(self):
         return self.title
     
+    # def save(self, *args, **kwargs):
+    #     if not self.slug:
+    #         self.slug = slugify(self.title)
+    #     super().save(*args, **kwargs)
+    
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.title)
+        # Ensure learning_outcomes is stored as a flat array
+        if isinstance(self.learning_outcomes, list):
+            self.learning_outcomes = [str(item) for item in self.learning_outcomes]
+        elif isinstance(self.learning_outcomes, str):
+            try:
+                parsed = json.loads(self.learning_outcomes)
+                self.learning_outcomes = [str(item) for item in parsed] if isinstance(parsed, list) else [self.learning_outcomes]
+            except json.JSONDecodeError:
+                self.learning_outcomes = [self.learning_outcomes]
+        
+        # Ensure prerequisites is stored as a flat array
+        if isinstance(self.prerequisites, list):
+            self.prerequisites = [str(item) for item in self.prerequisites]
+        elif isinstance(self.prerequisites, str):
+            try:
+                parsed = json.loads(self.prerequisites)
+                self.prerequisites = [str(item) for item in parsed] if isinstance(parsed, list) else [self.prerequisites]
+            except json.JSONDecodeError:
+                self.prerequisites = [self.prerequisites]
+                
         super().save(*args, **kwargs)
     
     @property
     def current_price(self):
         return self.discount_price if self.discount_price else self.price
+
 
 
 class Module(models.Model):
@@ -124,6 +152,9 @@ class Module(models.Model):
     
     def __str__(self):
         return f"{self.course.title} - {self.title}"
+
+
+
 
 class Lesson(models.Model):
     LESSON_TYPE_CHOICES = [
@@ -160,6 +191,9 @@ class Lesson(models.Model):
             return f"{hours}h {minutes}m"
         return f"{minutes}m"
 
+
+
+
 class Resource(models.Model):
     RESOURCE_TYPE_CHOICES = [
         ('link', 'Web Link'),
@@ -180,6 +214,8 @@ class Resource(models.Model):
     
     def __str__(self):
         return f"{self.course.title} - {self.title}"
+
+
 
 class Instructor(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='instructor_profile')
@@ -207,6 +243,9 @@ class CourseInstructor(models.Model):
     
     def __str__(self):
         return f"{self.instructor} - {self.course.title}"
+
+
+
 
 class CertificateTemplate(models.Model):
     TEMPLATE_CHOICES = [
