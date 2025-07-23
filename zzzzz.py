@@ -12,14 +12,14 @@
 
 #python manage.py shell
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='proliance').exists():
+if not Tenant.objects.filter(schema_name='public').exists():
     tenant = Tenant.objects.create(
-        name='proliance',
-        schema_name='proliance'
+        name='public',
+        schema_name='public'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='127.0.0.1', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com', is_primary=True)
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
 
@@ -43,25 +43,42 @@ with tenant_context(tenant):
         last_name='Davidson',
         tenant=tenant
     )
-
-
-
-from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='render').exists():
-    tenant = Tenant.objects.create(
-        name='render',
-        schema_name='render'
+from core.models import Tenant
+from users.models import CustomUser
+from django_tenants.utils import tenant_context
+tenant = Tenant.objects.get(schema_name='appbrew')
+with tenant_context(tenant):
+    CustomUser.objects.create_superuser(
+        email='support@appbrew.com',
+        password='qwertyqwerty',
+        role='admin',
+        first_name='Belejit',
+        last_name='Hanson',
+        tenant=tenant
     )
-    tenant.auto_create_schema = False
-    tenant.save()
-    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com', is_primary=True)
+
+from core.models import Tenant
+from users.models import CustomUser
+from django_tenants.utils import tenant_context
+tenant = Tenant.objects.get(schema_name='appbrew')
+with tenant_context(tenant):
+    CustomUser.objects.create_superuser(
+        email='info@appbrew.com',
+        password='qwertyqwerty',
+        role='admin',
+        first_name='Awaji-mimam',
+        last_name='Abraham',
+        tenant=tenant
+    )
 
 
 
-    
+
+
+
 from core.models import Tenant
 from subscriptions.models import Subscription
-tenant = Tenant.objects.get(schema_name='proliance')
+tenant = Tenant.objects.get(schema_name='appbrew')
 Subscription.objects.create(tenant=tenant, module='talent_engine', is_active=True)
 
 from django.db import connection

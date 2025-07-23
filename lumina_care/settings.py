@@ -11,7 +11,8 @@ from logging.handlers import RotatingFileHandler
 
 # FRONTEND URL
 # -----------------------------------------------------------
-FRONTEND_URL = 'http://localhost:5173'  # Define in uppercase, placed before CORS settings
+#FRONTEND_URL = 'http://localhost:5173'  # Define in uppercase, placed before CORS settings
+FRONTEND_URL = 'https://complete-lms-sable.vercel.app'  # Define in uppercase, placed before CORS settings
 
 # -----------------------------------------------------------
 # BASE PATHS
@@ -28,6 +29,7 @@ ALLOWED_HOSTS = [
     '127.0.0.1',
     'localhost',
     'complete-lms-api.onrender.com',
+    'https://complete-lms-sable.vercel.app',
 
 ]
 
@@ -118,28 +120,28 @@ SOCIALACCOUNT_PROVIDERS = {
 # -----------------------------------------------------------
 # DATABASE & TENANCY
 # -----------------------------------------------------------
-# DATABASES = {
-#     'default': {
-#         'ENGINE':   'django_tenants.postgresql_backend',
-#         'NAME':     'multi_tenant_lms',
-#         'USER':     'postgres',
-#         'PASSWORD': 'qwerty',
-#         'HOST':     'localhost',
-#         'PORT':     '5432',
-#     }
-# }
-
-
 DATABASES = {
     'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'complete_multi_tenant_lms_database',
-        'USER': 'complete_multi_tenant_lms_database_user',
-        'PASSWORD': 'Tfxz3hVULlkbFWRWtSoN7YxRil2wWFck',
-        'HOST': 'dpg-d20kmg7fte5s7391ahag-a.oregon-postgres.render.com',
-        'PORT': '5432',
+        'ENGINE':   'django_tenants.postgresql_backend',
+        'NAME':     'multi_tenant_lms',
+        'USER':     'postgres',
+        'PASSWORD': 'qwerty',
+        'HOST':     'localhost',
+        'PORT':     '5432',
     }
 }
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_tenants.postgresql_backend',
+#         'NAME': 'complete_multi_tenant_lms_database',
+#         'USER': 'complete_multi_tenant_lms_database_user',
+#         'PASSWORD': 'Tfxz3hVULlkbFWRWtSoN7YxRil2wWFck',
+#         'HOST': 'dpg-d20kmg7fte5s7391ahag-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
 TENANT_MODEL = 'core.Tenant'
@@ -178,20 +180,17 @@ TENANT_APPS = [
 # -----------------------------------------------------------
 # CROSS‑ORIGIN & CSRF
 # -----------------------------------------------------------
+# Only allow this in production if you set credentials = True
 CORS_ALLOWED_ORIGINS = [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://crm-frontend-react.vercel.app',
     'https://complete-lms-sable.vercel.app',
 ]
 CORS_ALLOW_CREDENTIALS = True
+
 CSRF_TRUSTED_ORIGINS = [
-    'http://localhost:5173',
-    'http://localhost:3000',
-    'https://crm-frontend-react.vercel.app',
     'https://complete-lms-sable.vercel.app',
-    'https://*.onrender.com',
 ]
+
+
 
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -210,13 +209,9 @@ CORS_ALLOW_HEADERS = [
 # COOKIE FLAGS
 # -----------------------------------------------------------
 SESSION_COOKIE_SAMESITE = 'None'
+SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SAMESITE = 'None'
-SESSION_COOKIE_SECURE = False  # For local development (http)
-CSRF_COOKIE_SECURE = False    # For local development (http)
-SESSION_COOKIE_HTTPONLY = True
-CSRF_COOKIE_HTTPONLY = False
-SESSION_COOKIE_PATH = '/'
-CSRF_COOKIE_PATH = '/'
+CSRF_COOKIE_SECURE = True
 
 # -----------------------------------------------------------
 # SIMPLE JWT  (Cookie‑based)
