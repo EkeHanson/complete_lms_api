@@ -120,28 +120,28 @@ SOCIALACCOUNT_PROVIDERS = {
 # -----------------------------------------------------------
 # DATABASE & TENANCY
 # -----------------------------------------------------------
-DATABASES = {
-    'default': {
-        'ENGINE':   'django_tenants.postgresql_backend',
-        'NAME':     'multi_tenant_lms',
-        'USER':     'postgres',
-        'PASSWORD': 'qwerty',
-        'HOST':     'localhost',
-        'PORT':     '5432',
-    }
-}
-
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django_tenants.postgresql_backend',
-#         'NAME': 'complete_multi_tenant_lms_database',
-#         'USER': 'complete_multi_tenant_lms_database_user',
-#         'PASSWORD': 'Tfxz3hVULlkbFWRWtSoN7YxRil2wWFck',
-#         'HOST': 'dpg-d20kmg7fte5s7391ahag-a.oregon-postgres.render.com',
-#         'PORT': '5432',
+#         'ENGINE':   'django_tenants.postgresql_backend',
+#         'NAME':     'multi_tenant_lms',
+#         'USER':     'postgres',
+#         'PASSWORD': 'qwerty',
+#         'HOST':     'localhost',
+#         'PORT':     '5432',
 #     }
 # }
+
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django_tenants.postgresql_backend',
+        'NAME': 'complete_multi_tenant_lms_database',
+        'USER': 'complete_multi_tenant_lms_database_user',
+        'PASSWORD': 'Tfxz3hVULlkbFWRWtSoN7YxRil2wWFck',
+        'HOST': 'dpg-d20kmg7fte5s7391ahag-a.oregon-postgres.render.com',
+        'PORT': '5432',
+    }
+}
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
 TENANT_MODEL = 'core.Tenant'
