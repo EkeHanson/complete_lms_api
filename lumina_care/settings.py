@@ -67,7 +67,7 @@ INSTALLED_APPS = [
     # local
     'core',
     'courses',
-    'users',
+    'users.apps.UsersConfig',
     'subscriptions',
     'schedule',
     'payments',
@@ -156,7 +156,7 @@ SHARED_APPS = [
     'django.contrib.sites',
     'rest_framework_simplejwt.token_blacklist',
     'core',
-    'users',
+    'users.apps.UsersConfig',
     'subscriptions',
 ]
 
@@ -183,14 +183,14 @@ TENANT_APPS = [
 # Only allow this in production if you set credentials = True
 CORS_ALLOWED_ORIGINS = [
     'https://complete-lms-sable.vercel.app',
+    'http://localhost:5173'
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
     'https://complete-lms-sable.vercel.app',
+    'http://localhost:5173'
 ]
-
-
 
 CORS_ALLOW_HEADERS = [
     'accept',
@@ -217,7 +217,7 @@ CSRF_COOKIE_SECURE = True
 # SIMPLE JWT  (Cookie‑based)
 # -----------------------------------------------------------
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=120),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
     'AUTH_COOKIE': 'access_token',
     'AUTH_COOKIE_REFRESH': 'refresh_token',

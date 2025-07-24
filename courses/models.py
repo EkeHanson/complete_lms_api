@@ -3,6 +3,7 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 import json
+from users.models import CustomUser
 
 def course_thumbnail_path(instance, filename):
     return f'courses/{instance.slug}/thumbnails/{filename}'
@@ -218,7 +219,7 @@ class Resource(models.Model):
 
 
 class Instructor(models.Model):
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='instructor_profile')
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE, related_name='instructor_profile')
     bio = models.TextField(blank=True)
     expertise = models.ManyToManyField(Category, blank=True)
     is_active = models.BooleanField(default=True)
@@ -413,3 +414,6 @@ class FAQ(models.Model):
 
     def __str__(self):
         return f"{self.course.title} - {self.question[:50]}..."
+    
+
+    

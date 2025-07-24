@@ -1,13 +1,15 @@
 from rest_framework import serializers
 from .models import (Category, Course , Module, Lesson,Badge,UserPoints,UserBadge,FAQ,
     Resource, Instructor, CourseInstructor, CertificateTemplate,UserBadge,
-    SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating
-)
+    SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating)
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 from django.core.exceptions import ValidationError
 import json
 import logging
+from django.utils.text import slugify
+from users.models import CustomUser
+
 logger = logging.getLogger('course')
 
 
@@ -67,25 +69,121 @@ class ResourceSerializer(serializers.ModelSerializer):
         model = Resource
         fields = ['id', 'title', 'resource_type', 'url', 'file', 'order']
 
+class InstructorUserSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = CustomUser
+        fields = ['id', 'email', 'first_name', 'last_name']
+
 class InstructorSerializer(serializers.ModelSerializer):
-    user_name = serializers.CharField(source='user.get_full_name', read_only=True)
+    user = InstructorUserSerializer(read_only=True)
     expertise = CategorySerializer(many=True, read_only=True)
 
     class Meta:
         model = Instructor
-        fields = ['id', 'user_name', 'bio', 'expertise', 'is_active']
+        fields = ['id', 'user', 'bio', 'expertise', 'is_active']
+
+
+
+
+
+
+# class CourseInstructorSerializer(serializers.ModelSerializer):
+#     instructor = InstructorSerializer(read_only=True)
+#     module_titles = serializers.SerializerMethodField()
+
+#     class Meta:
+#         model = CourseInstructor
+#         fields = ['id', 'instructor', 'assignment_type', 'is_active', 'module_titles']
+
+#     def get_module_titles(self, obj):
+#         return [module.title for module in obj.modules.all()]
+
 
 class CourseInstructorSerializer(serializers.ModelSerializer):
     instructor = InstructorSerializer(read_only=True)
+    instructor_id = serializers.PrimaryKeyRelatedField(
+        queryset=CustomUser.objects.all(),
+        source='instructor.user',
+        write_only=True
+    )
     module_titles = serializers.SerializerMethodField()
+    modules = serializers.PrimaryKeyRelatedField(
+        queryset=Module.objects.all(),
+        many=True,
+        required=False
+    )
 
     class Meta:
         model = CourseInstructor
-        fields = ['id', 'instructor', 'assignment_type', 'is_active', 'module_titles']
+        fields = ['id', 'instructor', 'instructor_id', 'assignment_type', 'is_active', 'module_titles', 'modules']
 
     def get_module_titles(self, obj):
         return [module.title for module in obj.modules.all()]
 
+    def validate(self, data):
+        assignment_type = data.get('assignment_type', self.instance.assignment_type if self.instance else 'all')
+        modules = data.get('modules', [])
+        if assignment_type == 'specific' and not modules:
+            raise serializers.ValidationError("Modules must be provided for specific assignment type")
+        return data
+
+    def create(self, validated_data):
+        logger.debug(f"Validated data: {validated_data}")
+        user = validated_data.pop('instructor')['user']
+        logger.info(f"Creating/finding Instructor for user: {user.id}, {user.email}")
+        instructor, created = Instructor.objects.get_or_create(
+            user=user,
+            defaults={'bio': 'Auto-created instructor profile', 'is_active': True}
+        )
+        logger.info(f"Instructor {'created' if created else 'found'}, ID: {instructor.id}")
+        validated_data['instructor'] = instructor
+        course = self.context.get('course')
+        if not course:
+            logger.error("No course provided in serializer context")
+            raise serializers.ValidationError("Course is required")
+        validated_data['course'] = course
+
+        # Check for existing CourseInstructor record
+        existing_assignment = CourseInstructor.objects.filter(
+            course=course,
+            instructor=instructor
+        ).first()
+        if existing_assignment:
+            request = self.context.get('request')
+            if request:
+                logger.warning(f"[{request.tenant.schema_name}] Instructor {instructor.id} already assigned to course {course.id}")
+            else:
+                logger.warning(f"Instructor {instructor.id} already assigned to course {course.id}")
+
+            # logger.warning(f"[{self.context['request'].tenant.schema_name}] Instructor {instructor.id} already assigned to course {course.id}")
+            
+            
+            raise serializers.ValidationError(
+                f"Instructor {instructor.user.get_username()} is already assigned to this course."
+            )
+
+        course_instructor = super().create(validated_data)
+        if validated_data.get('modules'):
+            course_instructor.modules.set(validated_data['modules'])
+        logger.info(f"CourseInstructor created, ID: {course_instructor.id}")
+        return course_instructor
+
+    def update(self, instance, validated_data):
+        user = validated_data.pop('instructor', {}).get('user')
+        if user:
+            instructor, created = Instructor.objects.get_or_create(
+                user=user,
+                defaults={'bio': 'Auto-created instructor profile', 'is_active': True}
+            )
+            validated_data['instructor'] = instructor
+        modules = validated_data.pop('modules', None)
+        instance = super().update(instance, validated_data)
+        if modules is not None:
+            instance.modules.set(modules)
+        return instance
+    
+
+    
 class CertificateTemplateSerializer(serializers.ModelSerializer):
     class Meta:
         model = CertificateTemplate
@@ -234,17 +332,30 @@ class CourseSerializer(serializers.ModelSerializer):
             else:
                 flat_list.append(str(item))
         return flat_list
-    
-  
+
+
+    def create(self, validated_data):
+        if 'slug' not in validated_data or not validated_data['slug']:
+            title = validated_data.get('title', '')
+            validated_data['slug'] = slugify(title)
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        if 'title' in validated_data:
+            validated_data['slug'] = slugify(validated_data['title'])
+        return super().update(instance, validated_data)
+
     class Meta:
         model = Course
-        fields = [
-            'id', 'title', 'learning_outcomes', 'prerequisites', 'slug', 'code', 'description', 'short_description', 'category', 'category_id',
-            'level', 'status', 'duration', 'price', 'discount_price', 'currency', 'thumbnail', 'faq_count', 'faqs',
-            'created_at', 'updated_at', 'created_by', 'created_by_username', 'completion_hours','discount_price',
-            'current_price', 'learning_outcomes', 'prerequisites', 'modules', 'resources',
-            'course_instructors', 'certificate_settings', 'scorm_settings', 'total_enrollments',
+        fields = [  # your fields here...
+            'id', 'title', 'learning_outcomes', 'prerequisites', 'slug', 'code', 'description',
+            'short_description', 'category', 'category_id', 'level', 'status', 'duration', 'price',
+            'discount_price', 'currency', 'thumbnail', 'faq_count', 'faqs', 'created_at', 'updated_at',
+            'created_by', 'created_by_username', 'completion_hours', 'discount_price', 'current_price',
+            'modules', 'resources', 'course_instructors', 'certificate_settings', 'scorm_settings',
+            'total_enrollments'
         ]
+
 
 
 # class CourseSerializer(serializers.ModelSerializer):

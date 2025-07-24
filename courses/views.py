@@ -11,10 +11,10 @@ from rest_framework.decorators import action
 from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from rest_framework.pagination import PageNumberPagination
-from users.models import UserActivity
+from users.models import UserActivity, CustomUser
 from .models import (
-    Category, Course, Module, Lesson, Badge, UserPoints, UserBadge,
-    Resource, Instructor, CourseInstructor, CertificateTemplate, FAQ,
+    Category, Course, Module, Lesson, Badge, UserPoints, UserBadge,Instructor,
+    Resource, CourseInstructor, CertificateTemplate, FAQ,
     SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating
 )
 from .serializers import (
@@ -129,6 +129,9 @@ class CategoryViewSet(TenantBaseView, viewsets.ModelViewSet):
     def get_permissions(self):
         return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy'] else [IsAuthenticated()]
 
+
+
+
 class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage courses for a tenant with enrollment and FAQ counts."""
     serializer_class = CourseSerializer
@@ -165,9 +168,9 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         tenant = request.tenant
         with tenant_context(tenant):
             instance = self.get_object()
-            print("request.data")
-            print(request.data)
-            print("request.data")
+            # print("request.data")
+            # print(request.data)
+            # print("request.data")
             serializer = self.get_serializer(instance, data=request.data, partial=kwargs.get('partial', False))
             try:
                 serializer.is_valid(raise_exception=True)
@@ -199,6 +202,7 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.info(f"[{tenant.schema_name}] Course deleted: {instance.title}")
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
     @action(detail=False, methods=['get'])
     def most_popular(self, request):
         tenant = request.tenant
@@ -208,8 +212,11 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
                     enrollment_count=Count('enrollments', distinct=True)
                 ).filter(enrollment_count__gt=0).order_by('-enrollment_count').first()
                 if not course:
-                    logger.warning(f"[{tenant.schema_name}] No courses with enrollments found for most_popular")
-                    return Response({"detail": "No courses with enrollments found"}, status=status.HTTP_404_NOT_FOUND)
+                    logger.info(f"[{tenant.schema_name}] No courses with enrollments found for most_popular")
+                    return Response(
+                        {"message": "No courses with enrollments yet"},
+                        status=status.HTTP_200_OK
+                    )
                 serializer = CourseSerializer(course)
                 response_data = {
                     'course': serializer.data,
@@ -218,10 +225,13 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
                     ).values('enrollment_count')[0]['enrollment_count']
                 }
                 logger.info(f"[{tenant.schema_name}] Most popular course: {course.title}")
-                return Response(response_data)
+                return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error fetching most popular course: {str(e)}", exc_info=True)
-            return Response({"detail": "Error fetching most popular course"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"detail": "Error fetching most popular course"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
 
     @action(detail=False, methods=['get'])
     def least_popular(self, request):
@@ -232,11 +242,11 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
                     enrollment_count=Count('enrollments', distinct=True)
                 ).filter(enrollment_count__gt=0).order_by('enrollment_count').first()
                 if not course:
-                    logger.warning(f"[{tenant.schema_name}] No courses with enrollments found for least_popular")
-                    return Response({"detail": "No courses with enrollments found"}, status=status.HTTP_404_NOT_FOUND)
-                # print("course")
-                # print(course)
-                # print("course")
+                    logger.info(f"[{tenant.schema_name}] No courses with enrollments found for least_popular")
+                    return Response(
+                        {"message": "No courses with enrollments yet"},
+                        status=status.HTTP_200_OK
+                    )
                 serializer = CourseSerializer(course)
                 response_data = {
                     'course': serializer.data,
@@ -244,11 +254,25 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
                         enrollment_count=Count('enrollments', distinct=True)
                     ).values('enrollment_count')[0]['enrollment_count']
                 }
-               # logger.info(f"[{tenant.schema_name}] Least popular course: {course.title}")
-                return Response(response_data)
+                logger.info(f"[{tenant.schema_name}] Least popular course: {course.title}")
+                return Response(response_data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error fetching least popular course: {str(e)}", exc_info=True)
-            return Response({"detail": "Error fetching least popular course"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            return Response(
+                {"detail": "Error fetching least popular course"},
+                status=status.HTTP_500_INTERNAL_SERVER_ERROR
+            )
+
+    def list(self, request, *args, **kwargs):
+        tenant = request.tenant
+        with tenant_context(tenant):
+            response = super().list(request, *args, **kwargs)
+            response.data['total_all_enrollments'] = Enrollment.objects.count()
+            logger.info(f"[{tenant.schema_name}] Listed courses with {response.data['total_all_enrollments']} total enrollments")
+            return response
+
+    def get_permissions(self):
+        return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy', 'assign_instructor', 'update_instructor_assignment', 'remove_instructor'] else [IsAuthenticated()]
         
     def list(self, request, *args, **kwargs):
         tenant = request.tenant
@@ -260,6 +284,108 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
 
     def get_permissions(self):
         return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy'] else [IsAuthenticated()]
+
+
+    # @action(detail=True, methods=['post'], permission_classes=[IsAdminUser])
+    # def assign_instructor(self, request, pk=None):
+    #     tenant = request.tenant
+    #     try:
+    #         with tenant_context(tenant):
+    #             course = self.get_object()
+    #             serializer = CourseInstructorSerializer(
+    #                 data=request.data,
+    #                 context={'course': course}
+    #             )
+    #             serializer.is_valid(raise_exception=True)
+    #             course_instructor = serializer.save()
+    #             logger.info(f"[{tenant.schema_name}] Instructor assigned to course {course.title}")
+    #             return Response(CourseInstructorSerializer(course_instructor).data, status=status.HTTP_201_CREATED)
+    #     except ValidationError as e:
+    #         logger.error(f"[{tenant.schema_name}] Instructor assignment validation failed: {str(e)}")
+    #         raise
+    #     except Exception as e:
+    #         logger.error(f"[{tenant.schema_name}] Error assigning instructor: {str(e)}", exc_info=True)
+    #         return Response({"detail": "Error assigning instructor"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+    @action(detail=True, methods=['post'], permission_classes=[IsAdminUser])
+    def assign_instructor(self, request, pk=None):
+        tenant = request.tenant
+        try:
+            with tenant_context(tenant):
+                course = self.get_object()
+                serializer = CourseInstructorSerializer(
+                    data=request.data,
+                    context={'course': course}
+                )
+                serializer.is_valid(raise_exception=True)
+                course_instructor = serializer.save()
+                logger.info(f"[{tenant.schema_name}] Instructor assigned to course {course.title}")
+                return Response(CourseInstructorSerializer(course_instructor).data, status=status.HTTP_201_CREATED)
+        except ValidationError as e:
+            logger.error(f"[{tenant.schema_name}] Instructor assignment validation failed: {str(e)}")
+            raise
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error assigning instructor: {str(e)}", exc_info=True)
+            return Response({"detail": "Error assigning instructor"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @action(detail=True, methods=['put'], url_path='instructors/(?P<instructor_id>[^/.]+)')
+    def update_instructor_assignment(self, request, pk=None, instructor_id=None):
+        tenant = request.tenant
+        try:
+            with tenant_context(tenant):
+                course = self.get_object()
+                course_instructor = get_object_or_404(
+                    CourseInstructor, 
+                    course=course, 
+                    instructor_id=instructor_id
+                )
+                serializer = CourseInstructorSerializer(
+                    course_instructor, 
+                    data=request.data, 
+                    partial=True, 
+                    context={'course': course}
+                )
+                serializer.is_valid(raise_exception=True)
+                course_instructor = serializer.save()
+                logger.info(f"[{tenant.schema_name}] Instructor assignment updated for course {course.title}")
+                return Response(CourseInstructorSerializer(course_instructor).data)
+        except ValidationError as e:
+            logger.error(f"[{tenant.schema_name}] Instructor assignment update validation failed: {str(e)}")
+            raise
+        except Http404:
+            logger.warning(f"[{tenant.schema_name}] Instructor assignment not found for course {pk} and instructor {instructor_id}")
+            return Response({"detail": "Instructor assignment not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error updating instructor assignment: {str(e)}", exc_info=True)
+            return Response({"detail": "Error updating instructor assignment"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+
+    @action(detail=True, methods=['delete'], url_path='instructors/(?P<instructor_id>[^/.]+)')
+    def remove_instructor(self, request, pk=None, instructor_id=None):
+        tenant = request.tenant
+        try:
+            with tenant_context(tenant):
+                course = self.get_object()
+                course_instructor = get_object_or_404(
+                    CourseInstructor, 
+                    course=course, 
+                    instructor_id=instructor_id
+                )
+                course_instructor.delete()
+                logger.info(f"[{tenant.schema_name}] Instructor {instructor_id} removed from course {course.title}")
+                return Response(status=status.HTTP_204_NO_CONTENT)
+        except Http404:
+            logger.warning(f"[{tenant.schema_name}] Instructor {instructor_id} not found for course {pk}")
+            return Response({"detail": "Instructor assignment not found"}, status=status.HTTP_404_NOT_FOUND)
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error removing instructor: {str(e)}", exc_info=True)
+            return Response({"detail": "Error removing instructor"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
+
 
 class ModuleViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage modules for a tenant, scoped to courses."""
@@ -450,7 +576,7 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
                     return Response({"detail": "User already enrolled in this course"}, status=status.HTTP_400_BAD_REQUEST)
                 enrollment = Enrollment.objects.create(user_id=user_id, course=course)
                 serializer = EnrollmentSerializer(enrollment)
-                logger.info(f"[{tenant.schema_name}] User {user_id} enrolled in course {course_id}")
+                #logger.info(f"[{tenant.schema_name}] User {user_id} enrolled in course {course_id}")
                 return Response(serializer.data, status=status.HTTP_201_CREATED)
         except Http404:
             logger.warning(f"[{tenant.schema_name}] Course {course_id} not found or not published")

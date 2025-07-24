@@ -12,14 +12,14 @@
 
 #python manage.py shell
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='public').exists():
+if not Tenant.objects.filter(schema_name='arts').exists():
     tenant = Tenant.objects.create(
-        name='public',
-        schema_name='public'
+        name='arts',
+        schema_name='arts'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='complete-lms-api.onrender.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='artstraining.co.uk', is_primary=True)
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
 
@@ -43,6 +43,7 @@ with tenant_context(tenant):
         last_name='Davidson',
         tenant=tenant
     )
+    
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
