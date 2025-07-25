@@ -3,6 +3,11 @@ from django.conf import settings
 from django.core.validators import MinValueValidator, MaxValueValidator
 from django.utils.text import slugify
 import json
+from django.utils import timezone
+from django.db import models
+import uuid
+import os
+
 from users.models import CustomUser
 
 def course_thumbnail_path(instance, filename):
@@ -51,9 +56,6 @@ class Category(models.Model):
         super().save(*args, **kwargs)
 
 
-
-
-
 class Course(models.Model):
     STATUS_CHOICES = [
         ('Draft', 'Draft'),
@@ -92,7 +94,7 @@ class Course(models.Model):
     price = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     discount_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     currency = models.CharField(max_length=3, choices=CURRENCY_CHOICES, default='NGN')
-    thumbnail = models.ImageField(upload_to=course_thumbnail_path, null=True, blank=True)
+    thumbnail = models.ImageField(null=True, blank=True, max_length=255)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True, related_name='created_courses')
@@ -139,7 +141,6 @@ class Course(models.Model):
         return self.discount_price if self.discount_price else self.price
 
 
-
 class Module(models.Model):
     course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='modules')
     title = models.CharField(max_length=200)
@@ -153,8 +154,6 @@ class Module(models.Model):
     
     def __str__(self):
         return f"{self.course.title} - {self.title}"
-
-
 
 
 class Lesson(models.Model):
@@ -173,7 +172,7 @@ class Lesson(models.Model):
     lesson_type = models.CharField(max_length=20, choices=LESSON_TYPE_CHOICES, default='video')
     duration = models.CharField(max_length=20, help_text="Duration in minutes", default= "1 hour")
     content_url = models.URLField(blank=True)
-    content_file = models.FileField(upload_to='lessons/files/', blank=True, null=True)
+    content_file = models.FileField(null=True, blank=True, max_length=255)  # Remove upload_to
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     
@@ -248,27 +247,37 @@ class CourseInstructor(models.Model):
 
 
 
+def certificate_logo_path(instance, filename):
+    ext = os.path.splitext(filename)[1]
+    new_filename = f"{uuid.uuid4().hex}{ext}"
+    return os.path.join('courses', str(instance.course.id), 'certificates', 'logos', new_filename)
+
+def certificate_signature_path(instance, filename):
+    ext = os.path.splitext(filename)[1]
+    new_filename = f"{uuid.uuid4().hex}{ext}"
+    return os.path.join('courses', str(instance.course.id), 'certificates', 'signatures', new_filename)
+
 class CertificateTemplate(models.Model):
-    TEMPLATE_CHOICES = [
-        ('default', 'Default'),
-        ('modern', 'Modern'),
-        ('elegant', 'Elegant'),
-        ('custom', 'Custom'),
-    ]
-    
-    course = models.OneToOneField(Course, on_delete=models.CASCADE, related_name='certificate_settings')
-    is_active = models.BooleanField(default=False)
-    template = models.CharField(max_length=20, choices=TEMPLATE_CHOICES, default='default')
+    id = models.AutoField(primary_key=True)
+    uuid = models.UUIDField(default=uuid.uuid4, editable=False, unique=True)
+    course = models.ForeignKey('courses.Course', on_delete=models.CASCADE, related_name='certificate_templates')
+    is_active = models.BooleanField(default=True)
+    template = models.CharField(max_length=50, default='default')
     custom_text = models.TextField(default='Congratulations on completing the course!')
-    logo = models.ImageField(upload_to=certificate_logo_path, null=True, blank=True)
-    signature = models.ImageField(upload_to=certificate_signature_path, null=True, blank=True)
+    logo = models.FileField(null=True, blank=True, max_length=255)  # Already updated
+    signature = models.FileField(null=True, blank=True, max_length=255)  # Already updated
     signature_name = models.CharField(max_length=100, default='Course Instructor')
     show_date = models.BooleanField(default=True)
     show_course_name = models.BooleanField(default=True)
     show_completion_hours = models.BooleanField(default=True)
-    
-    def __str__(self):
-        return f"Certificate for {self.course.title}"
+    min_score = models.PositiveIntegerField(default=80)
+    require_all_modules = models.BooleanField(default=True)
+    created_at = models.DateTimeField(default=timezone.now)
+    updated_at = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ('course',)
+        
 
 class SCORMxAPISettings(models.Model):
     STANDARD_CHOICES = [
@@ -293,10 +302,11 @@ class SCORMxAPISettings(models.Model):
     track_score = models.BooleanField(default=True)
     track_time = models.BooleanField(default=True)
     track_progress = models.BooleanField(default=True)
-    package = models.FileField(upload_to=scorm_package_path, null=True, blank=True)
+    package = models.FileField(null=True, blank=True, max_length=255)  # Remove upload_to
     
     def __str__(self):
         return f"SCORM/xAPI Settings for {self.course.title}"
+
 
 class LearningPath(models.Model):
     title = models.CharField(max_length=200)
@@ -306,12 +316,20 @@ class LearningPath(models.Model):
     order = models.PositiveIntegerField(default=0)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    created_by = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        related_name='created_learning_paths'
+    )
     
     class Meta:
         ordering = ['order']
     
     def __str__(self):
         return self.title
+
 
 class Enrollment(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='enrollments')
@@ -326,14 +344,20 @@ class Enrollment(models.Model):
     def __str__(self):
         return f"{self.user} - {self.course}"
 
+
+
 class Certificate(models.Model):
     enrollment = models.OneToOneField(Enrollment, on_delete=models.CASCADE, related_name='certificate')
     issued_at = models.DateTimeField(auto_now_add=True)
     certificate_id = models.CharField(max_length=50, unique=True)
-    pdf_file = models.FileField(upload_to='certificates/pdfs/', null=True, blank=True)
+    pdf_file = models.FileField(null=True, blank=True, max_length=255)  # Remove upload_to
     
     def __str__(self):
         return f"Certificate {self.certificate_id} for {self.enrollment.user}"
+
+
+
+
 
 class CourseRating(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='course_ratings')
@@ -354,7 +378,7 @@ class CourseRating(models.Model):
 class Badge(models.Model):
     title = models.CharField(max_length=100)
     description = models.TextField(blank=True)
-    image = models.ImageField(upload_to='badges/', null=True, blank=True)
+    image = models.ImageField(null=True, blank=True, max_length=255)  # Remove upload_to
     criteria = models.JSONField(default=dict, help_text="Criteria for earning the badge, e.g., {'courses_completed': 5}")
     is_active = models.BooleanField(default=True)
     created_at = models.DateTimeField(auto_now_add=True)

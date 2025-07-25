@@ -3,7 +3,7 @@ from rest_framework.routers import DefaultRouter
 from .views import (
     FAQStatsView, BadgeViewSet, UserBadgeViewSet, UserPointsViewSet, FAQViewSet,
     CategoryViewSet, CourseViewSet, ModuleViewSet, LessonViewSet, ResourceViewSet,
-    EnrollmentViewSet, LearningPathViewSet, CertificateView
+    EnrollmentViewSet, LearningPathViewSet, CertificateView, CertificateTemplateView
 )
 
 router = DefaultRouter()
@@ -32,7 +32,7 @@ urlpatterns = [
     # In courses/urls.py
     path('certificates/', CertificateView.as_view(), name='certificates'),
     path('certificates/course/<int:course_id>/', CertificateView.as_view(), name='certificate-course'),
-
+    path('certificates/course/<int:course_id>/template/', CertificateTemplateView.as_view(), name='certificate-template'),
 
     path('enrollments/course/<int:course_id>/', EnrollmentViewSet.as_view({'get': 'list'}), name='course-enrollments'),
     path('enrollments/course/<int:course_id>/enroll/', EnrollmentViewSet.as_view({'post': 'enroll_to_course'}), name='enroll-to-course'),

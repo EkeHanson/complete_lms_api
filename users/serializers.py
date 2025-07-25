@@ -148,3 +148,6 @@ class ComplianceReportSerializer(serializers.ModelSerializer):
     class Meta:
         model = ComplianceReport
         fields = ['id', 'type', 'status', 'last_audit', 'next_audit']
+
+
+

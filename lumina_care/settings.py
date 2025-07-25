@@ -135,13 +135,14 @@ SOCIALACCOUNT_PROVIDERS = {
 DATABASES = {
     'default': {
         'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'complete_multi_tenant_lms_database',
-        'USER': 'complete_multi_tenant_lms_database_user',
-        'PASSWORD': 'Tfxz3hVULlkbFWRWtSoN7YxRil2wWFck',
-        'HOST': 'dpg-d20kmg7fte5s7391ahag-a.oregon-postgres.render.com',
+        'NAME': 'complete_multi_tenant_lms_database_1rtr',
+        'USER': 'complete_multi_tenant_lms_database_1rtr_user',
+        'PASSWORD': 'ukOZIvQvnx7XujfHZ0tUL3L3sC7UCwo2',
+        'HOST': 'dpg-d21trqadbo4c73ekpn9g-a.oregon-postgres.render.com',
         'PORT': '5432',
     }
 }
+
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
 TENANT_MODEL = 'core.Tenant'
@@ -203,6 +204,7 @@ CORS_ALLOW_HEADERS = [
     'x-csrftoken',
     'x-requested-with',
     'x-tenant-schema',
+    'x-tenant-id',  # <-- Add this line
 ]
 
 # -----------------------------------------------------------
@@ -342,14 +344,32 @@ USE_I18N = True
 USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
+# -----------------------------------------------------------
+# SUPABASE CONFIGURATION
+# -----------------------------------------------------------
 
 
-# Local development:
+# Storage Configuration
+STORAGE_TYPE = 'supabase'  # Options: 'supabase', 's3', 'azure'
 
-# If you need to run on plain http://localhost, change
+# Supabase Settings (if using Supabase)
+SUPABASE_URL = "https://gkvgqvosnetifsonhxuo.supabase.co"
+SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdrdmdxdm9zbmV0aWZzb25oeHVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2NTU0OTcsImV4cCI6MjA2ODIzMTQ5N30.foh7w4Ko-wGwMc9GW7ZX2YswK8d4J51wel532mjPTfw"
+SUPABASE_BUCKET = "luminacaremedia"
 
+# AWS S3 Settings (if using S3)
+AWS_ACCESS_KEY_ID = "your-aws-access-key"
+AWS_SECRET_ACCESS_KEY = "your-aws-secret-key"
+AWS_REGION = "your-aws-region"
+AWS_S3_BUCKET = "your-s3-bucket-name"
 
-# DEBUG = True
-# SESSION_COOKIE_SECURE = False
-# CSRF_COOKIE_SECURE    = False
-# and optionally set SESSION/CSRF_COOKIE_SAMESITE = 'Lax'.
+# Azure Blob Storage Settings (if using Azure)
+AZURE_CONNECTION_STRING = "your-azure-connection-string"
+AZURE_CONTAINER = "your-azure-container-name"
+AZURE_ACCOUNT_NAME = "your-azure-account-name"
+
+# Remove or comment out local filesystem storage
+# DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
+
+# This abstraction allows switching storage providers
+#  by changing STORAGE_TYPE in settings.py and providing the appropriate credentials.

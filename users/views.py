@@ -621,6 +621,10 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.error(f"[{tenant.schema_name}] Error impersonating user with pk {pk}: {str(e)}", exc_info=True)
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+
+
+
 class UserActivityViewSet(TenantBaseView, viewsets.ReadOnlyModelViewSet):
     """Retrieve user activity logs for a tenant."""
     serializer_class = UserActivitySerializer

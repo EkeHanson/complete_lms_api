@@ -9,8 +9,11 @@ import json
 import logging
 from django.utils.text import slugify
 from users.models import CustomUser
-
+from utils.supabase import upload_to_supabase
 logger = logging.getLogger('course')
+import uuid
+from utils.storage import get_storage_service
+
 
 
 User = get_user_model()
@@ -39,10 +42,7 @@ class CategorySerializer(serializers.ModelSerializer):
         return super().update(instance, validated_data)
 
 class LessonSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Lesson
-        fields = ['id', 'module', 'title', 'lesson_type', 'content_url', 'content_file', 'duration', 'order', 'is_published']
-        read_only_fields = ['id', 'module']
+
         
     def validate(self, data):
         """
@@ -57,6 +57,58 @@ class LessonSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError("Content file is required for this lesson type")
             
         return data
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        content_file = validated_data.pop('content_file', None)
+        instance = super().create(validated_data)
+        
+        if content_file:
+            file_name = f"courses/{instance.module.course.slug}/lessons/{uuid.uuid4().hex}_{content_file.name}"
+            try:
+                file_url = upload_to_supabase(content_file, file_name, content_type=content_file.content_type)
+                instance.content_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload content file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload content file")
+        
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        content_file = validated_data.pop('content_file', None)
+        instance = super().update(instance, validated_data)
+        
+        if content_file:
+            if instance.content_file:
+                storage_service = get_storage_service()
+                storage_service.delete_file(instance.content_file)
+            file_name = f"courses/{instance.module.course.slug}/lessons/{uuid.uuid4().hex}_{content_file.name}"
+            try:
+                file_url = upload_to_supabase(content_file, file_name, content_type=content_file.content_type)
+                instance.content_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload content file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload content file")
+        
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.content_file:
+            storage_service = get_storage_service()
+            representation['content_file'] = storage_service.get_public_url(instance.content_file)
+        return representation
+
+    class Meta:
+        model = Lesson
+        fields = ['id', 'module', 'title', 'lesson_type', 'content_url', 'content_file', 'duration', 'order', 'is_published']
+        read_only_fields = ['id', 'module']
+
+
+
 class ModuleSerializer(serializers.ModelSerializer):
     lessons = LessonSerializer(many=True, read_only=True)
 
@@ -65,9 +117,56 @@ class ModuleSerializer(serializers.ModelSerializer):
         fields = ['id', 'title', 'course', 'description', 'order', 'is_published', 'lessons']
 
 class ResourceSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        file_obj = validated_data.pop('file', None)
+        instance = super().create(validated_data)
+        
+        if file_obj:
+            file_name = f"courses/{instance.course.slug}/resources/{uuid.uuid4().hex}_{file_obj.name}"
+            try:
+                file_url = upload_to_supabase(file_obj, file_name, content_type=file_obj.content_type)
+                instance.file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload resource file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload resource file")
+        
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        file_obj = validated_data.pop('file', None)
+        instance = super().update(instance, validated_data)
+        
+        if file_obj:
+            if instance.file:
+                storage_service = get_storage_service()
+                storage_service.delete_file(instance.file)
+            file_name = f"courses/{instance.course.slug}/resources/{uuid.uuid4().hex}_{file_obj.name}"
+            try:
+                file_url = upload_to_supabase(file_obj, file_name, content_type=file_obj.content_type)
+                instance.file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload resource file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload resource file")
+        
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.file:
+            storage_service = get_storage_service()
+            representation['file'] = storage_service.get_public_url(instance.file)
+        return representation
+
     class Meta:
         model = Resource
         fields = ['id', 'title', 'resource_type', 'url', 'file', 'order']
+
+
 
 class InstructorUserSerializer(serializers.ModelSerializer):
     class Meta:
@@ -84,19 +183,6 @@ class InstructorSerializer(serializers.ModelSerializer):
 
 
 
-
-
-
-# class CourseInstructorSerializer(serializers.ModelSerializer):
-#     instructor = InstructorSerializer(read_only=True)
-#     module_titles = serializers.SerializerMethodField()
-
-#     class Meta:
-#         model = CourseInstructor
-#         fields = ['id', 'instructor', 'assignment_type', 'is_active', 'module_titles']
-
-#     def get_module_titles(self, obj):
-#         return [module.title for module in obj.modules.all()]
 
 
 class CourseInstructorSerializer(serializers.ModelSerializer):
@@ -121,51 +207,27 @@ class CourseInstructorSerializer(serializers.ModelSerializer):
         return [module.title for module in obj.modules.all()]
 
     def validate(self, data):
-        assignment_type = data.get('assignment_type', self.instance.assignment_type if self.instance else 'all')
-        modules = data.get('modules', [])
-        if assignment_type == 'specific' and not modules:
-            raise serializers.ValidationError("Modules must be provided for specific assignment type")
+        assignment_type = data.get('assignment_type', 'all')
+        modules = data.get('modules', None)
+        course = self.context.get('course')
+        if assignment_type == 'specific':
+            if not modules or len(modules) == 0:
+                raise serializers.ValidationError("Modules must be provided for specific assignment type")
         return data
 
     def create(self, validated_data):
-        logger.debug(f"Validated data: {validated_data}")
-        user = validated_data.pop('instructor')['user']
-        logger.info(f"Creating/finding Instructor for user: {user.id}, {user.email}")
-        instructor, created = Instructor.objects.get_or_create(
-            user=user,
-            defaults={'bio': 'Auto-created instructor profile', 'is_active': True}
-        )
-        logger.info(f"Instructor {'created' if created else 'found'}, ID: {instructor.id}")
-        validated_data['instructor'] = instructor
         course = self.context.get('course')
-        if not course:
-            logger.error("No course provided in serializer context")
-            raise serializers.ValidationError("Course is required")
-        validated_data['course'] = course
+        assignment_type = validated_data.get('assignment_type', 'all')
+        instructor = validated_data['instructor']
 
-        # Check for existing CourseInstructor record
-        existing_assignment = CourseInstructor.objects.filter(
-            course=course,
-            instructor=instructor
-        ).first()
-        if existing_assignment:
-            request = self.context.get('request')
-            if request:
-                logger.warning(f"[{request.tenant.schema_name}] Instructor {instructor.id} already assigned to course {course.id}")
-            else:
-                logger.warning(f"Instructor {instructor.id} already assigned to course {course.id}")
+        # If assignment_type is 'all', assign all modules of the course
+        if assignment_type == 'all':
+            validated_data['modules'] = list(course.modules.all())
 
-            # logger.warning(f"[{self.context['request'].tenant.schema_name}] Instructor {instructor.id} already assigned to course {course.id}")
-            
-            
-            raise serializers.ValidationError(
-                f"Instructor {instructor.user.get_username()} is already assigned to this course."
-            )
-
+        # If assignment_type is 'specific', modules must be provided (already validated above)
         course_instructor = super().create(validated_data)
         if validated_data.get('modules'):
             course_instructor.modules.set(validated_data['modules'])
-        logger.info(f"CourseInstructor created, ID: {course_instructor.id}")
         return course_instructor
 
     def update(self, instance, validated_data):
@@ -182,19 +244,139 @@ class CourseInstructorSerializer(serializers.ModelSerializer):
             instance.modules.set(modules)
         return instance
     
-
-    
 class CertificateTemplateSerializer(serializers.ModelSerializer):
+    course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), required=False)
+
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        logo_file = validated_data.pop('logo', None)
+        signature_file = validated_data.pop('signature', None)
+        instance = super().create(validated_data)
+        
+        storage_service = get_storage_service()
+        if logo_file:
+            file_name = f"courses/{instance.course.slug}/certificates/logos/{uuid.uuid4().hex}_{logo_file.name}"
+            try:
+                file_url = upload_to_supabase(logo_file, file_name, content_type=logo_file.content_type)
+                instance.logo = file_name
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload logo: {str(e)}")
+                raise serializers.ValidationError("Failed to upload logo")
+        
+        if signature_file:
+            file_name = f"courses/{instance.course.slug}/certificates/signatures/{uuid.uuid4().hex}_{signature_file.name}"
+            try:
+                file_url = upload_to_supabase(signature_file, file_name, content_type=signature_file.content_type)
+                instance.signature = file_name
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload signature: {str(e)}")
+                raise serializers.ValidationError("Failed to upload signature")
+        
+        if logo_file or signature_file:
+            instance.save()
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        logo_file = validated_data.pop('logo', None)
+        signature_file = validated_data.pop('signature', None)
+        instance = super().update(instance, validated_data)
+        
+        storage_service = get_storage_service()
+        if logo_file:
+            if instance.logo:
+                storage_service.delete_file(instance.logo)
+            file_name = f"courses/{instance.course.slug}/certificates/logos/{uuid.uuid4().hex}_{logo_file.name}"
+            try:
+                file_url = upload_to_supabase(logo_file, file_name, content_type=logo_file.content_type)
+                instance.logo = file_name
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload logo: {str(e)}")
+                raise serializers.ValidationError("Failed to upload logo")
+        
+        if signature_file:
+            if instance.signature:
+                storage_service.delete_file(instance.signature)
+            file_name = f"courses/{instance.course.slug}/certificates/signatures/{uuid.uuid4().hex}_{signature_file.name}"
+            try:
+                file_url = upload_to_supabase(signature_file, file_name, content_type=signature_file.content_type)
+                instance.signature = file_name
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload signature: {str(e)}")
+                raise serializers.ValidationError("Failed to upload signature")
+        
+        if logo_file or signature_file:
+            instance.save()
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        storage_service = get_storage_service()
+        if instance.logo:
+            representation['logo'] = storage_service.get_public_url(instance.logo)
+        if instance.signature:
+            representation['signature'] = storage_service.get_public_url(instance.signature)
+        return representation
+
     class Meta:
         model = CertificateTemplate
-        fields = ['id', 'is_active', 'template', 'custom_text', 'logo', 'signature', 'signature_name', 'show_date', 'show_course_name', 'show_completion_hours']
-
+        fields = ['id', 'course', 'is_active', 'template', 'custom_text', 'logo', 'signature',
+                  'signature_name', 'show_date', 'show_course_name', 'show_completion_hours',
+                  'min_score', 'require_all_modules']
+        
+    
 class SCORMxAPISettingsSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        package_file = validated_data.pop('package', None)
+        instance = super().create(validated_data)
+        
+        if package_file:
+            file_name = f"courses/{instance.course.slug}/scorm_packages/{uuid.uuid4().hex}_{package_file.name}"
+            try:
+                file_url = upload_to_supabase(package_file, file_name, content_type=package_file.content_type)
+                instance.package = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload SCORM package: {str(e)}")
+                raise serializers.ValidationError("Failed to upload SCORM package")
+        
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        package_file = validated_data.pop('package', None)
+        instance = super().update(instance, validated_data)
+        
+        if package_file:
+            if instance.package:
+                storage_service = get_storage_service()
+                storage_service.delete_file(instance.package)
+            file_name = f"courses/{instance.course.slug}/scorm_packages/{uuid.uuid4().hex}_{package_file.name}"
+            try:
+                file_url = upload_to_supabase(package_file, file_name, content_type=package_file.content_type)
+                instance.package = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload SCORM package: {str(e)}")
+                raise serializers.ValidationError("Failed to upload SCORM package")
+        
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.package:
+            storage_service = get_storage_service()
+            representation['package'] = storage_service.get_public_url(instance.package)
+        return representation
     class Meta:
         model = SCORMxAPISettings
         fields = ['id', 'is_active', 'standard', 'version', 'completion_threshold', 'score_threshold', 'track_completion', 'track_score', 'track_time', 'track_progress', 'package']
 
 
+ 
 
 class CourseSerializer(serializers.ModelSerializer):
     faq_count = serializers.IntegerField(read_only=True)
@@ -302,6 +484,9 @@ class CourseSerializer(serializers.ModelSerializer):
     
     def to_representation(self, instance):
         representation = super().to_representation(instance)
+        if instance.thumbnail:
+            storage_service = get_storage_service()
+            representation['thumbnail'] = storage_service.get_public_url(instance.thumbnail)
         
         # Ensure learning_outcomes is a flat array of strings
         if 'learning_outcomes' in representation:
@@ -312,6 +497,8 @@ class CourseSerializer(serializers.ModelSerializer):
             representation['prerequisites'] = self.flatten_array(representation['prerequisites'])
         
         return representation
+
+
     
     def flatten_array(self, data):
         """Convert nested arrays into a flat array of strings"""
@@ -335,15 +522,60 @@ class CourseSerializer(serializers.ModelSerializer):
 
 
     def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        thumbnail_file = validated_data.pop('thumbnail', None)
         if 'slug' not in validated_data or not validated_data['slug']:
             title = validated_data.get('title', '')
             validated_data['slug'] = slugify(title)
-        return super().create(validated_data)
+        instance = super().create(validated_data)
+        
+        if thumbnail_file:
+            file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
+            try:
+                file_url = upload_to_supabase(thumbnail_file, file_name, content_type=thumbnail_file.content_type)
+                instance.thumbnail = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload thumbnail: {str(e)}")
+                raise serializers.ValidationError("Failed to upload thumbnail")
+        
+        return instance
 
     def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        thumbnail_file = validated_data.pop('thumbnail', None)
         if 'title' in validated_data:
             validated_data['slug'] = slugify(validated_data['title'])
-        return super().update(instance, validated_data)
+        instance = super().update(instance, validated_data)
+        
+        if thumbnail_file:
+            # Delete old file if exists
+            if instance.thumbnail:
+                storage_service = get_storage_service()
+                storage_service.delete_file(instance.thumbnail)
+            file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
+            try:
+                file_url = upload_to_supabase(thumbnail_file, file_name, content_type=thumbnail_file.content_type)
+                instance.thumbnail = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload thumbnail: {str(e)}")
+                raise serializers.ValidationError("Failed to upload thumbnail")
+        
+        return instance
+
+
+
+    # def create(self, validated_data):
+    #     if 'slug' not in validated_data or not validated_data['slug']:
+    #         title = validated_data.get('title', '')
+    #         validated_data['slug'] = slugify(title)
+    #     return super().create(validated_data)
+
+    # def update(self, instance, validated_data):
+    #     if 'title' in validated_data:
+    #         validated_data['slug'] = slugify(validated_data['title'])
+    #     return super().update(instance, validated_data)
 
     class Meta:
         model = Course
@@ -357,49 +589,13 @@ class CourseSerializer(serializers.ModelSerializer):
         ]
 
 
-
-# class CourseSerializer(serializers.ModelSerializer):
-#     faq_count = serializers.IntegerField(read_only=True)
-#     faqs = FAQSerializer(many=True, read_only=True)
-#     total_enrollments = serializers.IntegerField(read_only=True)
-#     resources = ResourceSerializer(many=True, read_only=True)
-#     category = CategorySerializer(read_only=True)
-#     category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), source='category', write_only=True)
-#     learning_outcomes = serializers.ListField(
-#         child=serializers.CharField(max_length=200, allow_blank=True),
-#         required=False,
-#         default=list
-#     )
-#     prerequisites = serializers.ListField(
-#         child=serializers.CharField(max_length=200, allow_blank=True),
-#         required=False,
-#         default=list
-#     )
-#     modules = ModuleSerializer(many=True, read_only=True)
-#     resources = ResourceSerializer(many=True, read_only=True)
-#     course_instructors = CourseInstructorSerializer(many=True, read_only=True)
-#     certificate_settings = CertificateTemplateSerializer(read_only=True)
-#     scorm_settings = SCORMxAPISettingsSerializer(read_only=True)
-#     current_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-#     created_by_username = serializers.CharField(source='created_by.username', read_only=True)
-
-#     class Meta:
-#         model = Course
-#         fields = [
-#             'id', 'title', 'learning_outcomes', 'prerequisites', 'slug', 'code', 'description', 'short_description', 'category', 'category_id',
-#             'level', 'status', 'duration', 'price', 'discount_price', 'currency', 'thumbnail','faq_count','faqs',
-#             'created_at', 'updated_at', 'created_by', 'created_by_username', 'completion_hours',
-#             'current_price', 'learning_outcomes', 'prerequisites', 'modules', 'resources',
-#             'course_instructors', 'certificate_settings', 'scorm_settings','total_enrollments',
-#         ]
-
 class LearningPathSerializer(serializers.ModelSerializer):
     courses = CourseSerializer(many=True, read_only=True)
     course_ids = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), many=True, source='courses', write_only=True)
 
     class Meta:
         model = LearningPath
-        fields = ['id', 'title', 'description', 'courses', 'course_ids', 'is_active', 'order', 'created_at', 'updated_at']
+        fields = ['id', 'title', 'description', 'courses', 'course_ids', 'is_active', 'order', 'created_at', 'updated_at', 'created_by']
 
 class EnrollmentCourseSerializer(serializers.ModelSerializer):
     category = CategorySerializer(read_only=True)
@@ -437,6 +633,55 @@ class CertificateSerializer(serializers.ModelSerializer):
     course_title = serializers.CharField(source='enrollment.course.title', read_only=True)
     user_username = serializers.CharField(source='enrollment.user.username', read_only=True)
 
+
+class CertificateSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        pdf_file = validated_data.pop('pdf_file', None)
+        instance = super().create(validated_data)
+        
+        if pdf_file:
+            file_name = f"certificates/pdfs/{uuid.uuid4().hex}_{pdf_file.name}"
+            try:
+                file_url = upload_to_supabase(pdf_file, file_name, content_type=pdf_file.content_type)
+                instance.pdf_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload PDF file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload PDF file")
+        
+        return instance
+
+    def update(self,instance, validated_data):
+        tenant = validated_data.get('tenant', None)
+        pdf_file = validated_data.pop('pdf_file', None)
+        instance = super().update(instance, validated_data)
+        
+        if pdf_file:
+            if instance.pdf_file:
+                storage_service = get_storage_service()
+                storage_service.delete_file(instance.pdf_file)
+            file_name = f"certificates/pdfs/{uuid.uuid4().hex}_{pdf_file.name}"
+            try:
+                file_url = upload_to_supabase(pdf_file, file_name, content_type=pdf_file.content_type)
+                instance.pdf_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload PDF file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload PDF file")
+        
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.pdf_file:
+            storage_service = get_storage_service()
+            representation['pdf_file'] = storage_service.get_public_url(instance.pdf_file)
+        return representation
+
+
+
     class Meta:
         model = Certificate
         fields = ['id', 'enrollment', 'course_title', 'user_username', 'issued_at', 'certificate_id', 'pdf_file']
@@ -451,6 +696,51 @@ class CourseRatingSerializer(serializers.ModelSerializer):
 
 
 class BadgeSerializer(serializers.ModelSerializer):
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        image_file = validated_data.pop('image', None)
+        instance = super().create(validated_data)
+        
+        if image_file:
+            file_name = f"badges/{uuid.uuid4().hex}_{image_file.name}"
+            try:
+                file_url = upload_to_supabase(image_file, file_name, content_type=image_file.content_type)
+                instance.image = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload badge image: {str(e)}")
+                raise serializers.ValidationError("Failed to upload badge image")
+        
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        image_file = validated_data.pop('image', None)
+        instance = super().update(instance, validated_data)
+        
+        if image_file:
+            if instance.image:
+                storage_service = get_storage_service()
+                storage_service.delete_file(instance.image)
+            file_name = f"badges/{uuid.uuid4().hex}_{image_file.name}"
+            try:
+                file_url = upload_to_supabase(image_file, file_name, content_type=image_file.content_type)
+                instance.image = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload badge image: {str(e)}")
+                raise serializers.ValidationError("Failed to upload badge image")
+        
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.image:
+            storage_service = get_storage_service()
+            representation['image'] = storage_service.get_public_url(instance.image)
+        return representation
+
     class Meta:
         model = Badge
         fields = ['id', 'title', 'description', 'image', 'criteria', 'is_active', 'created_at', 'updated_at']
