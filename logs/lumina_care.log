@@ -769,3 +769,378 @@ LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
 2025-07-25 21:16:43,018 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
 2025-07-25 21:16:44,811 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
 2025-07-25 21:16:48,497 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:04:49,846 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-26 03:05:30,831 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-26 03:34:41,334 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-26 03:36:34,923 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-26 03:38:17,259 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-26 03:38:33,195 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-26 03:38:40,242 [INFO] django.server: "OPTIONS /api/token/ HTTP/1.1" 200 0
+2025-07-26 03:38:43,645 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 985
+2025-07-26 03:38:43,659 [INFO] django.server: "OPTIONS /api/token/validate/ HTTP/1.1" 200 0
+2025-07-26 03:38:43,881 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 382
+2025-07-26 03:38:44,090 [INFO] django.server: "OPTIONS /api/courses/courses/ HTTP/1.1" 200 0
+2025-07-26 03:38:44,094 [INFO] django.server: "OPTIONS /api/users/stats/ HTTP/1.1" 200 0
+2025-07-26 03:38:44,106 [INFO] django.server: "OPTIONS /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,421 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,434 [INFO] django.server: "OPTIONS /api/users/user-activities/?limit=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,435 [INFO] django.server: "OPTIONS /messaging/api/messages/unread_count/ HTTP/1.1" 200 0
+2025-07-26 03:38:44,438 [INFO] django.server: "OPTIONS /payments/payment-config HTTP/1.1" 200 0
+2025-07-26 03:38:44,440 [INFO] django.server: "OPTIONS /schedule/api/schedules/upcoming/ HTTP/1.1" 200 0
+2025-07-26 03:38:44,450 [INFO] django.server: "OPTIONS /api/groups/groups/?limit=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,451 [INFO] django.server: "OPTIONS /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,456 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,470 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,475 [INFO] django.server: "OPTIONS /api/users/user-activities/?limit=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,491 [INFO] django.server: "OPTIONS /messaging/api/messages/unread_count/ HTTP/1.1" 200 0
+2025-07-26 03:38:44,493 [INFO] django.server: "OPTIONS /schedule/api/schedules/upcoming/ HTTP/1.1" 200 0
+2025-07-26 03:38:44,493 [INFO] django.server: "OPTIONS /payments/payment-config HTTP/1.1" 200 0
+2025-07-26 03:38:44,502 [INFO] django.server: "OPTIONS /api/groups/groups/?limit=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,508 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 0
+2025-07-26 03:38:44,618 [ERROR] django.request: Internal Server Error: /api/users/stats/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\users\views.py", line 415, in stats
+    'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into field. Choices are: activities, badges, course_ratings, created_adverts, created_categories, created_courses, created_learning_paths, created_schedules, date_joined, email, emailaddress, enrollments, failedlogin, first_name, groupmembership, groups, id, instructor_profile, is_active, is_deleted, is_locked, is_staff, is_superuser, last_login, last_name, logentry, outstandingtoken, password, points, received_messages, role, schedule_participations, sent_messages, socialaccount, status, tenant, tenant_id, user_permissions, userprofile
+2025-07-26 03:38:44,663 [ERROR] django.server: "GET /api/users/stats/ HTTP/1.1" 500 30107
+2025-07-26 03:38:44,781 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:44,783 [INFO] users: [proliance] Retrieved 10 user activity records
+2025-07-26 03:38:44,792 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
+2025-07-26 03:38:44,794 [INFO] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 200 2641
+2025-07-26 03:38:44,914 [ERROR] django.request: Internal Server Error: /schedule/api/schedules/upcoming/
+2025-07-26 03:38:44,916 [ERROR] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 500 46
+2025-07-26 03:38:45,060 [INFO] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 200 648
+2025-07-26 03:38:45,105 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:45,148 [ERROR] django.request: Internal Server Error: /api/users/stats/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\users\views.py", line 415, in stats
+    'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into field. Choices are: activities, badges, course_ratings, created_adverts, created_categories, created_courses, created_learning_paths, created_schedules, date_joined, email, emailaddress, enrollments, failedlogin, first_name, groupmembership, groups, id, instructor_profile, is_active, is_deleted, is_locked, is_staff, is_superuser, last_login, last_name, logentry, outstandingtoken, password, points, received_messages, role, schedule_participations, sent_messages, socialaccount, status, tenant, tenant_id, user_permissions, userprofile
+2025-07-26 03:38:45,195 [ERROR] django.request: Internal Server Error: /payments/payment-config
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\payments\views.py", line 54, in list
+    config = PaymentConfig.objects.first()
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1104, in first
+    for obj in queryset[:1]:
+               ~~~~~~~~^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+2025-07-26 03:38:45,199 [ERROR] django.server: "GET /api/users/stats/ HTTP/1.1" 500 30110
+2025-07-26 03:38:45,235 [ERROR] django.server: "GET /payments/payment-config HTTP/1.1" 500 30221
+2025-07-26 03:38:45,247 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
+2025-07-26 03:38:45,330 [INFO] users: [proliance] Retrieved 10 user activity records
+2025-07-26 03:38:45,338 [INFO] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 200 2641
+2025-07-26 03:38:45,571 [ERROR] django.request: Internal Server Error: /schedule/api/schedules/upcoming/
+2025-07-26 03:38:45,607 [ERROR] django.server: "GET /schedule/api/schedules/upcoming/ HTTP/1.1" 500 46
+2025-07-26 03:38:45,920 [INFO] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 200 648
+2025-07-26 03:38:46,175 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:46,389 [ERROR] django.request: Internal Server Error: /payments/payment-config
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\payments\views.py", line 54, in list
+    config = PaymentConfig.objects.first()
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1104, in first
+    for obj in queryset[:1]:
+               ~~~~~~~~^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "payments_paymentconfig" does not exist
+LINE 1: ...d_at", "payments_paymentconfig"."updated_at" FROM "payments_...
+                                                             ^
+
+2025-07-26 03:38:46,449 [ERROR] django.server: "GET /payments/payment-config HTTP/1.1" 500 30221
+2025-07-26 03:38:46,674 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:46,963 [INFO] django.server: "OPTIONS /api/groups/roles/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,964 [INFO] django.server: "OPTIONS /api/groups/roles/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,965 [INFO] django.server: "OPTIONS /api/groups/groups/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,979 [INFO] django.server: "OPTIONS /api/users/users/?page_size=1000 HTTP/1.1" 200 0
+2025-07-26 03:38:46,980 [INFO] django.server: "OPTIONS /api/groups/roles/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,983 [INFO] django.server: "OPTIONS /api/groups/groups/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,992 [INFO] django.server: "OPTIONS /api/groups/groups/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,998 [INFO] django.server: "OPTIONS /api/groups/roles/ HTTP/1.1" 200 0
+2025-07-26 03:38:46,999 [INFO] django.server: "OPTIONS /api/users/users/?page_size=1000 HTTP/1.1" 200 0
+2025-07-26 03:38:47,467 [INFO] django.server: "GET /api/users/users/?page_size=1000 HTTP/1.1" 200 410
+2025-07-26 03:38:47,525 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
+2025-07-26 03:38:47,576 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:47,649 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 648
+2025-07-26 03:38:48,091 [INFO] django.server: "GET /api/users/users/?page_size=1000 HTTP/1.1" 200 410
+2025-07-26 03:38:48,200 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
+2025-07-26 03:38:48,240 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:48,241 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 648
+2025-07-26 03:38:48,567 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
+2025-07-26 03:38:48,605 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:48,664 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 648
+2025-07-26 03:38:48,824 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
+2025-07-26 03:38:48,833 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:48,916 [INFO] django.server: "GET /api/groups/groups/ HTTP/1.1" 200 648
+2025-07-26 03:38:49,074 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
+2025-07-26 03:38:49,092 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:49,311 [INFO] django.server: "GET /api/groups/roles/ HTTP/1.1" 200 378
+2025-07-26 03:38:49,531 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 409
+2025-07-26 03:38:50,430 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:38:50,684 [INFO] django.server: "OPTIONS /api/courses/enrollments/all/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,685 [INFO] django.server: "OPTIONS /api/courses/courses/most_popular/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,689 [INFO] django.server: "OPTIONS /api/courses/courses/least_popular/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,690 [INFO] django.server: "OPTIONS /api/courses/categories/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,710 [INFO] django.server: "OPTIONS /api/courses/courses/most_popular/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,711 [INFO] django.server: "OPTIONS /api/courses/courses/least_popular/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,712 [INFO] django.server: "OPTIONS /api/courses/enrollments/all/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,716 [INFO] django.server: "OPTIONS /api/courses/categories/ HTTP/1.1" 200 0
+2025-07-26 03:38:50,943 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 2079
+2025-07-26 03:38:50,962 [INFO] django.server: "GET /api/courses/enrollments/all/ HTTP/1.1" 200 52
+2025-07-26 03:38:51,020 [INFO] django.server: "GET /api/courses/courses/least_popular/ HTTP/1.1" 200 45
+2025-07-26 03:38:51,021 [INFO] django.server: "GET /api/courses/courses/most_popular/ HTTP/1.1" 200 45
+2025-07-26 03:38:51,103 [INFO] django.server: "GET /api/courses/categories/ HTTP/1.1" 200 393
+2025-07-26 03:38:51,198 [INFO] django.server: "GET /api/courses/enrollments/all/ HTTP/1.1" 200 52
+2025-07-26 03:38:51,247 [INFO] django.server: "GET /api/courses/courses/least_popular/ HTTP/1.1" 200 45
+2025-07-26 03:38:51,259 [INFO] django.server: "GET /api/courses/courses/most_popular/ HTTP/1.1" 200 45
+2025-07-26 03:38:51,297 [INFO] django.server: "GET /api/courses/categories/ HTTP/1.1" 200 393
+2025-07-26 03:38:52,617 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:38:53,054 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 2079
+2025-07-26 03:38:54,238 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:38:54,678 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 2079
+2025-07-26 03:38:55,990 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:38:56,512 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 200 2079
+2025-07-26 03:38:57,471 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:38:57,522 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 0
+2025-07-26 03:38:57,522 [INFO] django.server: "OPTIONS /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 0
+2025-07-26 03:38:59,329 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2079
+2025-07-26 03:38:59,365 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 2079
+2025-07-26 03:39:00,657 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 2079
