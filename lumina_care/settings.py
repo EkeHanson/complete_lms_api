@@ -30,6 +30,8 @@ ALLOWED_HOSTS = [
     'localhost',
     'complete-lms-api.onrender.com',
     'https://complete-lms-sable.vercel.app',
+    'https://complete-lms-api-q8xa.onrender.com',
+    'complete-lms-api-q8xa.onrender.com',
 
 ]
 
