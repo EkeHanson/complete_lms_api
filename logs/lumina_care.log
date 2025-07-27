@@ -48696,3 +48696,8 @@ LINE 1: ...urrency", "payments_siteconfig"."updated_at" FROM "payments_...
 2025-07-27 20:30:37,823 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 5261
 2025-07-27 20:30:41,492 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 5261
 2025-07-27 20:43:17,596 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-07-27 20:44:24,874 [INFO] django.server: "OPTIONS /api/token/ HTTP/1.1" 200 0
+2025-07-27 20:44:27,101 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 1010
+2025-07-27 20:44:27,250 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 405
+2025-07-27 20:45:07,699 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 405
+2025-07-27 20:45:07,883 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 405
