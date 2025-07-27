@@ -12,19 +12,25 @@ from django.shortcuts import get_object_or_404
 from django.db.models import Count
 from rest_framework.pagination import PageNumberPagination
 from users.models import UserActivity, CustomUser
-from .models import (
+from .models import (Assignment,Feedback,  Cart,Wishlist,Grade,
     Category, Course, Module, Lesson, Badge, UserPoints, UserBadge, Instructor,
-    Resource, CourseInstructor, CertificateTemplate, FAQ,
+    Resource, CourseInstructor, CertificateTemplate, FAQ,Analytics,
     SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating
 )
-from .serializers import (
-    CategorySerializer, CourseSerializer, BulkEnrollmentSerializer,
-    ModuleSerializer, LessonSerializer, ResourceSerializer, InstructorSerializer,
-    CourseInstructorSerializer, CertificateTemplateSerializer, SCORMxAPISettingsSerializer,
-    UserBadgeSerializer, UserPointsSerializer, BadgeSerializer, FAQSerializer,
+from .serializers import (AnalyticsSerializer,
+    CategorySerializer, CourseSerializer, BulkEnrollmentSerializer, WishlistSerializer, CartSerializer,
+    ModuleSerializer, LessonSerializer, ResourceSerializer, InstructorSerializer,AssignmentSerializer,
+    CourseInstructorSerializer, CertificateTemplateSerializer, SCORMxAPISettingsSerializer,GradeSerializer,
+    UserBadgeSerializer, UserPointsSerializer, BadgeSerializer, FAQSerializer,FeedbackSerializer,
     LearningPathSerializer, EnrollmentSerializer, CertificateSerializer, CourseRatingSerializer
 )
+from rest_framework.pagination import PageNumberPagination
+from rest_framework.exceptions import PermissionDenied
 from utils.storage import get_storage_service
+from rest_framework import viewsets
+from rest_framework.permissions import IsAuthenticated
+from django_tenants.utils import tenant_context
+
 
 logger = logging.getLogger('course')
 
@@ -228,6 +234,9 @@ class CategoryViewSet(TenantBaseView, viewsets.ModelViewSet):
 
     def get_permissions(self):
         return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy'] else [IsAuthenticated()]
+
+
+
 
 class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage courses for a tenant with enrollment and FAQ counts."""
@@ -449,6 +458,9 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.error(f"[{tenant.schema_name}] Error removing instructor: {str(e)}", exc_info=True)
             return Response({"detail": "Error removing instructor"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+
+
 class ModuleViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage modules for a tenant, scoped to courses."""
     serializer_class = ModuleSerializer
@@ -634,6 +646,9 @@ class LessonViewSet(TenantBaseView, viewsets.ModelViewSet):
     def get_permissions(self):
         return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy'] else [IsAuthenticated()]
 
+
+
+
 class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
     """Manage course enrollments for a tenant."""
     permission_classes = [IsAuthenticated]
@@ -730,9 +745,14 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
                 enrollments = Enrollment.objects.select_related('user', 'course').filter(is_active=True).order_by('-enrolled_at')
                 paginator = self.pagination_class()
                 page = paginator.paginate_queryset(enrollments, request)
-                serializer = EnrollmentSerializer(page, many=True, context={'tenant': tenant})
-                logger.info(f"[{tenant.schema_name}] Listed all enrollments")
-                return paginator.get_paginated_response(serializer.data)
+                if page is not None:  # Check if pagination is applied
+                    serializer = EnrollmentSerializer(page, many=True, context={'tenant': tenant})
+                    logger.info(f"[{tenant.schema_name}] Listed all enrollments")
+                    return paginator.get_paginated_response(serializer.data)
+                # If no pagination, return all enrollments
+                serializer = EnrollmentSerializer(enrollments, many=True, context={'tenant': tenant})
+                logger.info(f"[{tenant.schema_name}] Listed all enrollments (no pagination)")
+                return Response(serializer.data, status=status.HTTP_200_OK)
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error fetching all enrollments: {str(e)}", exc_info=True)
             return Response({"detail": "Error fetching all enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -744,7 +764,8 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
         try:
             with tenant_context(tenant):
                 user_id = user_id or request.user.id
-                if request.user.role != "admin" and user_id != str(request.user.id):
+                if request.user.role != "learners" and user_id != str(request.user.id):
+                #if request.user.role != "admin" and user_id != str(request.user.id):
                     logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.id} attempted to access user {user_id} enrollments")
                     return Response({"detail": "Unauthorized access"}, status=status.HTTP_403_FORBIDDEN)
                 enrollments = Enrollment.objects.filter(user_id=user_id, is_active=True).select_related('course').prefetch_related(
@@ -786,7 +807,8 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
                         for m in course.modules.all()
                     ]
                     instructors = [
-                        {'id': ci.instructor.id, 'name': ci.instructor.user.get_full_name(), 'bio': ci.instructor.bio}
+                        {'id': ci.instructor.id, 'name': ci.instructor.user.get_username(), 'bio': ci.instructor.bio}
+                        # {'id': ci.instructor.id, 'name': ci.instructor.user.get_full_name(), 'bio': ci.instructor.bio}
                         for ci in course.course_instructors.all()
                     ]
                     result.append({
@@ -809,6 +831,248 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
             logger.error(f"[{tenant.schema_name}] Error fetching user enrollments: {str(e)}", exc_info=True)
             return Response({"detail": "Error fetching user enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+
+    # @action(detail=False, methods=['get'])
+    # def user_enrollments(self, request, user_id=None):
+    #     tenant = request.tenant
+    #     try:
+    #         with tenant_context(tenant):
+    #             user_id = user_id or request.user.id
+    #             if request.user and  user_id != str(request.user.id):
+    #             #if request.user.role != "admin" and user_id != str(request.user.id):
+    #                 logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.id} attempted to access user {user_id} enrollments")
+    #                 return Response({"detail": "Unauthorized access"}, status=status.HTTP_403_FORBIDDEN)
+    #             enrollments = Enrollment.objects.filter(user_id=user_id, is_active=True).select_related('course').prefetch_related(
+    #                 'course__resources', 'course__modules', 'course__modules__lessons', 'course__course_instructors__instructor__user'
+    #             ).order_by('-enrolled_at')
+    #             serializer = EnrollmentSerializer(enrollments, many=True, context={'tenant': tenant})
+    #             logger.info(f"[{tenant.schema_name}] Retrieved enrollments for user {user_id}")
+    #             return Response(serializer.data)
+    #     except Exception as e:
+    #         logger.error(f"[{tenant.schema_name}] Error fetching user enrollments: {str(e)}", exc_info=True)
+    #         return Response({"detail": "Error fetching user enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+    @action(detail=False, methods=['get'], url_path='my-courses')
+    def my_courses(self, request):
+        if request.user.role != 'learner':
+            raise PermissionDenied("Only learners can access this endpoint.")
+        tenant = request.tenant
+        try:
+            with tenant_context(tenant):
+                enrollments = Enrollment.objects.filter(
+                    user=request.user,
+                    is_active=True
+                ).select_related('course', 'course__category')
+                paginator = self.pagination_class()
+                page = paginator.paginate_queryset(enrollments, request)
+                serializer = EnrollmentSerializer(page, many=True, context={'tenant': tenant})
+                logger.info(f"[{tenant.schema_name}] Listed my courses for user {request.user.id}")
+                return paginator.get_paginated_response(serializer.data)
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error fetching my courses: {str(e)}", exc_info=True)
+            return Response({"detail": "Error fetching my courses"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+            
+
+# class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
+#     """Manage course enrollments for a tenant."""
+#     permission_classes = [IsAuthenticated]
+#     pagination_class = PageNumberPagination
+
+#     def list(self, request, course_id=None, user_id=None):
+#         tenant = request.tenant
+#         try:
+#             with tenant_context(tenant):
+#                 queryset = Enrollment.objects.select_related('user', 'course').filter(is_active=True)
+#                 if request.user.role != "admin" and user_id and user_id != str(request.user.id):
+#                     logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.id} attempted to access user {user_id} enrollments")
+#                     return Response({"detail": "Unauthorized access"}, status=status.HTTP_403_FORBIDDEN)
+#                 if request.user.role != "admin":
+#                     queryset = queryset.filter(user=request.user)
+#                 elif user_id:
+#                     queryset = queryset.filter(user_id=user_id)
+#                 if course_id:
+#                     queryset = queryset.filter(course_id=course_id)
+#                     if not queryset.exists() and not request.user.is_staff:
+#                         logger.warning(f"[{tenant.schema_name}] User {request.user.id} not enrolled in course {course_id}")
+#                         return Response({"detail": "Not enrolled in this course"}, status=status.HTTP_403_FORBIDDEN)
+#                 queryset = queryset.order_by('-enrolled_at')
+#                 paginator = self.pagination_class()
+#                 page = paginator.paginate_queryset(queryset, request)
+#                 serializer = EnrollmentSerializer(page, many=True, context={'tenant': tenant})
+#                 logger.info(f"[{tenant.schema_name}] Listed enrollments for user {request.user.id}")
+#                 return paginator.get_paginated_response(serializer.data)
+#         except Exception as e:
+#             logger.error(f"[{tenant.schema_name}] Error listing enrollments: {str(e)}", exc_info=True)
+#             return Response({"detail": "Error fetching enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @action(detail=False, methods=['post'], url_path='course/(?P<course_id>[^/.]+)')
+#     def enroll_to_course(self, request, course_id=None):
+#         tenant = request.tenant
+#         try:
+#             with tenant_context(tenant):
+#                 course = get_object_or_404(Course, id=course_id, status='Published')
+#                 user_id = request.data.get('user_id')
+#                 if not user_id:
+#                     logger.warning(f"[{tenant.schema_name}] Missing user_id for enrollment")
+#                     return Response({"detail": "user_id is required"}, status=status.HTTP_400_BAD_REQUEST)
+#                 if Enrollment.objects.filter(user_id=user_id, course=course).exists():
+#                     logger.warning(f"[{tenant.schema_name}] User {user_id} already enrolled in course {course_id}")
+#                     return Response({"detail": "User already enrolled in this course"}, status=status.HTTP_400_BAD_REQUEST)
+#                 enrollment = Enrollment.objects.create(user_id=user_id, course=course)
+#                 serializer = EnrollmentSerializer(enrollment, context={'tenant': tenant})
+#                 logger.info(f"[{tenant.schema_name}] User {user_id} enrolled in course {course_id}")
+#                 return Response(serializer.data, status=status.HTTP_201_CREATED)
+#         except Http404:
+#             logger.warning(f"[{tenant.schema_name}] Course {course_id} not found or not published")
+#             return Response({"detail": "Course not found or not published"}, status=status.HTTP_404_NOT_FOUND)
+#         except Exception as e:
+#             logger.error(f"[{tenant.schema_name}] Error enrolling user: {str(e)}", exc_info=True)
+#             return Response({"detail": "Error processing enrollment"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @action(detail=False, methods=['post'], url_path='course/(?P<course_id>[^/.]+)/bulk')
+#     def bulk_enroll(self, request, course_id=None):
+#         tenant = request.tenant
+#         try:
+#             with tenant_context(tenant):
+#                 course = get_object_or_404(Course, id=course_id)
+#                 user_ids = request.data.get('user_ids', [])
+#                 if not isinstance(user_ids, list):
+#                     logger.warning(f"[{tenant.schema_name}] Invalid user_ids for bulk enrollment")
+#                     return Response({"detail": "user_ids must be a list"}, status=status.HTTP_400_BAD_REQUEST)
+#                 if not user_ids:
+#                     logger.warning(f"[{tenant.schema_name}] No user_ids provided for bulk enrollment")
+#                     return Response({"detail": "user_ids is required"}, status=status.HTTP_400_BAD_REQUEST)
+#                 existing = set(Enrollment.objects.filter(user_id__in=user_ids, course=course).values_list('user_id', flat=True))
+#                 new_enrollments = [Enrollment(user_id=user_id, course=course) for user_id in user_ids if user_id not in existing]
+#                 with transaction.atomic():
+#                     if new_enrollments:
+#                         Enrollment.objects.bulk_create(new_enrollments)
+#                     logger.info(f"[{tenant.schema_name}] Bulk enrolled {len(new_enrollments)} users to course {course_id}")
+#                     return Response({
+#                         "detail": f"Enrolled {len(new_enrollments)} users",
+#                         "created": len(new_enrollments),
+#                         "already_enrolled": len(existing)
+#                     }, status=status.HTTP_201_CREATED)
+#                 return Response({"detail": "No new enrollments created (all users already enrolled)"}, status=status.HTTP_200_OK)
+#         except Http404:
+#             logger.warning(f"[{tenant.schema_name}] Course {course_id} not found")
+#             return Response({"detail": "Course not found"}, status=status.HTTP_404_NOT_FOUND)
+#         except Exception as e:
+#             logger.error(f"[{tenant.schema_name}] Error in bulk enrollment: {str(e)}", exc_info=True)
+#             return Response({"detail": "Error processing bulk enrollment"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @action(detail=False, methods=['get'], permission_classes=[IsAdminUser])
+#     def all_enrollments(self, request):
+#         tenant = request.tenant
+#         try:
+#             with tenant_context(tenant):
+#                 enrollments = Enrollment.objects.select_related('user', 'course').filter(is_active=True).order_by('-enrolled_at')
+#                 paginator = self.pagination_class()
+#                 page = paginator.paginate_queryset(enrollments, request)
+#                 serializer = EnrollmentSerializer(page, many=True, context={'tenant': tenant})
+#                 logger.info(f"[{tenant.schema_name}] Listed all enrollments")
+#                 return paginator.get_paginated_response(serializer.data)
+#         except Exception as e:
+#             logger.error(f"[{tenant.schema_name}] Error fetching all enrollments: {str(e)}", exc_info=True)
+#             return Response({"detail": "Error fetching all enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @action(detail=False, methods=['get'])
+#     def user_enrollments(self, request, user_id=None):
+#         tenant = request.tenant
+#         storage_service = get_storage_service()
+#         try:
+#             with tenant_context(tenant):
+#                 user_id = user_id or request.user.id
+#                 if request.user.role != "admin" and user_id != str(request.user.id):
+#                     logger.warning(f"[{tenant.schema_name}] Non-admin user {request.user.id} attempted to access user {user_id} enrollments")
+#                     return Response({"detail": "Unauthorized access"}, status=status.HTTP_403_FORBIDDEN)
+#                 enrollments = Enrollment.objects.filter(user_id=user_id, is_active=True).select_related('course').prefetch_related(
+#                     'course__resources', 'course__modules', 'course__modules__lessons', 'course__course_instructors__instructor__user'
+#                 ).order_by('-enrolled_at')
+#                 result = []
+#                 for enrollment in enrollments:
+#                     course = enrollment.course
+#                     resources = [
+#                         {
+#                             'id': r.id,
+#                             'title': r.title,
+#                             'type': r.resource_type,
+#                             'url': r.url,
+#                             'order': r.order,
+#                             'file': storage_service.get_public_url(r.file) if r.file else None
+#                         }
+#                         for r in course.resources.all()
+#                     ]
+#                     modules = [
+#                         {
+#                             'id': m.id,
+#                             'title': m.title,
+#                             'order': m.order,
+#                             'lessons': [
+#                                 {
+#                                     'id': l.id,
+#                                     'title': l.title,
+#                                     'type': l.lesson_type,
+#                                     'duration': l.duration,
+#                                     'order': l.order,
+#                                     'is_published': l.is_published,
+#                                     'content_url': l.content_url,
+#                                     'content_file': storage_service.get_public_url(l.content_file) if l.content_file else None
+#                                 }
+#                                 for l in m.lessons.all()
+#                             ]
+#                         }
+#                         for m in course.modules.all()
+#                     ]
+#                     instructors = [
+#                         {'id': ci.instructor.id, 'name': ci.instructor.user.get_full_name(), 'bio': ci.instructor.bio}
+#                         for ci in course.course_instructors.all()
+#                     ]
+#                     result.append({
+#                         'id': enrollment.id,
+#                         'course': {
+#                             'id': course.id,
+#                             'title': course.title,
+#                             'description': course.description,
+#                             'thumbnail': storage_service.get_public_url(course.thumbnail) if course.thumbnail else None,
+#                             'resources': resources,
+#                             'modules': modules,
+#                             'instructors': instructors
+#                         },
+#                         'enrolled_at': enrollment.enrolled_at,
+#                         'completed_at': enrollment.completed_at
+#                     })
+#                 logger.info(f"[{tenant.schema_name}] Retrieved enrollments for user {user_id}")
+#                 return Response(result)
+#         except Exception as e:
+#             logger.error(f"[{tenant.schema_name}] Error fetching user enrollments: {str(e)}", exc_info=True)
+#             return Response({"detail": "Error fetching user enrollments"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+#     @action(detail=False, methods=['get'], url_path='my-courses')
+#     def my_courses(self, request):
+#         if request.user.role != 'learner':
+#             raise PermissionDenied("Only learners can access this endpoint.")
+#         tenant = request.tenant
+#         with tenant_context(tenant):
+#             enrollments = Enrollment.objects.filter(
+#                 user=request.user,
+#                 is_active=True
+#             ).select_related('course', 'course__category')
+#             serializer = self.get_serializer(enrollments, many=True)
+
+#         page = self.paginate_queryset(enrollments)
+#         if page is not None:
+#             serializer = self.get_serializer(page, many=True)
+#             return self.get_paginated_response(serializer.data)
+#         serializer = self.get_serializer(enrollments, many=True)
+#         return Response(serializer.data, status=status.HTTP_200_OK)
+#         #return Response(serializer.data, status=status.HTTP_200_OK)
+
+
+
 class AdminEnrollmentView(TenantBaseView, APIView):
     """Admin endpoint to manage single or bulk enrollments."""
     permission_classes = [IsAdminUser]
@@ -830,6 +1094,8 @@ class AdminEnrollmentView(TenantBaseView, APIView):
             Enrollment.objects.bulk_create(enrollments)
             logger.info(f"[{tenant.schema_name}] Created {len(enrollments)} enrollments")
             return Response({"detail": f"{len(enrollments)} enrollments created successfully"}, status=status.HTTP_201_CREATED)
+        
+
 
 class LearningPathViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage learning paths for a tenant."""
@@ -1253,7 +1519,94 @@ class FAQViewSet(TenantBaseView, viewsets.ModelViewSet):
 
 
 
-# import logging
+class AssignmentViewSet(TenantBaseView,viewsets.ModelViewSet):
+    serializer_class = AssignmentSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            queryset = Assignment.objects.select_related('course', 'user')
+            if self.request.user.role != 'admin':
+                queryset = queryset.filter(user=self.request.user)
+            return queryset.order_by('-due_date')
+
+    def create(self, request, *args, **kwargs):
+        tenant = request.tenant
+        serializer = self.get_serializer(data=request.data, context={'tenant': tenant})
+        serializer.is_valid(raise_exception=True)
+        with tenant_context(tenant):
+            serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class FeedbackViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = FeedbackSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            queryset = Feedback.objects.select_related('user', 'course')
+            if self.request.user.role != 'admin':
+                queryset = queryset.filter(user=self.request.user)
+            return queryset.order_by('-created_at')
+
+    def create(self, request, *args, **kwargs):
+        tenant = request.tenant
+        serializer = self.get_serializer(data=request.data, context={'tenant': tenant})
+        serializer.is_valid(raise_exception=True)
+        with tenant_context(tenant):
+            serializer.save(user=request.user)
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+
+
+
+class CartViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = CartSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return Cart.objects.filter(user=self.request.user).select_related('course')
+
+class WishlistViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = WishlistSerializer, 
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return Wishlist.objects.filter(user=self.request.user).select_related('course')
+
+class GradeViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = GradeSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            queryset = Grade.objects.select_related('user', 'course', 'assignment')
+            if self.request.user.role != 'admin':
+                queryset = queryset.filter(user=self.request.user)
+            return queryset.order_by('-created_at')
+
+
+
+class AnalyticsViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = AnalyticsSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            return Analytics.objects.filter(user=self.request.user).select_related('course')
+
+
+# 
+#  import logging
 # from django.db import connection, transaction
 # from django_tenants.utils import tenant_context
 # from django.http import Http404

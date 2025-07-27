@@ -7,33 +7,28 @@ from pathlib import Path
 from datetime import timedelta
 import os
 import sys
+import environ
 from logging.handlers import RotatingFileHandler
 
 # FRONTEND URL
 # -----------------------------------------------------------
 #FRONTEND_URL = 'http://localhost:5173'  # Define in uppercase, placed before CORS settings
-FRONTEND_URL = 'https://complete-lms-sable.vercel.app'  # Define in uppercase, placed before CORS settings
 
 # -----------------------------------------------------------
 # BASE PATHS
 # -----------------------------------------------------------
 BASE_DIR = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(BASE_DIR / 'talent_engine'))  # leave for fcntl stub on Windows
+env = environ.Env(DEBUG=(bool, False))
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))  # read .env file
 
 # -----------------------------------------------------------
 # CORE SECURITY
 # -----------------------------------------------------------
-SECRET_KEY = 'django-insecure-!v)6(7@u983fg+8gdo1o)dr^59vvp3^ol*apr%c+$0n$#swz-1'
-DEBUG = True                     # flip to True for local dev
-ALLOWED_HOSTS = [
-    '127.0.0.1',
-    'localhost',
-    'complete-lms-api.onrender.com',
-    'https://complete-lms-sable.vercel.app',
-    'https://complete-lms-api-q8xa.onrender.com',
-    'complete-lms-api-q8xa.onrender.com',
-
-]
+SECRET_KEY = env('DJANGO_SECRET_KEY', default='your-default-secret-key')
+DEBUG = env("DEBUG")                     # flip to True for local dev
+ALLOWED_HOSTS = env.list("DJANGO_ALLOWED_HOSTS", default=[])    
+FRONTEND_URL = env('FRONTEND_URL', default='http://localhost:5173')  # Ensure this is defined    
 
 # -----------------------------------------------------------
 # APPLICATIONS
@@ -69,6 +64,7 @@ INSTALLED_APPS = [
     # local
     'core',
     'courses',
+    'activitylog',
     'users.apps.UsersConfig',
     'subscriptions',
     'schedule',
@@ -132,18 +128,22 @@ SOCIALACCOUNT_PROVIDERS = {
 #         'PORT':     '5432',
 #     }
 # }
-
-
 DATABASES = {
-    'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'complete_multi_tenant_lms_database_1rtr',
-        'USER': 'complete_multi_tenant_lms_database_1rtr_user',
-        'PASSWORD': 'ukOZIvQvnx7XujfHZ0tUL3L3sC7UCwo2',
-        'HOST': 'dpg-d21trqadbo4c73ekpn9g-a.oregon-postgres.render.com',
-        'PORT': '5432',
-    }
+    'default': env.db('DATABASE_URL')
 }
+DATABASES['default']['ENGINE'] = 'django_tenants.postgresql_backend'
+
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_tenants.postgresql_backend',
+#         'NAME': 'complete_multi_tenant_lms_database_1rtr',
+#         'USER': 'complete_multi_tenant_lms_database_1rtr_user',
+#         'PASSWORD': 'ukOZIvQvnx7XujfHZ0tUL3L3sC7UCwo2',
+#         'HOST': 'dpg-d21trqadbo4c73ekpn9g-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
 
 
 DATABASE_ROUTERS = ['django_tenants.routers.TenantSyncRouter']
@@ -171,6 +171,7 @@ TENANT_APPS = [
     'viewflow.fsm',
     'auditlog',
     'courses',
+    'activitylog',
     'schedule',
     'payments',
     'forum',
@@ -185,13 +186,13 @@ TENANT_APPS = [
 # -----------------------------------------------------------
 # Only allow this in production if you set credentials = True
 CORS_ALLOWED_ORIGINS = [
-    'https://complete-lms-sable.vercel.app',
+    'https://complete-lms.vercel.app',
     'http://localhost:5173'
 ]
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://complete-lms-sable.vercel.app',
+    'https://complete-lms.vercel.app',
     'http://localhost:5173'
 ]
 
@@ -328,14 +329,14 @@ CRONJOBS = [
 # -----------------------------------------------------------
 # EMAIL
 # -----------------------------------------------------------
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'ekenehanson@gmail.com'
-EMAIL_HOST_PASSWORD = 'pduw cpmw dgoq adrp'
-DEFAULT_FROM_EMAIL = 'ekenehanson@gmail.com'
-EMAIL_DEBUG = True
+# EMAIL_BACKEND = env('EMAIL_BACKEND', default='django.core.mail.backends.smtp.EmailBackend')
+# EMAIL_HOST = env('EMAIL_HOST', default='smtp.gmail.com')
+# EMAIL_PORT = env('EMAIL_PORT', default=587, cast=int)
+# EMAIL_USE_SSL = env('EMAIL_USE_SSL', default=False, cast=bool)
+# EMAIL_HOST_USER = env('EMAIL_HOST_USER')
+# EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD', default='your-email-password'),  
+# DEFAULT_FROM_EMAIL = env('DEFAULT_FROM_EMAIL')
+# EMAIL_DEBUG = env('EMAIL_DEBUG', default=False, cast=bool)      
 
 # -----------------------------------------------------------
 # INTERNATIONALISATION / MISC
@@ -351,13 +352,15 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # -----------------------------------------------------------
 
 
-# Storage Configuration
+# SUPABASE CONFIGURATION
+# -----------------------------------------------------------
 STORAGE_TYPE = 'supabase'  # Options: 'supabase', 's3', 'azure'
 
-# Supabase Settings (if using Supabase)
-SUPABASE_URL = "https://gkvgqvosnetifsonhxuo.supabase.co"
-SUPABASE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imdrdmdxdm9zbmV0aWZzb25oeHVvIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTI2NTU0OTcsImV4cCI6MjA2ODIzMTQ5N30.foh7w4Ko-wGwMc9GW7ZX2YswK8d4J51wel532mjPTfw"
-SUPABASE_BUCKET = "luminacaremedia"
+# Supabase Settings
+SUPABASE_URL = env('SUPABASE_URL', default='')  # No trailing comma
+SUPABASE_KEY = env('SUPABASE_KEY', default='')
+SUPABASE_BUCKET = env('SUPABASE_BUCKET', default='luminaaremedia')
+
 
 # AWS S3 Settings (if using S3)
 AWS_ACCESS_KEY_ID = "your-aws-access-key"

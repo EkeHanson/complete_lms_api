@@ -1,5 +1,5 @@
 from django.db import models
-from users.models import User
+from users.models import CustomUser
 
 class ActivityLog(models.Model):
     STATUS_CHOICES = (
@@ -9,7 +9,7 @@ class ActivityLog(models.Model):
         ('in-progress', 'In Progress'),
     )
     
-    user = models.ForeignKey(User, on_delete=models.SET_NULL, null=True, blank=True)
+    user = models.ForeignKey(CustomUser, on_delete=models.SET_NULL, null=True, blank=True)
     activity_type = models.CharField(max_length=50,)
     details = models.TextField()
     ip_address = models.GenericIPAddressField(blank=True, null=True)

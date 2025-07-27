@@ -1,8 +1,8 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
-    FAQStatsView, BadgeViewSet, UserBadgeViewSet, UserPointsViewSet, FAQViewSet,
-    CategoryViewSet, CourseViewSet, ModuleViewSet, LessonViewSet, ResourceViewSet,
+from .views import (AssignmentViewSet,FeedbackViewSet,CartViewSet, WishlistViewSet,
+    FAQStatsView, BadgeViewSet, UserBadgeViewSet, UserPointsViewSet, FAQViewSet,GradeViewSet,
+    CategoryViewSet, CourseViewSet, ModuleViewSet, LessonViewSet, ResourceViewSet,AnalyticsViewSet,
     EnrollmentViewSet, LearningPathViewSet, CertificateView, CertificateTemplateView
 )
 
@@ -14,6 +14,12 @@ router.register(r'courses/(?P<course_id>\d+)/resources', ResourceViewSet, basena
 router.register(r'badges', BadgeViewSet, basename='badges')
 router.register(r'user-points', UserPointsViewSet, basename='user-points')
 router.register(r'user-badges', UserBadgeViewSet, basename='user-badges')
+router.register(r'assignments', AssignmentViewSet, basename='assignments')
+router.register(r'feedback', FeedbackViewSet, basename='feedback')
+router.register(r'cart', CartViewSet, basename='cart')
+router.register(r'wishlist', WishlistViewSet, basename='wishlist')
+router.register(r'grades', GradeViewSet, basename='grades')
+router.register(r'analytics', AnalyticsViewSet, basename='analytics')
 # router.register(r'enrollments', EnrollmentViewSet, basename='enrollment')
 
 urlpatterns = [
@@ -40,5 +46,6 @@ urlpatterns = [
     path('enrollments/user/<int:user_id>/', EnrollmentViewSet.as_view({'get': 'user_enrollments'}), name='user-enrollments'),
     path('enrollments/all/', EnrollmentViewSet.as_view({'get': 'all_enrollments'}), name='all-enrollments'),
 ]
+
 
 

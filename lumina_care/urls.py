@@ -30,6 +30,7 @@ urlpatterns = [
     path('', root_view, name='root'),
     path('api/tenant/', include('core.urls')),
     path('api/users/', include('users.urls')),
+    path('api/activitylog/', include('activitylog.urls')),
     path('api/courses/', include('courses.urls')),
     path('schedule/', include('schedule.urls')),
     path('messaging/', include('messaging.urls')),
@@ -50,3 +51,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+
+

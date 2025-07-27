@@ -14,12 +14,35 @@ from groups.models import Group, GroupMembership, Role
 logger = logging.getLogger(__name__)
 
 class CustomUserManager(BaseUserManager):
+    
+    
+    # def create_user(self, email, password=None, **extra_fields):
+    #     if not email:
+    #         raise ValueError('Users must have an email address')
+    #     email = self.normalize_email(email)
+    #     if 'role' not in extra_fields:
+    #         extra_fields['role'] = 'carer'  # Default role
+    #     user = self.model(email=email, **extra_fields)
+    #     if password:
+    #         self.validate_password(password)
+    #         user.set_password(password)
+    #     user.save(using=self._db)
+    #     UserActivity.objects.create(
+    #         user=user,
+    #         activity_type='user_management',
+    #         details=f'New user created with email: {email}',
+    #         status='success'
+    #     )
+    #     return user
+
     def create_user(self, email, password=None, **extra_fields):
         if not email:
             raise ValueError('Users must have an email address')
         email = self.normalize_email(email)
         if 'role' not in extra_fields:
             extra_fields['role'] = 'carer'  # Default role
+        if 'status' not in extra_fields:
+            extra_fields['status'] = 'active'  # Default to active
         user = self.model(email=email, **extra_fields)
         if password:
             self.validate_password(password)
@@ -32,6 +55,7 @@ class CustomUserManager(BaseUserManager):
             status='success'
         )
         return user
+
 
     def create_superuser(self, email, password, **extra_fields):
         extra_fields.setdefault('is_staff', True)
@@ -74,6 +98,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     status = models.CharField(max_length=20, default='pending')
     tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE, null=True)
     is_deleted = models.BooleanField(default=False)
+    login_attempts = models.PositiveIntegerField(default=0)
     
 
     USERNAME_FIELD = 'email'
@@ -184,6 +209,18 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
             status='success'
         )
 
+    def increment_login_attempts(self):
+        self.login_attempts += 1
+        if self.login_attempts >= 5:
+            self.is_locked = True
+            UserActivity.objects.create(
+                user=self,
+                activity_type='account_locked',
+                details='Account locked due to excessive login attempts',
+                status='system'
+            )
+        self.save()
+
     def delete_account(self, reason):
         self.is_deleted = True
         self.is_active = False
@@ -209,6 +246,134 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     class Meta:
         verbose_name = _('User')
         verbose_name_plural = _('Users')
+
+
+class UserProfile(models.Model):
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    modules = models.ManyToManyField('core.Module', blank=True)
+
+    def __str__(self):
+        return f"Profile for {self.user.email}"
+
+class UserActivity(models.Model):
+    STATUS_CHOICES = (
+        ('success', 'Success'),
+        ('failed', 'Failed'),
+        ('pending', 'Pending'),
+        ('in-progress', 'In Progress'),
+        ('system', 'System'),
+    )
+    user = models.ForeignKey(
+        CustomUser,
+        on_delete=models.CASCADE,
+        related_name='activities',
+        blank=True,
+        null=True
+    )
+    activity_type = models.CharField(max_length=50)
+    details = models.TextField()
+    ip_address = models.GenericIPAddressField(blank=True, null=True)
+    device_info = models.CharField(max_length=200, blank=True, null=True)
+    timestamp = models.DateTimeField(auto_now_add=True)
+    status = models.CharField(
+        max_length=20,
+        choices=STATUS_CHOICES,
+        default='success'
+    )
+
+    class Meta:
+        verbose_name = _('Activity Log')
+        verbose_name_plural = _('Activity Logs')
+        ordering = ['-timestamp']
+        indexes = [
+            models.Index(fields=['-timestamp']),
+            models.Index(fields=['user', 'activity_type']),
+            models.Index(fields=['activity_type', 'status']),
+        ]
+
+    def __str__(self):
+        user_info = self.user.email if self.user else 'System'
+        return f"{user_info} - {self.activity_type} ({self.timestamp})"
+
+    def save(self, *args, **kwargs):
+        if not self.id:
+            self.timestamp = timezone.now()
+        super().save(*args, **kwargs)
+
+
+class FailedLogin(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
+    ip_address = models.GenericIPAddressField()
+    username = models.CharField(max_length=150)
+    timestamp = models.DateTimeField(default=timezone.now)
+    attempts = models.PositiveIntegerField(default=1)
+    status = models.CharField(max_length=20, choices=(('active', 'Active'), ('blocked', 'Blocked')))
+
+    class Meta:
+        indexes = [models.Index(fields=['ip_address', 'timestamp'])]
+
+    def __str__(self):
+        return f"Failed login: {self.username} from {self.ip_address} at {self.timestamp}"
+
+class BlockedIP(models.Model):
+    ip_address = models.GenericIPAddressField(unique=True)
+    reason = models.TextField()
+    timestamp = models.DateTimeField(default=timezone.now)
+    action = models.CharField(max_length=50, choices=(('auto-blocked', 'Auto-blocked'), ('manual-block', 'Manual Block')))
+
+    class Meta:
+        indexes = [models.Index(fields=['ip_address', 'timestamp'])]
+
+    def __str__(self):
+        return f"Blocked IP: {self.ip_address} at {self.timestamp}"
+
+class VulnerabilityAlert(models.Model):
+    SEVERITY_CHOICES = (
+        ('high', 'High'),
+        ('medium', 'Medium'),
+        ('low', 'Low'),
+    )
+    title = models.CharField(max_length=255)
+    component = models.CharField(max_length=100)
+    severity = models.CharField(max_length=20, choices=SEVERITY_CHOICES)
+    detected = models.DateTimeField(default=timezone.now)
+    status = models.CharField(max_length=20, choices=(('pending', 'Pending'), ('in-progress', 'In Progress'), ('resolved', 'Resolved')))
+
+    class Meta:
+        indexes = [models.Index(fields=['severity', 'detected'])]
+
+    def __str__(self):
+        return f"{self.severity} - {self.title} ({self.status})"
+
+class ComplianceReport(models.Model):
+    type = models.CharField(max_length=50, choices=(('GDPR', 'GDPR'), ('CCPA', 'CCPA'), ('PCI DSS', 'PCI DSS')))
+    status = models.CharField(max_length=20, choices=(('compliant', 'Compliant'), ('pending-review', 'Pending Review')))
+    last_audit = models.DateField()
+    next_audit = models.DateField()
+    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE)
+
+    class Meta:
+        indexes = [models.Index(fields=['type', 'status'])]
+
+    def __str__(self):
+        return f"{self.type} - {self.status}"
+    
+
+
+class PasswordResetToken(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    tenant = models.ForeignKey("core.Tenant", on_delete=models.CASCADE)
+    token = models.CharField(max_length=100, unique=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    expires_at = models.DateTimeField()
+    used = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ('user', 'tenant', 'token')
+
+    def __str__(self):
+        return f"Password reset token for {self.user.email} in tenant {self.tenant.schema_name}"
+
 
 
 
@@ -386,115 +551,3 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 #             )
 
 
-
-class UserProfile(models.Model):
-    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
-    modules = models.ManyToManyField('core.Module', blank=True)
-
-    def __str__(self):
-        return f"Profile for {self.user.email}"
-
-class UserActivity(models.Model):
-    STATUS_CHOICES = (
-        ('success', 'Success'),
-        ('failed', 'Failed'),
-        ('pending', 'Pending'),
-        ('in-progress', 'In Progress'),
-        ('system', 'System'),
-    )
-    user = models.ForeignKey(
-        CustomUser,
-        on_delete=models.CASCADE,
-        related_name='activities',
-        blank=True,
-        null=True
-    )
-    activity_type = models.CharField(max_length=50)
-    details = models.TextField()
-    ip_address = models.GenericIPAddressField(blank=True, null=True)
-    device_info = models.CharField(max_length=200, blank=True, null=True)
-    timestamp = models.DateTimeField(auto_now_add=True)
-    status = models.CharField(
-        max_length=20,
-        choices=STATUS_CHOICES,
-        default='success'
-    )
-
-    class Meta:
-        verbose_name = _('Activity Log')
-        verbose_name_plural = _('Activity Logs')
-        ordering = ['-timestamp']
-        indexes = [
-            models.Index(fields=['-timestamp']),
-            models.Index(fields=['user', 'activity_type']),
-            models.Index(fields=['activity_type', 'status']),
-        ]
-
-    def __str__(self):
-        user_info = self.user.email if self.user else 'System'
-        return f"{user_info} - {self.activity_type} ({self.timestamp})"
-
-    def save(self, *args, **kwargs):
-        if not self.id:
-            self.timestamp = timezone.now()
-        super().save(*args, **kwargs)
-
-
-
-
-class FailedLogin(models.Model):
-    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True, blank=True)
-    ip_address = models.GenericIPAddressField()
-    username = models.CharField(max_length=150)
-    timestamp = models.DateTimeField(default=timezone.now)
-    attempts = models.PositiveIntegerField(default=1)
-    status = models.CharField(max_length=20, choices=(('active', 'Active'), ('blocked', 'Blocked')))
-
-    class Meta:
-        indexes = [models.Index(fields=['ip_address', 'timestamp'])]
-
-    def __str__(self):
-        return f"Failed login: {self.username} from {self.ip_address} at {self.timestamp}"
-
-class BlockedIP(models.Model):
-    ip_address = models.GenericIPAddressField(unique=True)
-    reason = models.TextField()
-    timestamp = models.DateTimeField(default=timezone.now)
-    action = models.CharField(max_length=50, choices=(('auto-blocked', 'Auto-blocked'), ('manual-block', 'Manual Block')))
-
-    class Meta:
-        indexes = [models.Index(fields=['ip_address', 'timestamp'])]
-
-    def __str__(self):
-        return f"Blocked IP: {self.ip_address} at {self.timestamp}"
-
-class VulnerabilityAlert(models.Model):
-    SEVERITY_CHOICES = (
-        ('high', 'High'),
-        ('medium', 'Medium'),
-        ('low', 'Low'),
-    )
-    title = models.CharField(max_length=255)
-    component = models.CharField(max_length=100)
-    severity = models.CharField(max_length=20, choices=SEVERITY_CHOICES)
-    detected = models.DateTimeField(default=timezone.now)
-    status = models.CharField(max_length=20, choices=(('pending', 'Pending'), ('in-progress', 'In Progress'), ('resolved', 'Resolved')))
-
-    class Meta:
-        indexes = [models.Index(fields=['severity', 'detected'])]
-
-    def __str__(self):
-        return f"{self.severity} - {self.title} ({self.status})"
-
-class ComplianceReport(models.Model):
-    type = models.CharField(max_length=50, choices=(('GDPR', 'GDPR'), ('CCPA', 'CCPA'), ('PCI DSS', 'PCI DSS')))
-    status = models.CharField(max_length=20, choices=(('compliant', 'Compliant'), ('pending-review', 'Pending Review')))
-    last_audit = models.DateField()
-    next_audit = models.DateField()
-    tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE)
-
-    class Meta:
-        indexes = [models.Index(fields=['type', 'status'])]
-
-    def __str__(self):
-        return f"{self.type} - {self.status}"

@@ -5,8 +5,7 @@ from rest_framework import viewsets, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.exceptions import ValidationError  # Added import
-from django.shortcuts import get_object_or_404
+from rest_framework.exceptions import ValidationError
 from django.utils import timezone
 from django.db.models import Q, Count
 from groups.models import Group
@@ -15,6 +14,7 @@ from .models import Schedule, ScheduleParticipant
 from .serializers import ScheduleSerializer, ScheduleParticipantSerializer
 
 logger = logging.getLogger('schedule')
+
 
 class TenantBaseView(viewsets.GenericViewSet):
     """Base view to handle tenant schema setting and logging."""
@@ -27,10 +27,12 @@ class TenantBaseView(viewsets.GenericViewSet):
         connection.set_schema(tenant.schema_name)
         logger.debug(f"[{tenant.schema_name}] Schema set for request")
 
+
 class ScheduleViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage schedules for a tenant with filtering and participant response handling."""
     serializer_class = ScheduleSerializer
     permission_classes = [IsAuthenticated]
+
 
     def get_queryset(self):
         """Return schedules scoped to the tenant, filtered by user access and query parameters."""

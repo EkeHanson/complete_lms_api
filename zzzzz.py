@@ -1,5 +1,6 @@
-# python manage.py showmigrations talent_engine
-# python manage.py makemigrations token_blacklist users, courses, core, courses, forum, groups, messaging, advert, subscriptions
+# python manage.py makemigrations token_blacklist users courses forum groups messaging subscriptions
+
+# python manage.py makemigrations token_blacklist users, courses, courses, forum, groups, messaging, subscriptions
 # python manage.py migrate_schemas --shared
 # python manage.py migrate_schemas
 
@@ -24,14 +25,25 @@ if not Tenant.objects.filter(schema_name='public').exists():
 
 
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='proliance').exists():
+if not Tenant.objects.filter(schema_name='appbrew').exists():
     tenant = Tenant.objects.create(
-        name='proliance',
-        schema_name='proliance'
+        name='appbrew',
+        schema_name='appbrew'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='prolianceltd.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='appbrew.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
+
+from core.models import Tenant, Domain
+if not Tenant.objects.filter(schema_name='fly').exists():
+    tenant = Tenant.objects.create(
+        name='fly',
+        schema_name='fly'
+    )
+    tenant.auto_create_schema = False
+    tenant.save()
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api.fly.dev', is_primary=True)
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
 
@@ -41,16 +53,17 @@ if not Tenant.objects.filter(schema_name='proliance').exists():
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
-tenant = Tenant.objects.get(schema_name='proliance')
+tenant = Tenant.objects.get(schema_name='appbrew')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
-        email='support@prolianceltd.com',
+        email='support@appbrew.com',
         password='qwertyqwerty',
         role='admin',
         first_name='Monday',
         last_name='Davidson',
         tenant=tenant
     )
+    
     
 from core.models import Tenant
 from users.models import CustomUser

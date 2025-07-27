@@ -440,4 +440,58 @@ class FAQ(models.Model):
         return f"{self.course.title} - {self.question[:50]}..."
     
 
-    
+class Assignment(models.Model):
+    title = models.CharField(max_length=255)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='assignments')
+    due_date = models.DateTimeField()
+    status = models.CharField(max_length=20, choices=[('submitted', 'Submitted'), ('in-progress', 'In Progress'), ('not-started', 'Not Started')])
+    grade = models.IntegerField(null=True, blank=True)
+    feedback = models.TextField(null=True, blank=True)
+    type = models.CharField(max_length=20, choices=[('project', 'Project'), ('assignment', 'Assignment'), ('quiz', 'Quiz')])
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'course', 'title']
+
+class Feedback(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True)
+    type = models.CharField(max_length=50, default='lms')
+    content = models.TextField()
+    rating = models.IntegerField(null=True, blank=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+
+class Cart(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'course']
+
+class Wishlist(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    added_at = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        unique_together = ['user', 'course']
+
+
+class Grade(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='user_grades')
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='users_course_grades')
+    assignment = models.ForeignKey("Assignment", on_delete=models.CASCADE, null=True, blank=True, related_name='assignment_grades')
+    score = models.IntegerField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+class Analytics(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True)
+    total_time_spent = models.IntegerField(default=0)  # In minutes
+    weekly_time_spent = models.IntegerField(default=0)  # In minutes
+    strengths = models.JSONField(default=list)
+    weaknesses = models.JSONField(default=list)
+    last_updated = models.DateTimeField(auto_now=True)
