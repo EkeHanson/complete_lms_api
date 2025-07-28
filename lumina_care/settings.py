@@ -129,9 +129,12 @@ SOCIALACCOUNT_PROVIDERS = {
 #     }
 # }
 DATABASES = {
-    'default': env.db('DATABASE_URL')
+    'default': {
+        **env.db('DATABASE_URL'),
+        'ENGINE': 'django_tenants.postgresql_backend',
+    }
 }
-DATABASES['default']['ENGINE'] = 'django_tenants.postgresql_backend'
+
 
 
 # DATABASES = {

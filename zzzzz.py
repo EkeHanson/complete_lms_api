@@ -25,14 +25,16 @@ if not Tenant.objects.filter(schema_name='public').exists():
 
 
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='appbrew').exists():
+if not Tenant.objects.filter(schema_name='proliance').exists():
     tenant = Tenant.objects.create(
-        name='appbrew',
-        schema_name='appbrew'
+        name='proliance',
+        schema_name='proliance'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='appbrew.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='prolianceltd.com', is_primary=True)
+
+    
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
 from core.models import Tenant, Domain
