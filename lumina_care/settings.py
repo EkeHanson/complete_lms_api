@@ -206,7 +206,7 @@ CORS_ALLOWED_ORIGINS = [
 CORS_ALLOW_CREDENTIALS = True
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://complete-lms.vercel.app',
+    'https://complete-lms-sable.vercel.app',
     'http://localhost:5173'
 ]
 
