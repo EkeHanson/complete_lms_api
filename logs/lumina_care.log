@@ -2560,3 +2560,4 @@ LINE 1: UPDATE "payments_paymentgateway" SET "is_active" = false WHE...
 2025-08-03 00:32:47,047 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
 2025-08-03 00:32:49,599 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
 2025-08-03 00:33:04,861 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-08-03 00:33:07,156 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
