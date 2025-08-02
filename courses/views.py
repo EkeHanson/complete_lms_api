@@ -57,34 +57,37 @@ def calculate_course_progress(user, course):
         return 0
     return round((completed_lessons / total_lessons) * 100, 2)
 
-# ViewSet for CourseProgress
-class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
-    serializer_class = CourseProgressSerializer
-    permission_classes = [IsAuthenticated]
+# class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
+#     serializer_class = CourseProgressSerializer
+#     permission_classes = [IsAuthenticated]
 
-    def get_queryset(self):
-        tenant = self.request.tenant
-        with tenant_context(tenant):
-            qs = CourseProgress.objects.filter(tenant_id=tenant.schema_name)
-            user = self.request.query_params.get('user')
-            course = self.request.query_params.get('course')
-            if user:
-                qs = qs.filter(user_id=user)
-            if course:
-                qs = qs.filter(course_id=course)
-            return qs
+#     def get_queryset(self):
+#         tenant = self.request.tenant
+#         with tenant_context(tenant):
+#             qs = CourseProgress.objects.filter(tenant_id=tenant.schema_name)
+#             user = self.request.query_params.get('user')
+#             course = self.request.query_params.get('course')
+#             if user:
+#                 qs = qs.filter(user_id=user)
+#             if course:
+#                 qs = qs.filter(course_id=course)
+#             return qs
 
-    @action(detail=False, methods=['patch'], url_path='update')
-    def update_progress(self, request):
-        tenant = request.tenant
-        user_id = request.data.get('user')
-        course_id = request.data.get('course')
-        with tenant_context(tenant):
-            obj = get_object_or_404(CourseProgress, user_id=user_id, course_id=course_id)
-            obj.progress_percent = calculate_course_progress(obj.user, obj.course)
-            obj.save()
-            serializer = self.get_serializer(obj)
-            return Response(serializer.data)
+#     def perform_create(self, serializer):
+#         tenant = self.request.tenant
+#         serializer.save(user=self.request.user, tenant_id=tenant.schema_name)
+
+#     @action(detail=False, methods=['patch'], url_path='update')
+#     def update_progress(self, request):
+#         tenant = request.tenant
+#         user_id = request.data.get('user')
+#         course_id = request.data.get('course')
+#         with tenant_context(tenant):
+#             obj = get_object_or_404(CourseProgress, user_id=user_id, course_id=course_id)
+#             obj.progress_percent = calculate_course_progress(obj.user, obj.course)
+#             obj.save()
+#             serializer = self.get_serializer(obj)
+#             return Response(serializer.data)
 
 class TenantAPIView(APIView):
     """Base APIView to handle tenant schema setting and logging."""
@@ -906,61 +909,6 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
             return Response({"detail": "Error fetching my courses"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
-    serializer_class = CourseProgressSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        tenant = self.request.tenant
-        with tenant_context(tenant):
-            qs = CourseProgress.objects.filter(tenant_id=tenant.schema_name)
-            user = self.request.query_params.get('user')
-            course = self.request.query_params.get('course')
-            if user:
-                qs = qs.filter(user_id=user)
-            if course:
-                qs = qs.filter(course_id=course)
-            return qs
-
-    @action(detail=False, methods=['patch'], url_path='update')
-    def update_progress(self, request):
-        tenant = request.tenant
-        user_id = request.data.get('user')
-        course_id = request.data.get('course')
-        with tenant_context(tenant):
-            obj = get_object_or_404(CourseProgress, user_id=user_id, course_id=course_id)
-            obj.progress_percent = calculate_course_progress(obj.user, obj.course)
-            obj.save()
-            serializer = self.get_serializer(obj)
-            return Response(serializer.data)
-
-class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
-    serializer_class = CourseProgressSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        tenant = self.request.tenant
-        with tenant_context(tenant):
-            return CourseProgress.objects.filter(tenant_id=tenant.schema_name)
-
-    def perform_create(self, serializer):
-        tenant = self.request.tenant
-        serializer.save(user=self.request.user, tenant_id=tenant.schema_name)
-
-
-class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
-    serializer_class = CourseProgressSerializer
-    permission_classes = [IsAuthenticated]
-
-    def get_queryset(self):
-        tenant = self.request.tenant
-        with tenant_context(tenant):
-            return CourseProgress.objects.filter(tenant_id=tenant.schema_name)
-
-    def perform_create(self, serializer):
-        tenant = request.tenant
-        serializer.save(user=self.request.user, tenant_id=tenant.schema_name)
-
 
 
 class AssignmentViewSet(TenantBaseView,viewsets.ModelViewSet):
@@ -1111,4 +1059,36 @@ class QuizViewSet(TenantBaseView, viewsets.ModelViewSet):
     def perform_create(self, serializer):
         tenant = self.request.tenant
         serializer.save(tenant_id=tenant.schema_name)
+
+class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
+    serializer_class = CourseProgressSerializer
+    permission_classes = [IsAuthenticated]
+
+    def get_queryset(self):
+        tenant = self.request.tenant
+        with tenant_context(tenant):
+            qs = CourseProgress.objects.filter(tenant_id=tenant.schema_name)
+            user = self.request.query_params.get('user')
+            course = self.request.query_params.get('course')
+            if user:
+                qs = qs.filter(user_id=user)
+            if course:
+                qs = qs.filter(course_id=course)
+            return qs
+
+    def perform_create(self, serializer):
+        tenant = self.request.tenant
+        serializer.save(user=self.request.user, tenant_id=tenant.schema_name)
+
+    @action(detail=False, methods=['patch'], url_path='update')
+    def update_progress(self, request):
+        tenant = request.tenant
+        user_id = request.data.get('user')
+        course_id = request.data.get('course')
+        with tenant_context(tenant):
+            obj = get_object_or_404(CourseProgress, user_id=user_id, course_id=course_id)
+            obj.progress_percent = calculate_course_progress(obj.user, obj.course)
+            obj.save()
+            serializer = self.get_serializer(obj)
+            return Response(serializer.data)
 

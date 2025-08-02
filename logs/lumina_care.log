@@ -2522,3 +2522,37 @@ TypeError: 'tuple' object is not callable
 2025-08-02 23:23:42,748 [WARNING] django.server: "GET /api/courses/instructors/me/ HTTP/1.1" 404 39
 2025-08-02 23:31:22,117 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
 2025-08-02 23:31:26,639 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-08-02 23:53:40,954 [INFO] core: Saving tenant with schema_name: render
+2025-08-02 23:59:34,615 [INFO] core: Created payment gateway Paystack for tenant render
+2025-08-02 23:59:35,191 [INFO] core: Created payment gateway Paypal for tenant render
+2025-08-02 23:59:35,869 [INFO] core: Created payment gateway Stripe for tenant render
+2025-08-02 23:59:36,483 [INFO] core: Created payment gateway Flutterwave for tenant render
+2025-08-02 23:59:37,070 [INFO] core: Created payment gateway Remita for tenant render
+2025-08-02 23:59:37,643 [INFO] core: Created payment gateway Interswitch for tenant render
+2025-08-02 23:59:38,234 [INFO] core: Created payment gateway Monnify for tenant render
+2025-08-02 23:59:38,941 [INFO] core: Created payment gateway Square for tenant render
+2025-08-02 23:59:39,658 [INFO] core: Created payment gateway ApplePay for tenant render
+2025-08-02 23:59:40,441 [INFO] core: Created payment gateway GooglePay for tenant render
+2025-08-02 23:59:41,092 [INFO] core: Created default site configuration for tenant render
+2025-08-02 23:59:41,911 [INFO] core: Created default payment configuration for tenant render
+2025-08-02 23:59:42,934 [INFO] core: Saving tenant with schema_name: render
+2025-08-03 00:00:49,597 [INFO] core: Saving tenant with schema_name: proliance
+2025-08-03 00:06:27,005 [INFO] core: Created payment gateway Paystack for tenant proliance
+2025-08-03 00:06:27,622 [INFO] core: Created payment gateway Paypal for tenant proliance
+2025-08-03 00:06:29,135 [INFO] core: Created payment gateway Stripe for tenant proliance
+2025-08-03 00:06:29,769 [INFO] core: Created payment gateway Flutterwave for tenant proliance
+2025-08-03 00:06:30,486 [INFO] core: Created payment gateway Remita for tenant proliance
+2025-08-03 00:06:31,306 [INFO] core: Created payment gateway Interswitch for tenant proliance
+2025-08-03 00:06:32,024 [INFO] core: Created payment gateway Monnify for tenant proliance
+2025-08-03 00:06:32,636 [INFO] core: Created payment gateway Square for tenant proliance
+2025-08-03 00:06:33,251 [INFO] core: Created payment gateway ApplePay for tenant proliance
+2025-08-03 00:06:33,968 [INFO] core: Created payment gateway GooglePay for tenant proliance
+2025-08-03 00:06:34,787 [INFO] core: Created default site configuration for tenant proliance
+2025-08-03 00:06:35,401 [INFO] core: Created default payment configuration for tenant proliance
+2025-08-03 00:06:36,425 [INFO] core: Saving tenant with schema_name: proliance
+2025-08-03 00:07:26,192 [INFO] core: Saving tenant with schema_name: public
+2025-08-03 00:07:29,263 [ERROR] core: Failed to prepopulate payment models for tenant public: relation "payments_paymentgateway" does not exist
+LINE 1: UPDATE "payments_paymentgateway" SET "is_active" = false WHE...
+               ^
+
+2025-08-03 00:07:30,185 [INFO] core: Saving tenant with schema_name: public

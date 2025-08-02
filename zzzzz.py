@@ -13,10 +13,10 @@
 
 #python manage.py shell
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='public').exists():
+if not Tenant.objects.filter(schema_name='proliance').exists():
     tenant = Tenant.objects.create(
-        name='public',
-        schema_name='public'
+        name='proliance',
+        schema_name='proliance'
     )
     tenant.auto_create_schema = False
     tenant.save()
@@ -25,10 +25,10 @@ if not Tenant.objects.filter(schema_name='public').exists():
 
 
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='arts').exists():
+if not Tenant.objects.filter(schema_name='public').exists():
     tenant = Tenant.objects.create(
-        name='arts',
-        schema_name='arts'
+        name='public',
+        schema_name='public'
     )
     tenant.auto_create_schema = False
     tenant.save()
@@ -98,10 +98,10 @@ with tenant_context(tenant):
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
-tenant = Tenant.objects.get(schema_name='lumina_care')
+tenant = Tenant.objects.get(schema_name='proliance')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
-        email='support@uminacare.com',
+        email='support@prolianceltd.com',
         password='qwertyqwerty',
         role='admin',
         first_name='Awaji-mimam',
