@@ -34,6 +34,8 @@ from reportlab.lib.pagesizes import letter
 from reportlab.platypus import SimpleDocTemplate, Paragraph, Spacer
 from reportlab.lib.styles import getSampleStyleSheet
 from io import BytesIO
+from rest_framework.parsers import MultiPartParser, FormParser, JSONParser
+
 
 import logging
 import jwt
@@ -113,6 +115,8 @@ class SocialLoginCallbackView(TenantBaseView, APIView):
 
 
 
+# [Previous imports and other views remain unchanged]
+
 class RegisterView(TenantBaseView, generics.CreateAPIView):
     """Register a new user in the tenant's schema."""
     serializer_class = UserSerializer
@@ -128,7 +132,7 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
         try:
             serializer.is_valid(raise_exception=True)
         except serializers.ValidationError as e:
-            logger.error(f"[{tenant.schema_name}] User registration validation failed: {e}")
+            logger.error(f"[{tenant.schema_name}] User registration validation failed: {e}, data: {request.data}")
             return Response(
                 {"detail": "Validation failed", "errors": serializer.errors},
                 status=status.HTTP_400_BAD_REQUEST
@@ -138,6 +142,7 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
             with tenant_context(tenant), transaction.atomic():
                 validated_data = serializer.validated_data
                 validated_data['tenant'] = tenant  # Ensure tenant is set
+                logger.debug(f"[{tenant.schema_name}] Creating user with data: {validated_data}")
                 user = serializer.save()
                 user.sync_group_memberships()  # Sync user with system groups
                 UserActivity.objects.create(
@@ -146,15 +151,16 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
                     details=f'User "{user.email}" registered',
                     status='success'
                 )
-                logger.info(f"[{tenant.schema_name}] User registered: {user.email}")
+                # Verify password hashing
+                logger.debug(f"[{tenant.schema_name}] User {user.email} created with hashed password: {user.password}")
                 return Response({
                     'detail': 'User created successfully',
                     'data': serializer.data
                 }, status=status.HTTP_201_CREATED)
         except Exception as e:
-            logger.error(f"[{tenant.schema_name}] Error registering user: {str(e)}", exc_info=True)
+            logger.error(f"[{tenant.schema_name}] Error registering user: {str(e)}, data: {request.data}", exc_info=True)
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+        
 
 # class RegisterView(TenantBaseView, generics.CreateAPIView):
 #     """Register a new user in the tenant's schema."""
@@ -167,7 +173,7 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
 #             logger.error("No tenant associated with the request")
 #             return Response({"detail": "Tenant not found"}, status=status.HTTP_400_BAD_REQUEST)
 
-#         serializer = self.get_serializer(data=request.data)
+#         serializer = self.get_serializer(data=request.data, context={'request': request})
 #         try:
 #             serializer.is_valid(raise_exception=True)
 #         except serializers.ValidationError as e:
@@ -179,6 +185,8 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
 
 #         try:
 #             with tenant_context(tenant), transaction.atomic():
+#                 validated_data = serializer.validated_data
+#                 validated_data['tenant'] = tenant  # Ensure tenant is set
 #                 user = serializer.save()
 #                 user.sync_group_memberships()  # Sync user with system groups
 #                 UserActivity.objects.create(
@@ -195,7 +203,6 @@ class RegisterView(TenantBaseView, generics.CreateAPIView):
 #         except Exception as e:
 #             logger.error(f"[{tenant.schema_name}] Error registering user: {str(e)}", exc_info=True)
 #             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
 
 
 class ProfileView(TenantBaseView, APIView):
@@ -286,11 +293,13 @@ class AdminUserCreateView(TenantBaseView, APIView):
 
 
 
+
+
 class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage users in the tenant's schema with filtering and statistics."""
     serializer_class = UserSerializer
-    # permission_classes = [IsAuthenticated, IsAdminUser]
     permission_classes = [IsAuthenticated]
+    parser_classes = [MultiPartParser, FormParser, JSONParser]  # Add parsers
     pagination_class = CustomPagination
     filter_backends = [DjangoFilterBackend, SearchFilter]
     filterset_fields = ['role', 'status', 'is_locked']
@@ -333,6 +342,9 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.debug(f"[{tenant.schema_name}] User query: {queryset.query}")
             return queryset.order_by('-date_joined')
 
+   
+   
+   
     def create(self, request, *args, **kwargs):
         tenant = request.tenant
         if request.user.role != 'admin' and not request.user.is_superuser:
@@ -358,18 +370,18 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
                 'data': serializer.data
             }, status=status.HTTP_201_CREATED)
 
+
     def update(self, request, *args, **kwargs):
         tenant = request.tenant
         user = self.get_object()
-        if request.user.role != 'admin' and not request.user.is_superuser and request.user != user:
-            logger.warning(f"[{tenant.schema_name}] User {request.user.email} attempted to update user {user.email}")
-            return Response({"detail": "You do not have permission to update this user"}, status=status.HTTP_403_FORBIDDEN)
+        print("request.data", request.data)
         serializer = self.get_serializer(user, data=request.data, partial=kwargs.get('partial', False))
         try:
             serializer.is_valid(raise_exception=True)
         except serializers.ValidationError as e:
-            logger.error(f"[{tenant.schema_name}] User update validation failed: {str(e)}")
-            raise
+            print("[SERIALIZER ERROR]", serializer.errors)  # Print errors to console
+            logger.error(f"[{tenant.schema_name}] User update validation failed for {user.email}: {serializer.errors}")
+            return Response({"detail": "Validation failed", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
         with tenant_context(tenant), transaction.atomic():
             serializer.save()
             UserActivity.objects.create(
@@ -380,6 +392,36 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
             )
             logger.info(f"[{tenant.schema_name}] User updated: {user.email}")
             return Response(serializer.data)
+
+
+    # def update(self, request, *args, **kwargs):
+    #     print("request.data")
+    #     print(request.data)
+    #     print("request.data")
+    #     tenant = request.tenant
+    #     user = self.get_object()
+    #     if request.user.role != 'admin' and not request.user.is_superuser and request.user != user:
+    #         logger.warning(f"[{tenant.schema_name}] User {request.user.email} attempted to update user {user.email}")
+    #         return Response({"detail": "You do not have permission to update this user"}, status=status.HTTP_403_FORBIDDEN)
+    #     serializer = self.get_serializer(user, data=request.data, partial=kwargs.get('partial', False))
+    #     try:
+    #         serializer.is_valid(raise_exception=True)
+    #     except serializers.ValidationError as e:
+    #         logger.error(f"[{tenant.schema_name}] User update validation failed: {str(e)}")
+    #         raise
+    #     with tenant_context(tenant), transaction.atomic():
+    #         serializer.save()
+    #         UserActivity.objects.create(
+    #             user=user,
+    #             activity_type='user_updated',
+    #             details=f'User "{user.email}" updated by {request.user.email}',
+    #             status='success'
+    #         )
+    #         logger.info(f"[{tenant.schema_name}] User updated: {user.email}")
+    #         return Response(serializer.data)
+
+
+
 
     def destroy(self, request, *args, **kwargs):
         tenant = request.tenant
@@ -690,6 +732,47 @@ class UserViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.error(f"[{tenant.schema_name}] Error impersonating user with pk {pk}: {str(e)}", exc_info=True)
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @action(detail=True, methods=['post'], permission_classes=[IsAuthenticated])
+    def change_password(self, request, pk=None):
+        """Allow a user to change their password by providing old and new password. Returns detailed errors on failure."""
+        class ChangePasswordSerializer(serializers.Serializer):
+            old_password = serializers.CharField(required=True)
+            new_password = serializers.CharField(required=True, min_length=8)
+
+            def validate_new_password(self, value):
+                if not any(c.isupper() for c in value) or not any(c.isdigit() for c in value):
+                    raise serializers.ValidationError("Password must contain at least one uppercase letter and one number.")
+                return value
+
+        tenant = request.tenant
+        user = self.get_object()
+        if request.user != user and not request.user.is_superuser and request.user.role != 'admin':
+            logger.warning(f"[{tenant.schema_name}] User {request.user.email} attempted to change password for {user.email}")
+            return Response({"detail": "You do not have permission to change this user's password"}, status=status.HTTP_403_FORBIDDEN)
+        serializer = ChangePasswordSerializer(data=request.data)
+        if not serializer.is_valid():
+            # Return all validation errors
+            print("[SERIALIZER ERROR]", serializer.errors)  # Print errors to console
+            return Response({"detail": "Validation failed", "errors": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
+        old_password = serializer.validated_data['old_password']
+        new_password = serializer.validated_data['new_password']
+        if not user.check_password(old_password):
+            return Response({"detail": "Old password is incorrect."}, status=status.HTTP_400_BAD_REQUEST)
+        try:
+            user.set_password(new_password)
+            user.save()
+            UserActivity.objects.create(
+                user=user,
+                activity_type='password_changed',
+                details=f'User "{user.email}" changed password',
+                status='success'
+            )
+            logger.info(f"[{tenant.schema_name}] User {user.email} changed password")
+            return Response({"detail": "Password changed successfully."}, status=status.HTTP_200_OK)
+        except Exception as e:
+            logger.error(f"[{tenant.schema_name}] Error changing password for user {user.email}: {str(e)}", exc_info=True)
+            return Response({"detail": "Failed to change password.", "error": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 
@@ -916,7 +999,7 @@ class BlockedIPViewSet(TenantBaseView, viewsets.ModelViewSet):
 
     @action(detail=False, methods=['post'], url_path='unblock')
     def unblock(self, request):
-        tenant = self.request.tenant
+        tenant = request.tenant
         ip_address = request.data.get('ip_address')
         if not ip_address:
             logger.warning(f"[{tenant.schema_name}] No IP address provided for unblock")
@@ -961,9 +1044,6 @@ class VulnerabilityAlertViewSet(TenantBaseView, viewsets.ModelViewSet):
             )
 
 
-
-
-
 class ComplianceReportViewSet(TenantBaseView, viewsets.ModelViewSet):  # Changed to ModelViewSet
     serializer_class = ComplianceReportSerializer
     permission_classes = [IsAuthenticated, IsAdminUser]
@@ -978,7 +1058,7 @@ class ComplianceReportViewSet(TenantBaseView, viewsets.ModelViewSet):  # Changed
 
     @action(detail=True, methods=['get'], url_path='generate')
     def generate_report(self, request, pk=None):
-        tenant = self.request.tenant
+        tenant = request.tenant
         try:
             with tenant_context(tenant):
                 report = get_object_or_404(ComplianceReport, pk=pk, tenant=tenant)
@@ -1007,7 +1087,7 @@ class ComplianceReportViewSet(TenantBaseView, viewsets.ModelViewSet):  # Changed
 
     @action(detail=True, methods=['post'], url_path='schedule')
     def schedule_audit(self, request, pk=None):
-        tenant = self.request.tenant
+        tenant = request.tenant
         audit_date = request.data.get('audit_date')
         if not audit_date:
             logger.warning(f"[{tenant.schema_name}] No audit date provided for schedule")
@@ -1034,9 +1114,6 @@ class ComplianceReportViewSet(TenantBaseView, viewsets.ModelViewSet):  # Changed
         except Exception as e:
             logger.error(f"[{tenant.schema_name}] Error scheduling audit for pk {pk}: {str(e)}", exc_info=True)
             return Response({"detail": str(e)}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
-
-
 
 
 class PasswordResetRequestView(generics.GenericAPIView):
@@ -1196,9 +1273,6 @@ class PasswordResetRequestView(generics.GenericAPIView):
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
 
-
-
-
 class PasswordResetConfirmView(generics.GenericAPIView):
     serializer_class = PasswordResetConfirmSerializer
     permission_classes = [AllowAny]
@@ -1255,9 +1329,6 @@ class PasswordResetConfirmView(generics.GenericAPIView):
         except Exception as e:
             logger.exception(f"Error confirming password reset for tenant {tenant.schema_name if tenant else 'unknown'}: {str(e)}")
             return Response({"detail": str(e)}, status=status.HTTP_400_BAD_REQUEST)
-
-
-
 
 # New view for listing all users in a tenant
 class TenantUsersListView(APIView):

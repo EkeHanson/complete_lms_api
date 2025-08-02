@@ -1,15 +1,17 @@
+import logging
+import jwt
+from django.conf import settings
+from django.db import transaction, connection
+from django_tenants.utils import tenant_context, get_public_schema_name
 from rest_framework import viewsets, status, generics, serializers
 from rest_framework.permissions import IsAuthenticated, IsAdminUser
 from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.views import APIView
-from django.db import transaction, connection
-from django_tenants.utils import tenant_context, get_public_schema_name
-from .models import Tenant, Domain, Module, TenantConfig, Branch
+from .models import Tenant, Module, TenantConfig, Branch
 from .serializers import TenantSerializer, ModuleSerializer, TenantConfigSerializer, BranchSerializer
-import logging
-import jwt
-from django.conf import settings
+from payments.models import PaymentGateway, SiteConfig, PaymentConfig
+from payments.payment_configs import PAYMENT_GATEWAY_CONFIGS
 
 logger = logging.getLogger('core')
 
@@ -91,16 +93,49 @@ class TenantViewSet(viewsets.ModelViewSet):
         return Response({"detail": serializer.errors}, status=status.HTTP_400_BAD_REQUEST)
 
     def perform_create(self, serializer):
-        """Create a new tenant within the authenticated tenant's context."""
-        tenant = self.get_tenant_from_token(self.request)
+        """Create a new tenant and prepopulate payment gateways, site config, and payment config."""
         try:
             with transaction.atomic():
+                tenant = serializer.save()
+                logger.info(f"Tenant created: {tenant.name} (schema: {tenant.schema_name})")
+                # Ensure schema is created before prepopulating
+                tenant.create_schema(check_if_exists=True)
                 with tenant_context(tenant):
-                    new_tenant = serializer.save()
-                    logger.info(f"Tenant created: {new_tenant.name} (schema: {new_tenant.schema_name}) for tenant {tenant.schema_name}")
+                    # Create default payment gateways
+                    payment_configs = []
+                    for gateway_data in PAYMENT_GATEWAY_CONFIGS:
+                        PaymentGateway.objects.create(
+                            name=gateway_data['name'],
+                            description=gateway_data['description'],
+                            is_active=gateway_data['is_active'],
+                            is_test_mode=gateway_data['is_test_mode'],
+                            is_default=gateway_data['is_default']
+                        )
+                        logger.info(f"Created payment gateway {gateway_data['name']} for tenant {tenant.schema_name}")
+                        # Prepare config for PaymentConfig
+                        payment_configs.append({
+                            'method': gateway_data['name'],
+                            'config': gateway_data['config'],
+                            'isActive': gateway_data['is_active']
+                        })
+
+                    # Create default site configuration
+                    SiteConfig.objects.create(
+                        currency='USD',
+                        title='US Dollar'
+                    )
+                    logger.info(f"Created default site configuration for tenant {tenant.schema_name}")
+
+                    # Create default payment configuration
+                    PaymentConfig.objects.create(
+                        configs=payment_configs
+                    )
+                    logger.info(f"Created default payment configuration for tenant {tenant.schema_name}")
+
+                return tenant
         except Exception as e:
-            logger.error(f"Failed to create tenant: {str(e)}")
-            raise serializers.ValidationError(f"Failed to create tenant: {str(e)}")
+            logger.error(f"Failed to create tenant or prepopulate configurations: {str(e)}")
+            raise serializers.ValidationError(f"Failed to create tenant or prepopulate configurations: {str(e)}")
 
     def list(self, request, *args, **kwargs):
         """List tenants (only the authenticated tenant)."""
@@ -140,8 +175,6 @@ class TenantViewSet(viewsets.ModelViewSet):
         with tenant_context(tenant):
             instance.delete()
         logger.info(f"Tenant deleted: {instance.name} for tenant {tenant.schema_name}")
-
-
 
 class BranchListCreateView(generics.ListCreateAPIView):
     serializer_class = BranchSerializer

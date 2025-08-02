@@ -17,3 +17,9 @@ def upload_to_supabase(file_obj, file_name, content_type="application/octet-stre
     except Exception as e:
         logger.error(f"Error uploading file {file_name}: {str(e)}")
         raise
+
+
+
+
+
+    

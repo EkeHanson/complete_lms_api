@@ -1,17 +1,20 @@
-from django.urls import path, include
+
 from rest_framework.routers import DefaultRouter
-from .views import PaymentConfigViewSet, SiteConfigViewSet
+from django.urls import path, include
+from .views import PaymentGatewayViewSet, SiteConfigViewSet
 
 router = DefaultRouter()
-router.register(r'payment-config', PaymentConfigViewSet, basename='payment-config')
-router.register(r'site-config', SiteConfigViewSet, basename='site-config')
+router.register(r'site-currency', SiteConfigViewSet, basename='site-currency')
+router.register(r'payment-gateways', PaymentGatewayViewSet, basename='payment-gateway')
 
 urlpatterns = [
     path('', include(router.urls)),
-    path('payment-config', PaymentConfigViewSet.as_view({'get': 'list', 'post': 'create'}), name='payment-config'),
-    path('payment-config/update', PaymentConfigViewSet.as_view({'patch': 'partial_update'}), name='payment-config-update'),
-    path('payment-config/delete', PaymentConfigViewSet.as_view({'delete': 'destroy'}), name='payment-config-delete'),
-    path('site-config', SiteConfigViewSet.as_view({'get': 'list', 'post': 'create'}), name='site-config'),
-    path('site-config/update', SiteConfigViewSet.as_view({'patch': 'partial_update'}), name='site-config-update'),
-    path('site-config/delete', SiteConfigViewSet.as_view({'delete': 'destroy'}), name='site-config-delete'),
 ]
+
+#You can now update the configuration details for a payment gateway directly from the PaymentGateway API using the new endpoint:
+# PATCH /api/payment-gateways/{id}/config/
+# {
+#   "config": {
+#     ...your config fields...
+#   }
+# }

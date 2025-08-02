@@ -85,6 +85,10 @@ class CustomUserManager(BaseUserManager):
 
 
 
+def profile_picture_upload_path(instance, filename):
+    # Store profile pictures in a user-specific directory
+    return f'profile_pics/{instance.id}/{filename}'
+
 class CustomUser(AbstractBaseUser, PermissionsMixin):
     email = models.EmailField(unique=True)
     first_name = models.CharField(max_length=30, blank=True)
@@ -99,7 +103,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     tenant = models.ForeignKey('core.Tenant', on_delete=models.CASCADE, null=True)
     is_deleted = models.BooleanField(default=False)
     login_attempts = models.PositiveIntegerField(default=0)
-    
+    phone = models.CharField(max_length=20, blank=True, null=True)
+    title = models.CharField(max_length=100, blank=True)
+    bio = models.TextField(blank=True)
+    facebook_link = models.URLField(blank=True)
+    twitter_link = models.URLField(blank=True)
+    linkedin_link = models.URLField(blank=True)
+    profile_picture = models.ImageField(upload_to=profile_picture_upload_path, blank=True, null=True, max_length=255)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -234,6 +244,9 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
 
         from django.contrib.auth.models import AbstractBaseUser
 
+    # In your CustomUser model:
+    def get_full_name(self):
+        return f"{self.first_name} {self.last_name}".strip()
 
     @property
     def is_anonymous(self):

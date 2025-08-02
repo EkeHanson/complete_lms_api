@@ -29,6 +29,8 @@ class TenantBaseView(viewsets.GenericViewSet):
 
 
 class ScheduleViewSet(TenantBaseView, viewsets.ModelViewSet):
+
+
     """Manage schedules for a tenant with filtering and participant response handling."""
     serializer_class = ScheduleSerializer
     permission_classes = [IsAuthenticated]
@@ -204,6 +206,70 @@ class ScheduleViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.error(f"[{tenant.schema_name}] Error fetching schedule stats: {str(e)}", exc_info=True)
             return Response({"detail": "Error fetching schedule stats"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
+    @action(detail=False, methods=['get'], url_path='all', permission_classes=[IsAuthenticated])
+    def all_schedules(self, request):
+        """Admin endpoint: Get all schedules in the tenant, regardless of user participation."""
+        tenant = request.tenant
+        user = request.user
+        # if  user.role != "admin"  or user.is_superuser:
+        #     return Response({'detail': 'Not authorized.'}, status=status.HTTP_403_FORBIDDEN)
+        with tenant_context(tenant):
+            queryset = Schedule.objects.all().order_by('-start_time')
+            serializer = self.get_serializer(queryset, many=True)
+            logger.info(f"[{tenant.schema_name}] Admin {user.id} retrieved all schedules: {len(serializer.data)} found.")
+            return Response(serializer.data)
+        
+
     def get_permissions(self):
         """Restrict actions to authenticated users."""
         return [IsAuthenticated()]
+    
+
+
+
+    @action(detail=True, methods=['post'])
+    def mark_read(self, request, pk=None):
+        """Mark a schedule as read by the student."""
+        tenant = request.tenant
+        user = request.user
+        with tenant_context(tenant), transaction.atomic():
+            schedule = self.get_object()
+            participant, created = ScheduleParticipant.objects.get_or_create(
+                schedule=schedule,
+                user=user
+            )
+            participant.read = True
+            participant.save()
+            UserActivity.objects.create(
+                user=user,
+                activity_type='schedule_read',
+                details=f'Marked schedule "{schedule.title}" as read',
+                status='success'
+            )
+            logger.info(f"[{tenant.schema_name}] Schedule marked as read: {schedule.title} by user {user.id}")
+            return Response({'detail': 'Schedule marked as read.'}, status=status.HTTP_200_OK)
+
+    @action(detail=True, methods=['get'])
+    def download_attachment(self, request, pk=None):
+        """Download an attachment for a schedule (if any)."""
+        tenant = request.tenant
+        with tenant_context(tenant):
+            schedule = self.get_object()
+            if hasattr(schedule, 'attachment') and schedule.attachment:
+                response = Response(schedule.attachment.read(), content_type='application/octet-stream')
+                response['Content-Disposition'] = f'attachment; filename="{schedule.attachment.name.split('/')[-1]}"'
+                return response
+            return Response({'detail': 'No attachment found.'}, status=status.HTTP_404_NOT_FOUND)
+
+    @action(detail=True, methods=['get'])
+    def join_meeting(self, request, pk=None):
+        """Get the meeting link for a schedule (if any)."""
+        tenant = request.tenant
+        with tenant_context(tenant):
+            schedule = self.get_object()
+            if hasattr(schedule, 'location') and schedule.location:
+                return Response({'meeting_link': schedule.location}, status=status.HTTP_200_OK)
+            return Response({'detail': 'No meeting link found.'}, status=status.HTTP_404_NOT_FOUND)
+
+
+

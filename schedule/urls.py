@@ -6,6 +6,7 @@ router = DefaultRouter()
 router.register(r'schedules', ScheduleViewSet, basename='schedule')
 
 urlpatterns = [
-    path('api/', include(router.urls)),  # Maps to /schedule/api/schedules/
-    path('api/schedules/upcoming/', ScheduleViewSet.as_view({'get': 'upcoming'}), name='schedule-upcoming'),
+    path('', include(router.urls)),  # Maps to /schedule/api/schedules/
+    path('schedules/upcoming/', ScheduleViewSet.as_view({'get': 'upcoming'}), name='schedule-upcoming'),
 ]
+

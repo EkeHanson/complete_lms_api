@@ -1,4 +1,4 @@
-# python manage.py makemigrations token_blacklist users courses forum groups messaging subscriptions
+# python manage.py makemigrations token_blacklist users courses forum groups messaging payments subscriptions
 
 # python manage.py makemigrations token_blacklist users, courses, courses, forum, groups, messaging, subscriptions
 # python manage.py migrate_schemas --shared
@@ -25,14 +25,14 @@ if not Tenant.objects.filter(schema_name='public').exists():
 
 
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='proliance').exists():
+if not Tenant.objects.filter(schema_name='arts').exists():
     tenant = Tenant.objects.create(
-        name='proliance',
-        schema_name='proliance'
+        name='arts',
+        schema_name='arts'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='prolianceltd.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='artstraining.co.uk', is_primary=True)
 
 
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
@@ -55,14 +55,14 @@ if not Tenant.objects.filter(schema_name='render').exists():
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
-tenant = Tenant.objects.get(schema_name='proliance')
+tenant = Tenant.objects.get(schema_name='appbrew')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
-        email='support@prolianceltd.com',
+        email='info@appbrew.com',
         password='qwertyqwerty',
         role='admin',
-        first_name='Monday',
-        last_name='Davidson',
+        first_name='Tuesday',
+        last_name='Teghadolo',
         tenant=tenant
     )
     
@@ -84,10 +84,24 @@ with tenant_context(tenant):
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
-tenant = Tenant.objects.get(schema_name='appbrew')
+tenant = Tenant.objects.get(schema_name='arts')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
-        email='info@appbrew.com',
+        email='support@artstraining.co.uk',
+        password='qwertyqwerty',
+        role='admin',
+        first_name='Awaji-mimam',
+        last_name='Abraham',
+        tenant=tenant
+    )
+
+from core.models import Tenant
+from users.models import CustomUser
+from django_tenants.utils import tenant_context
+tenant = Tenant.objects.get(schema_name='lumina_care')
+with tenant_context(tenant):
+    CustomUser.objects.create_superuser(
+        email='support@uminacare.com',
         password='qwertyqwerty',
         role='admin',
         first_name='Awaji-mimam',

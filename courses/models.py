@@ -101,6 +101,8 @@ class Course(models.Model):
     learning_outcomes = models.JSONField(default=list)
     prerequisites = models.JSONField(default=list)
     completion_hours = models.PositiveIntegerField(default=0, help_text="Estimated hours to complete the course")
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
     
     class Meta:
         ordering = ['-created_at']
@@ -495,3 +497,62 @@ class Analytics(models.Model):
     strengths = models.JSONField(default=list)
     weaknesses = models.JSONField(default=list)
     last_updated = models.DateTimeField(auto_now=True)
+
+# Track user progress in a course (multitenant-ready)
+class CourseProgress(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    course = models.ForeignKey('Course', on_delete=models.CASCADE)
+    tenant_id = models.CharField(max_length=100, null=True, blank=True, help_text="Tenant identifier for multitenancy")
+    started_at = models.DateTimeField(null=True, blank=True)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    progress_percent = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
+    last_accessed = models.DateTimeField(auto_now=True)
+
+    class Meta:
+        unique_together = ['user', 'course', 'tenant_id']
+
+    def __str__(self):
+        return f"{self.user} - {self.course} ({self.progress_percent}%)"
+
+# Track lesson completion per user for progress calculation
+class LessonCompletion(models.Model):
+    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
+    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE)
+    completed_at = models.DateTimeField(auto_now_add=True)
+    tenant_id = models.CharField(max_length=100, null=True, blank=True, help_text="Tenant identifier for multitenancy")
+
+    class Meta:
+        unique_together = ['user', 'lesson', 'tenant_id']
+
+    def __str__(self):
+        return f"{self.user} completed {self.lesson}"
+
+class Quiz(models.Model):
+    QUIZ_TYPE_CHOICES = [
+        ('multiple_choice', 'Multiple Choice'),
+        ('true_false', 'True/False'),
+        ('short_answer', 'Short Answer'),
+        ('matching', 'Matching'),
+    ]
+
+    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='quizzes')
+    module = models.ForeignKey('Module', on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)
+    title = models.CharField(max_length=255)
+    description = models.TextField(blank=True)
+    quiz_type = models.CharField(max_length=30, choices=QUIZ_TYPE_CHOICES, default='multiple_choice')
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
+    duration_minutes = models.PositiveIntegerField(default=30)
+    total_marks = models.PositiveIntegerField(default=100)
+    passing_score = models.PositiveIntegerField(default=50)
+    is_active = models.BooleanField(default=True)
+    created_at = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
+    tenant_id = models.CharField(max_length=100, null=True, blank=True, help_text="Tenant identifier for multitenancy")
+
+    class Meta:
+        ordering = ['-created_at']
+        unique_together = ['title', 'course', 'tenant_id']
+
+    def __str__(self):
+        return f"{self.title} ({self.course.title})"
