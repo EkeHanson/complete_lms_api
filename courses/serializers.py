@@ -68,20 +68,48 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class LessonSerializer(serializers.ModelSerializer):
 
-        
     def validate(self, data):
-        """
-        Validate that either content_url or content_file is provided based on lesson_type
-        """
         lesson_type = data.get('lesson_type', self.instance.lesson_type if self.instance else None)
+        module = data.get('module', self.instance.module if self.instance else None)
+        order = data.get('order', None)
+        
+        logger.debug(f"Validating lesson: lesson_type={lesson_type}, module={module}, order={order}")
+        
+        if order is not None and module:
+            qs = Lesson.objects.filter(module=module, order=order)
+            if self.instance:
+                qs = qs.exclude(pk=self.instance.pk)
+            if qs.exists():
+                logger.warning(f"Order {order} already exists for module {module.id}")
+                # Optionally, allow auto-increment here instead of raising an error
+                # max_order = Lesson.objects.filter(module=module).aggregate(models.Max('order'))['order__max']
+                # data['order'] = (max_order or 0) + 1
+                raise serializers.ValidationError(f"A lesson with order {order} already exists in this module.")
         
         if lesson_type == 'link' and not data.get('content_url'):
             raise serializers.ValidationError("Content URL is required for link lessons")
-            
         if lesson_type in ['video', 'file'] and not data.get('content_file') and not (self.instance and self.instance.content_file):
             raise serializers.ValidationError("Content file is required for this lesson type")
-            
+        if lesson_type == 'text' and not data.get('content_text'):
+            raise serializers.ValidationError("Content text is required for text lessons")
         return data
+
+
+
+
+    # def validate(self, data):
+    #     """
+    #     Validate that either content_url or content_file is provided based on lesson_type
+    #     """
+    #     lesson_type = data.get('lesson_type', self.instance.lesson_type if self.instance else None)
+        
+    #     if lesson_type == 'link' and not data.get('content_url'):
+    #         raise serializers.ValidationError("Content URL is required for link lessons")
+            
+    #     if lesson_type in ['video', 'file'] and not data.get('content_file') and not (self.instance and self.instance.content_file):
+    #         raise serializers.ValidationError("Content file is required for this lesson type")
+            
+    #     return data
 
     def create(self, validated_data):
         tenant = self.context.get('tenant', None)
@@ -129,7 +157,10 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = ['id', 'module', 'title', 'lesson_type', 'content_url', 'content_file', 'duration', 'order', 'is_published']
+        fields = [
+            'id', 'module', 'title', 'lesson_type', 'content_url', 'content_file',
+            'content_text', 'description', 'duration', 'order', 'is_published'
+        ]
         read_only_fields = ['id', 'module']
 
 
@@ -219,10 +250,6 @@ class StudentSummarySerializer(serializers.ModelSerializer):
         grade = Grade.objects.filter(user=obj, course=course).first()
         return grade.value if grade else None
 
-class ModuleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Module
-        fields = ['id', 'title', 'order']
 
 class AssignmentSerializer(serializers.ModelSerializer):
     class Meta:
@@ -1047,159 +1074,159 @@ class InstructorFullProfileSerializer(serializers.ModelSerializer):
 
 
 
-class CourseSerializer(serializers.ModelSerializer):
-    course_instructors = serializers.SerializerMethodField()
-    faq_count = serializers.IntegerField(read_only=True)
-    faqs = FAQSerializer(many=True, read_only=True)
-    total_enrollments = serializers.IntegerField(read_only=True)
-    resources = ResourceSerializer(many=True, read_only=True)
-    category = CategorySerializer(read_only=True)
-    category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), source='category', write_only=True)
-    learning_outcomes = serializers.ListField(
-        child=serializers.CharField(max_length=500, allow_blank=True),
-        required=False,
-        default=list
-    )
-    prerequisites = serializers.ListField(
-        child=serializers.CharField(max_length=500, allow_blank=True),
-        required=False,
-        default=list
-    )
-    modules = ModuleSerializer(many=True, read_only=True)
-    resources = ResourceSerializer(many=True, read_only=True)
-    # course_instructors = CourseDetailForInstructorSerializer(many=True, read_only=True)
-    certificate_settings = CertificateTemplateSerializer(read_only=True)
-    scorm_settings = SCORMxAPISettingsSerializer(read_only=True)
-    current_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-    created_by_username = serializers.CharField(source='created_by.username', read_only=True)
+# class CourseSerializer(serializers.ModelSerializer):
+#     course_instructors = serializers.SerializerMethodField()
+#     faq_count = serializers.IntegerField(read_only=True)
+#     faqs = FAQSerializer(many=True, read_only=True)
+#     total_enrollments = serializers.IntegerField(read_only=True)
+#     resources = ResourceSerializer(many=True, read_only=True)
+#     category = CategorySerializer(read_only=True)
+#     category_id = serializers.PrimaryKeyRelatedField(queryset=Category.objects.all(), source='category', write_only=True)
+#     learning_outcomes = serializers.ListField(
+#         child=serializers.CharField(max_length=500, allow_blank=True),
+#         required=False,
+#         default=list
+#     )
+#     prerequisites = serializers.ListField(
+#         child=serializers.CharField(max_length=500, allow_blank=True),
+#         required=False,
+#         default=list
+#     )
+#     modules = ModuleSerializer(many=True, read_only=True)
+#     resources = ResourceSerializer(many=True, read_only=True)
+#     # course_instructors = CourseDetailForInstructorSerializer(many=True, read_only=True)
+#     certificate_settings = CertificateTemplateSerializer(read_only=True)
+#     scorm_settings = SCORMxAPISettingsSerializer(read_only=True)
+#     current_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
+#     created_by_username = serializers.CharField(source='created_by.username', read_only=True)
 
 
-    def get_course_instructors(self, obj):
-        instructors = CourseInstructor.objects.filter(course=obj)
-        return InstructorUserSerializer([ci.instructor.user for ci in instructors], many=True).data
+#     def get_course_instructors(self, obj):
+#         instructors = CourseInstructor.objects.filter(course=obj)
+#         return InstructorUserSerializer([ci.instructor.user for ci in instructors], many=True).data
 
-    def to_internal_value(self, data):
-        # Clean up learning_outcomes and prerequisites
-        for field in ['learning_outcomes', 'prerequisites']:
-            if field in data:
-                value = data[field]
-                if isinstance(value, list):
-                    cleaned_value = []
-                    for item in value:
-                        try:
-                            parsed = item if isinstance(item, str) else json.loads(item)
-                            cleaned_value.append(str(parsed) if not isinstance(parsed, str) else parsed)
-                        except (json.JSONDecodeError, TypeError):
-                            cleaned_value.append(str(item))
-                    data[field] = cleaned_value
-        return super().to_internal_value(data)
-
-    
-    def to_representation(self, instance):
-        representation = super().to_representation(instance)
-        if instance.thumbnail:
-            storage_service = get_storage_service()
-            representation['thumbnail'] = storage_service.get_public_url(instance.thumbnail)
-        
-        # Ensure learning_outcomes is a flat array of strings
-        if 'learning_outcomes' in representation:
-            representation['learning_outcomes'] = self.flatten_array(representation['learning_outcomes'])
-        
-        # Ensure prerequisites is a flat array of strings
-        if 'prerequisites' in representation:
-            representation['prerequisites'] = self.flatten_array(representation['prerequisites'])
-        
-        return representation
-
+#     def to_internal_value(self, data):
+#         # Clean up learning_outcomes and prerequisites
+#         for field in ['learning_outcomes', 'prerequisites']:
+#             if field in data:
+#                 value = data[field]
+#                 if isinstance(value, list):
+#                     cleaned_value = []
+#                     for item in value:
+#                         try:
+#                             parsed = item if isinstance(item, str) else json.loads(item)
+#                             cleaned_value.append(str(parsed) if not isinstance(parsed, str) else parsed)
+#                         except (json.JSONDecodeError, TypeError):
+#                             cleaned_value.append(str(item))
+#                     data[field] = cleaned_value
+#         return super().to_internal_value(data)
 
     
-    def flatten_array(self, data):
-        """Convert nested arrays into a flat array of strings"""
-        flat_list = []
-        for item in data:
-            if isinstance(item, list):
-                flat_list.extend([str(i) for i in item])
-            elif isinstance(item, str):
-                try:
-                    # Handle case where string might be JSON-encoded array
-                    parsed = json.loads(item)
-                    if isinstance(parsed, list):
-                        flat_list.extend([str(i) for i in parsed])
-                    else:
-                        flat_list.append(item)
-                except json.JSONDecodeError:
-                    flat_list.append(item)
-            else:
-                flat_list.append(str(item))
-        return flat_list
-
-
-    def create(self, validated_data):
-        tenant = self.context.get('tenant', None)
-        thumbnail_file = validated_data.pop('thumbnail', None)
-        if 'slug' not in validated_data or not validated_data['slug']:
-            title = validated_data.get('title', '')
-            validated_data['slug'] = slugify(title)
-        instance = super().create(validated_data)
+#     def to_representation(self, instance):
+#         representation = super().to_representation(instance)
+#         if instance.thumbnail:
+#             storage_service = get_storage_service()
+#             representation['thumbnail'] = storage_service.get_public_url(instance.thumbnail)
         
-        if thumbnail_file:
-            file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
-            try:
-                file_url = upload_to_supabase(thumbnail_file, file_name, content_type=thumbnail_file.content_type)
-                instance.thumbnail = file_name
-                instance.save()
-            except Exception as e:
-                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload thumbnail: {str(e)}")
-                raise serializers.ValidationError("Failed to upload thumbnail")
+#         # Ensure learning_outcomes is a flat array of strings
+#         if 'learning_outcomes' in representation:
+#             representation['learning_outcomes'] = self.flatten_array(representation['learning_outcomes'])
         
-        return instance
-
-    def update(self, instance, validated_data):
-        tenant = self.context.get('tenant', None)
-        thumbnail_file = validated_data.pop('thumbnail', None)
-        if 'title' in validated_data:
-            validated_data['slug'] = slugify(validated_data['title'])
-        instance = super().update(instance, validated_data)
+#         # Ensure prerequisites is a flat array of strings
+#         if 'prerequisites' in representation:
+#             representation['prerequisites'] = self.flatten_array(representation['prerequisites'])
         
-        if thumbnail_file:
-            # Delete old file if exists
-            if instance.thumbnail:
-                storage_service = get_storage_service()
-                storage_service.delete_file(instance.thumbnail)
-            file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
-            try:
-                file_url = upload_to_supabase(thumbnail_file, file_name, content_type=thumbnail_file.content_type)
-                instance.thumbnail = file_name
-                instance.save()
-            except Exception as e:
-                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload thumbnail: {str(e)}")
-                raise serializers.ValidationError("Failed to upload thumbnail")
+#         return representation
+
+
+    
+#     def flatten_array(self, data):
+#         """Convert nested arrays into a flat array of strings"""
+#         flat_list = []
+#         for item in data:
+#             if isinstance(item, list):
+#                 flat_list.extend([str(i) for i in item])
+#             elif isinstance(item, str):
+#                 try:
+#                     # Handle case where string might be JSON-encoded array
+#                     parsed = json.loads(item)
+#                     if isinstance(parsed, list):
+#                         flat_list.extend([str(i) for i in parsed])
+#                     else:
+#                         flat_list.append(item)
+#                 except json.JSONDecodeError:
+#                     flat_list.append(item)
+#             else:
+#                 flat_list.append(str(item))
+#         return flat_list
+
+
+#     def create(self, validated_data):
+#         tenant = self.context.get('tenant', None)
+#         thumbnail_file = validated_data.pop('thumbnail', None)
+#         if 'slug' not in validated_data or not validated_data['slug']:
+#             title = validated_data.get('title', '')
+#             validated_data['slug'] = slugify(title)
+#         instance = super().create(validated_data)
         
-        return instance
+#         if thumbnail_file:
+#             file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
+#             try:
+#                 file_url = upload_to_supabase(thumbnail_file, file_name, content_type=thumbnail_file.content_type)
+#                 instance.thumbnail = file_name
+#                 instance.save()
+#             except Exception as e:
+#                 logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload thumbnail: {str(e)}")
+#                 raise serializers.ValidationError("Failed to upload thumbnail")
+        
+#         return instance
+
+#     def update(self, instance, validated_data):
+#         tenant = self.context.get('tenant', None)
+#         thumbnail_file = validated_data.pop('thumbnail', None)
+#         if 'title' in validated_data:
+#             validated_data['slug'] = slugify(validated_data['title'])
+#         instance = super().update(instance, validated_data)
+        
+#         if thumbnail_file:
+#             # Delete old file if exists
+#             if instance.thumbnail:
+#                 storage_service = get_storage_service()
+#                 storage_service.delete_file(instance.thumbnail)
+#             file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
+#             try:
+#                 file_url = upload_to_supabase(thumbnail_file, file_name, content_type=thumbnail_file.content_type)
+#                 instance.thumbnail = file_name
+#                 instance.save()
+#             except Exception as e:
+#                 logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload thumbnail: {str(e)}")
+#                 raise serializers.ValidationError("Failed to upload thumbnail")
+        
+#         return instance
 
 
 
-    # def create(self, validated_data):
-    #     if 'slug' not in validated_data or not validated_data['slug']:
-    #         title = validated_data.get('title', '')
-    #         validated_data['slug'] = slugify(title)
-    #     return super().create(validated_data)
+#     # def create(self, validated_data):
+#     #     if 'slug' not in validated_data or not validated_data['slug']:
+#     #         title = validated_data.get('title', '')
+#     #         validated_data['slug'] = slugify(title)
+#     #     return super().create(validated_data)
 
-    # def update(self, instance, validated_data):
-    #     if 'title' in validated_data:
-    #         validated_data['slug'] = slugify(validated_data['title'])
-    #     return super().update(instance, validated_data)
+#     # def update(self, instance, validated_data):
+#     #     if 'title' in validated_data:
+#     #         validated_data['slug'] = slugify(validated_data['title'])
+#     #     return super().update(instance, validated_data)
 
-    class Meta:
-        model = Course
-        fields = [
-            'id', 'title', 'learning_outcomes', 'prerequisites', 'slug', 'code', 'description',
-            'short_description', 'category', 'category_id', 'level', 'status', 'duration', 'price',
-            'discount_price', 'currency', 'thumbnail', 'faq_count', 'faqs', 'created_at', 'updated_at',
-            'created_by', 'created_by_username', 'completion_hours', 'discount_price', 'current_price',
-            'modules', 'resources', 'course_instructors', 'certificate_settings', 'scorm_settings',
-            'total_enrollments'
-        ]
+#     class Meta:
+#         model = Course
+#         fields = [
+#             'id', 'title', 'learning_outcomes', 'prerequisites', 'slug', 'code', 'description',
+#             'short_description', 'category', 'category_id', 'level', 'status', 'duration', 'price',
+#             'discount_price', 'currency', 'thumbnail', 'faq_count', 'faqs', 'created_at', 'updated_at',
+#             'created_by', 'created_by_username', 'completion_hours', 'discount_price', 'current_price',
+#             'modules', 'resources', 'course_instructors', 'certificate_settings', 'scorm_settings',
+#             'total_enrollments'
+#         ]
 
 
 class LearningPathSerializer(serializers.ModelSerializer):

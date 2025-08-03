@@ -539,6 +539,7 @@ class ModuleViewSet(TenantBaseView, viewsets.ModelViewSet):
         tenant = request.tenant
         course_id = self.kwargs.get('course_id')
         serializer = self.get_serializer(data=request.data)
+        print(request.data)
         try:
             serializer.is_valid(raise_exception=True)
         except ValidationError as e:
@@ -577,18 +578,18 @@ class ModuleViewSet(TenantBaseView, viewsets.ModelViewSet):
             logger.info(f"[{tenant.schema_name}] Module deleted: {instance.title}")
         return Response(status=status.HTTP_204_NO_CONTENT)
 
-    @action(detail=False, methods=['post'])
-    def bulk_update(self, request, *args, **kwargs):
-        tenant = request.tenant
-        module_ids = request.data.get('ids', [])
-        is_published = request.data.get('is_published')
-        if not isinstance(module_ids, list) or not isinstance(is_published, bool):
-            logger.warning(f"[{tenant.schema_name}] Invalid input for bulk_update")
-            return Response({"detail": "Invalid input: ids must be a list and is_published must be a boolean"}, status=status.HTTP_400_BAD_REQUEST)
-        with tenant_context(tenant), transaction.atomic():
-            updated = Module.objects.filter(id__in=module_ids).update(is_published=is_published)
-            logger.info(f"[{tenant.schema_name}] Bulk updated {updated} modules")
-            return Response({"detail": f"Updated {updated} module(s)"}, status=status.HTTP_200_OK)
+    # @action(detail=False, methods=['post'])
+    # def bulk_update(self, request, *args, **kwargs):
+    #     tenant = request.tenant
+    #     module_ids = request.data.get('ids', [])
+    #     is_published = request.data.get('is_published')
+    #     if not isinstance(module_ids, list) or not isinstance(is_published, bool):
+    #         logger.warning(f"[{tenant.schema_name}] Invalid input for bulk_update")
+    #         return Response({"detail": "Invalid input: ids must be a list and is_published must be a boolean"}, status=status.HTTP_400_BAD_REQUEST)
+    #     with tenant_context(tenant), transaction.atomic():
+    #         updated = Module.objects.filter(id__in=module_ids).update(is_published=is_published)
+    #         logger.info(f"[{tenant.schema_name}] Bulk updated {updated} modules")
+    #         return Response({"detail": f"Updated {updated} module(s)"}, status=status.HTTP_200_OK)
 
     @action(detail=False, methods=['post'])
     def bulk_delete(self, request, *args, **kwargs):
@@ -636,6 +637,8 @@ class LessonViewSet(TenantBaseView, viewsets.ModelViewSet):
             queryset = self.get_queryset()
             return get_object_or_404(queryset, id=lesson_id)
 
+
+
     def create(self, request, *args, **kwargs):
         tenant = request.tenant
         course_id = self.kwargs.get('course_id')
@@ -643,8 +646,23 @@ class LessonViewSet(TenantBaseView, viewsets.ModelViewSet):
         if not course_id or not module_id:
             logger.warning(f"[{tenant.schema_name}] Missing course_id or module_id for lesson creation")
             raise ValidationError("Course ID and Module ID are required.")
+
+        # data = request.data.copy()
+        data = request.data
+        if request.FILES:
+            data.update(request.FILES)
+        data['module'] = module_id
+
+        with tenant_context(tenant):
+            module = get_object_or_404(Module, id=module_id, course_id=course_id)
+            order = data.get('order')
+            if order is None or Lesson.objects.filter(module=module, order=order).exists():
+                max_order = Lesson.objects.filter(module=module).aggregate(models.Max('order'))['order__max']
+                data['order'] = (max_order or 0) + 1
+                logger.debug(f"[{tenant.schema_name}] Auto-incremented order to {data['order']} for module {module_id}")
+
         serializer = self.get_serializer(
-            data=request.data,
+            data=data,
             context={'tenant': tenant, 'course_id': course_id, 'module_id': module_id}
         )
         try:
@@ -652,10 +670,10 @@ class LessonViewSet(TenantBaseView, viewsets.ModelViewSet):
         except ValidationError as e:
             logger.error(f"[{tenant.schema_name}] Lesson creation validation failed: {str(e)}")
             raise
+
         with tenant_context(tenant), transaction.atomic():
-            module = get_object_or_404(Module, id=module_id, course_id=course_id)
-            serializer.save(module=module)
-            logger.info(f"[{tenant.schema_name}] Lesson created: {serializer.validated_data['title']}")
+            instance = serializer.save(module=module)
+            logger.info(f"[{tenant.schema_name}] Lesson created: {instance.title} with order {instance.order}")
         return Response(serializer.data, status=status.HTTP_201_CREATED)
 
     def update(self, request, *args, **kwargs):
@@ -910,7 +928,6 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
 
 
 
-
 class AssignmentViewSet(TenantBaseView,viewsets.ModelViewSet):
     serializer_class = AssignmentSerializer
     permission_classes = [IsAuthenticated]
@@ -1091,4 +1108,3 @@ class CourseProgressViewSet(TenantBaseView, viewsets.ModelViewSet):
             obj.save()
             serializer = self.get_serializer(obj)
             return Response(serializer.data)
-

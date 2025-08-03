@@ -95,17 +95,18 @@ with tenant_context(tenant):
         tenant=tenant
     )
 
+
 from core.models import Tenant
 from users.models import CustomUser
 from django_tenants.utils import tenant_context
 tenant = Tenant.objects.get(schema_name='proliance')
 with tenant_context(tenant):
     CustomUser.objects.create_superuser(
-        email='support@prolianceltd.com',
+        email='admin@prolianceltd.com',
         password='qwertyqwerty',
         role='admin',
-        first_name='Awaji-mimam',
-        last_name='Abraham',
+        first_name='Monday',
+        last_name='Okpolbhelo',
         tenant=tenant
     )
 

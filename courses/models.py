@@ -175,6 +175,7 @@ class Lesson(models.Model):
     duration = models.CharField(max_length=20, help_text="Duration in minutes", default= "1 hour")
     content_url = models.URLField(blank=True)
     content_file = models.FileField(null=True, blank=True, max_length=255)  # Remove upload_to
+    content_text = models.TextField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     
@@ -187,11 +188,16 @@ class Lesson(models.Model):
     
     @property
     def duration_display(self):
-        hours = self.duration // 60
-        minutes = self.duration % 60
-        if hours > 0:
-            return f"{hours}h {minutes}m"
-        return f"{minutes}m"
+        try:
+            # Extract integer from string (e.g., "120 hours" -> 120)
+            minutes = int(''.join(filter(str.isdigit, str(self.duration))))
+            hours = minutes // 60
+            mins = minutes % 60
+            if hours > 0:
+                return f"{hours}h {mins}m"
+            return f"{mins}m"
+        except Exception:
+            return str(self.duration)
 
 
 
