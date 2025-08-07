@@ -6220,3 +6220,21 @@ django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into fie
 2025-08-07 23:12:17,792 [ERROR] django.server: "GET /api/courses/courses/ HTTP/1.1" 500 176448
 2025-08-07 23:14:22,924 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py changed, reloading.
 2025-08-07 23:14:25,306 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-08-07 23:14:37,071 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 519
+2025-08-07 23:14:37,245 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 519
+2025-08-07 23:14:37,597 [INFO] django.server: "GET /api/courses/enrollments/all/ HTTP/1.1" 200 2422
+2025-08-07 23:14:37,626 [INFO] django.server: "GET /api/courses/categories/ HTTP/1.1" 200 343
+2025-08-07 23:14:37,641 [ERROR] django.request: Internal Server Error: /api/courses/courses/least_popular/
+2025-08-07 23:14:37,646 [ERROR] django.request: Internal Server Error: /api/courses/courses/most_popular/
+2025-08-07 23:14:37,647 [ERROR] django.server: "GET /api/courses/courses/least_popular/ HTTP/1.1" 500 48
+2025-08-07 23:14:37,648 [ERROR] django.server: "GET /api/courses/courses/most_popular/ HTTP/1.1" 500 47
+2025-08-07 23:14:37,836 [INFO] django.server: "GET /api/courses/enrollments/all/ HTTP/1.1" 200 2422
+2025-08-07 23:14:37,859 [ERROR] django.request: Internal Server Error: /api/courses/courses/least_popular/
+2025-08-07 23:14:37,861 [INFO] django.server: "GET /api/courses/categories/ HTTP/1.1" 200 343
+2025-08-07 23:14:37,869 [ERROR] django.server: "GET /api/courses/courses/least_popular/ HTTP/1.1" 500 48
+2025-08-07 23:14:37,879 [ERROR] django.request: Internal Server Error: /api/courses/courses/most_popular/
+2025-08-07 23:14:37,883 [ERROR] django.server: "GET /api/courses/courses/most_popular/ HTTP/1.1" 500 47
+2025-08-07 23:14:41,271 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2941
+2025-08-07 23:14:44,950 [INFO] django.server: "GET /api/courses/courses/ HTTP/1.1" 200 2941
+2025-08-07 23:14:44,964 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 2941
+2025-08-07 23:14:47,967 [INFO] django.server: "GET /api/courses/courses/?page=1&page_size=1000 HTTP/1.1" 200 2941
