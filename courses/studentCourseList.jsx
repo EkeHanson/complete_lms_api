@@ -634,16 +634,14 @@ const CourseDialog = ({ open, onClose, course, activeTab, setActiveTab, onFeedba
                           />
                         )}
                         {/* Inline YouTube embed for YouTube lessons */}
-                        {(selectedLesson.detectedType === 'youtube' && selectedMedia && selectedMedia.type === 'youtube') && (
-                          <div className="responsive-iframe-container">
-                            <iframe
-                              className="media-iframe"
-                              src={`https://www.youtube.com/embed/${selectedMedia.url.split('v=')[1]?.split('&')[0] || selectedMedia.url.split('/').pop()}`}
-                              title={selectedMedia.title}
-                              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                              allowFullScreen
-                            />
-                          </div>
+                        {selectedLesson?.detectedType === 'youtube' && selectedMedia && selectedMedia.type === 'youtube' && (
+                          <YouTubePlayer
+                            videoId={
+                              selectedMedia.url.split('v=')[1]?.split('&')[0] ||
+                              selectedMedia.url.split('/').pop()
+                            }
+                            onComplete={() => handleLessonComplete(selectedLesson)}
+                          />
                         )}
                         {/* Non-YouTube videos still use modal */}
                         {(selectedLesson.detectedType === 'video' && selectedMedia && selectedMedia.type !== 'youtube') && (
