@@ -11,6 +11,7 @@ import {
   CheckCircleOutline, ArrowBack, Menu as MenuIcon
 } from '@mui/icons-material';
 import { Tooltip, Typography } from '@mui/material';
+import YouTube from 'react-youtube';
 
 // Memoized Course Card Component
 const CourseCard = memo(({ course, bookmarked, onBookmark, onOpen, onFeedback }) => {
@@ -1152,5 +1153,67 @@ function StudentDashboardDarkModeToggle() {
     </button>
   );
 }
+
+const YouTubePlayer = ({ videoId, onComplete }) => {
+  const [playedSeconds, setPlayedSeconds] = useState(0);
+  const [isPlaying, setIsPlaying] = useState(false);
+  const [duration, setDuration] = useState(0);
+  const timerRef = React.useRef();
+
+  // Called when YouTube player is ready, gets duration
+  const onReady = (event) => {
+    setDuration(event.target.getDuration());
+  };
+
+  // Start timer when video plays
+  const onPlay = () => {
+    setIsPlaying(true);
+    if (!timerRef.current) {
+      timerRef.current = setInterval(() => {
+        setPlayedSeconds(prev => prev + 1);
+      }, 1000);
+    }
+  };
+
+  // Pause timer when video pauses
+  const onPause = () => {
+    setIsPlaying(false);
+    if (timerRef.current) {
+      clearInterval(timerRef.current);
+      timerRef.current = null;
+    }
+  };
+
+  // Cleanup timer on unmount
+  useEffect(() => {
+    if (playedSeconds >= duration && duration > 0) {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+      onComplete && onComplete();
+    }
+    return () => {
+      if (timerRef.current) {
+        clearInterval(timerRef.current);
+        timerRef.current = null;
+      }
+    };
+  }, [playedSeconds, duration, onComplete]);
+
+  return (
+    <div>
+      <YouTube
+        videoId={videoId}
+        onReady={onReady}
+        onPlay={onPlay}
+        onPause={onPause}
+      />
+      <div style={{ marginTop: 8, fontSize: '0.95rem', color: '#888' }}>
+        Progress: {Math.min(playedSeconds, duration)} / {duration} seconds
+      </div>
+    </div>
+  );
+};
 
 export default StudentCourseList;
