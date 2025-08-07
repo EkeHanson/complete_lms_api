@@ -101,8 +101,6 @@ class Course(models.Model):
     learning_outcomes = models.JSONField(default=list)
     prerequisites = models.JSONField(default=list)
     completion_hours = models.PositiveIntegerField(default=0, help_text="Estimated hours to complete the course")
-    start_date = models.DateTimeField(null=True, blank=True)
-    end_date = models.DateTimeField(null=True, blank=True)
     
     class Meta:
         ordering = ['-created_at']
@@ -175,7 +173,6 @@ class Lesson(models.Model):
     duration = models.CharField(max_length=20, help_text="Duration in minutes", default= "1 hour")
     content_url = models.URLField(blank=True)
     content_file = models.FileField(null=True, blank=True, max_length=255)  # Remove upload_to
-    content_text = models.TextField(blank=True, null=True)
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     
@@ -188,16 +185,11 @@ class Lesson(models.Model):
     
     @property
     def duration_display(self):
-        try:
-            # Extract integer from string (e.g., "120 hours" -> 120)
-            minutes = int(''.join(filter(str.isdigit, str(self.duration))))
-            hours = minutes // 60
-            mins = minutes % 60
-            if hours > 0:
-                return f"{hours}h {mins}m"
-            return f"{mins}m"
-        except Exception:
-            return str(self.duration)
+        hours = self.duration // 60
+        minutes = self.duration % 60
+        if hours > 0:
+            return f"{hours}h {minutes}m"
+        return f"{minutes}m"
 
 
 
@@ -338,19 +330,42 @@ class LearningPath(models.Model):
     def __str__(self):
         return self.title
 
+class LessonProgress(models.Model):
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, related_name='lesson_progress')
+    lesson = models.ForeignKey(Lesson, on_delete=models.CASCADE, related_name='progress')
+    is_completed = models.BooleanField(default=False)
+    completed_at = models.DateTimeField(null=True, blank=True)
+    started_at = models.DateTimeField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ['user', 'lesson']
+
+    def __str__(self):
+        return f"{self.user} - {self.lesson} - {'Completed' if self.is_completed else 'In Progress'}"
+    
 
 class Enrollment(models.Model):
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='enrollments')
-    course = models.ForeignKey(Course, on_delete=models.CASCADE, related_name='enrollments')
+    user = models.ForeignKey(CustomUser, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
     enrolled_at = models.DateTimeField(auto_now_add=True)
+    started_at = models.DateTimeField(null=True, blank=True)
     completed_at = models.DateTimeField(null=True, blank=True)
     is_active = models.BooleanField(default=True)
-    
+
     class Meta:
         unique_together = ['user', 'course']
-    
+
     def __str__(self):
         return f"{self.user} - {self.course}"
+
+    def get_progress(self):
+        total_lessons = Lesson.objects.filter(module__course=self.course).count()
+        completed_lessons = LessonProgress.objects.filter(
+            user=self.user, lesson__module__course=self.course, is_completed=True
+        ).count()
+        if total_lessons == 0:
+            return 0
+        return int((completed_lessons / total_lessons) * 100)
 
 
 
@@ -446,119 +461,7 @@ class FAQ(models.Model):
 
     def __str__(self):
         return f"{self.course.title} - {self.question[:50]}..."
-    
-
-class Assignment(models.Model):
-    title = models.CharField(max_length=255)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='assignments')
-    due_date = models.DateTimeField()
-    status = models.CharField(max_length=20, choices=[('submitted', 'Submitted'), ('in-progress', 'In Progress'), ('not-started', 'Not Started')])
-    grade = models.IntegerField(null=True, blank=True)
-    feedback = models.TextField(null=True, blank=True)
-    type = models.CharField(max_length=20, choices=[('project', 'Project'), ('assignment', 'Assignment'), ('quiz', 'Quiz')])
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    created_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ['user', 'course', 'title']
-
-class Feedback(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True)
-    type = models.CharField(max_length=50, default='lms')
-    content = models.TextField()
-    rating = models.IntegerField(null=True, blank=True)
-    created_at = models.DateTimeField(auto_now_add=True)
 
 
-class Cart(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ['user', 'course']
-
-class Wishlist(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE)
-    added_at = models.DateTimeField(auto_now_add=True)
-
-    class Meta:
-        unique_together = ['user', 'course']
 
 
-class Grade(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE, related_name='user_grades')
-    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='users_course_grades')
-    assignment = models.ForeignKey("Assignment", on_delete=models.CASCADE, null=True, blank=True, related_name='assignment_grades')
-    score = models.IntegerField()
-    created_at = models.DateTimeField(auto_now_add=True)
-
-class Analytics(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE, null=True, blank=True)
-    total_time_spent = models.IntegerField(default=0)  # In minutes
-    weekly_time_spent = models.IntegerField(default=0)  # In minutes
-    strengths = models.JSONField(default=list)
-    weaknesses = models.JSONField(default=list)
-    last_updated = models.DateTimeField(auto_now=True)
-
-# Track user progress in a course (multitenant-ready)
-class CourseProgress(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    course = models.ForeignKey('Course', on_delete=models.CASCADE)
-    tenant_id = models.CharField(max_length=100, null=True, blank=True, help_text="Tenant identifier for multitenancy")
-    started_at = models.DateTimeField(null=True, blank=True)
-    completed_at = models.DateTimeField(null=True, blank=True)
-    progress_percent = models.FloatField(default=0, validators=[MinValueValidator(0), MaxValueValidator(100)])
-    last_accessed = models.DateTimeField(auto_now=True)
-
-    class Meta:
-        unique_together = ['user', 'course', 'tenant_id']
-
-    def __str__(self):
-        return f"{self.user} - {self.course} ({self.progress_percent}%)"
-
-# Track lesson completion per user for progress calculation
-class LessonCompletion(models.Model):
-    user = models.ForeignKey('users.CustomUser', on_delete=models.CASCADE)
-    lesson = models.ForeignKey('Lesson', on_delete=models.CASCADE)
-    completed_at = models.DateTimeField(auto_now_add=True)
-    tenant_id = models.CharField(max_length=100, null=True, blank=True, help_text="Tenant identifier for multitenancy")
-
-    class Meta:
-        unique_together = ['user', 'lesson', 'tenant_id']
-
-    def __str__(self):
-        return f"{self.user} completed {self.lesson}"
-
-class Quiz(models.Model):
-    QUIZ_TYPE_CHOICES = [
-        ('multiple_choice', 'Multiple Choice'),
-        ('true_false', 'True/False'),
-        ('short_answer', 'Short Answer'),
-        ('matching', 'Matching'),
-    ]
-
-    course = models.ForeignKey('Course', on_delete=models.CASCADE, related_name='quizzes')
-    module = models.ForeignKey('Module', on_delete=models.CASCADE, related_name='quizzes', null=True, blank=True)
-    title = models.CharField(max_length=255)
-    description = models.TextField(blank=True)
-    quiz_type = models.CharField(max_length=30, choices=QUIZ_TYPE_CHOICES, default='multiple_choice')
-    start_date = models.DateTimeField(null=True, blank=True)
-    end_date = models.DateTimeField(null=True, blank=True)
-    duration_minutes = models.PositiveIntegerField(default=30)
-    total_marks = models.PositiveIntegerField(default=100)
-    passing_score = models.PositiveIntegerField(default=50)
-    is_active = models.BooleanField(default=True)
-    created_at = models.DateTimeField(auto_now_add=True)
-    updated_at = models.DateTimeField(auto_now=True)
-    tenant_id = models.CharField(max_length=100, null=True, blank=True, help_text="Tenant identifier for multitenancy")
-
-    class Meta:
-        ordering = ['-created_at']
-        unique_together = ['title', 'course', 'tenant_id']
-
-    def __str__(self):
-        return f"{self.title} ({self.course.title})"

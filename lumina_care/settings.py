@@ -128,16 +128,16 @@ SOCIALACCOUNT_PROVIDERS = {
 #         'PORT':     '5432',
 #     }
 # }
-DATABASES = {
-    'default': {
-        'ENGINE': 'django_tenants.postgresql_backend',
-        'NAME': 'complete_scorm_compliant_lms_db',
-        'USER': 'complete_scorm_compliant_lms_db_user',
-        'PASSWORD': 'fgjVdCQJkkijN92w1hVJjtUAnllB1rcn',
-        'HOST': 'dpg-d2791qmuk2gs73dls5s0-a.oregon-postgres.render.com',
-        'PORT': '5432',
-    }
-}
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django_tenants.postgresql_backend',
+#         'NAME': 'complete_scorm_compliant_lms_db',
+#         'USER': 'complete_scorm_compliant_lms_db_user',
+#         'PASSWORD': 'fgjVdCQJkkijN92w1hVJjtUAnllB1rcn',
+#         'HOST': 'dpg-d2791qmuk2gs73dls5s0-a.oregon-postgres.render.com',
+#         'PORT': '5432',
+#     }
+# }
 
 DATABASES = {
     'default': {

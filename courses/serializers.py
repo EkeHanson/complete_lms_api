@@ -1,12 +1,10 @@
 from rest_framework import serializers
-from .models import (Category, Course , Quiz, Module, Lesson,Badge,UserPoints,UserBadge,FAQ,Feedback,Analytics,
-    Resource, Instructor, CourseInstructor, CertificateTemplate,UserBadge,Assignment,Cart, Wishlist,
-    SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating, Grade, CourseProgress)
-from .models import LessonCompletion
-from django.db import models
+from .models import (Category, Course , Module, Lesson,Badge,UserPoints,UserBadge,FAQ,
+    Resource, Instructor, CourseInstructor, CertificateTemplate,UserBadge,
+    SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating)
+
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
-from django.core.exceptions import ValidationError
 import json
 import logging
 from django.utils.text import slugify
@@ -21,27 +19,27 @@ from utils.storage import get_storage_service
 User = get_user_model()
 
 # Serializer for CourseProgress
-class CourseProgressSerializer(serializers.ModelSerializer):
-    user_email = serializers.CharField(source='user.email', read_only=True)
-    course_title = serializers.CharField(source='course.title', read_only=True)
+# class CourseProgressSerializer(serializers.ModelSerializer):
+#     user_email = serializers.CharField(source='user.email', read_only=True)
+#     course_title = serializers.CharField(source='course.title', read_only=True)
 
-    class Meta:
-        model = CourseProgress
-        fields = [
-            'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
-            'started_at', 'completed_at', 'progress_percent', 'last_accessed'
-        ]
-        read_only_fields = ['user_email', 'course_title', 'last_accessed']
+#     class Meta:
+#         model = CourseProgress
+#         fields = [
+#             'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
+#             'started_at', 'completed_at', 'progress_percent', 'last_accessed'
+#         ]
+#         read_only_fields = ['user_email', 'course_title', 'last_accessed']
 
 # Serializer for LessonCompletion
-class LessonCompletionSerializer(serializers.ModelSerializer):
-    lesson_title = serializers.CharField(source='lesson.title', read_only=True)
-    user_email = serializers.CharField(source='user.email', read_only=True)
+# class LessonCompletionSerializer(serializers.ModelSerializer):
+#     lesson_title = serializers.CharField(source='lesson.title', read_only=True)
+#     user_email = serializers.CharField(source='user.email', read_only=True)
 
-    class Meta:
-        model = LessonCompletion
-        fields = ['id', 'user', 'user_email', 'lesson', 'lesson_title', 'completed_at', 'tenant_id']
-        read_only_fields = ['user_email', 'lesson_title', 'completed_at']
+#     class Meta:
+#         model = LessonCompletion
+#         fields = ['id', 'user', 'user_email', 'lesson', 'lesson_title', 'completed_at', 'tenant_id']
+#         read_only_fields = ['user_email', 'lesson_title', 'completed_at']
 
 class FAQSerializer(serializers.ModelSerializer):
     class Meta:
@@ -232,63 +230,63 @@ class InstructorUserSerializer(serializers.ModelSerializer):
         model = CustomUser
         fields = ['id', 'email', 'first_name', 'last_name', 'avatar', 'phone']
 
-class StudentSummarySerializer(serializers.ModelSerializer):
-    progress = serializers.SerializerMethodField()
-    grade = serializers.SerializerMethodField()
+# class StudentSummarySerializer(serializers.ModelSerializer):
+#     progress = serializers.SerializerMethodField()
+#     grade = serializers.SerializerMethodField()
 
-    class Meta:
-        model = CustomUser
-        fields = ['id', 'email', 'first_name', 'last_name', 'progress', 'grade']
+#     class Meta:
+#         model = CustomUser
+#         fields = ['id', 'email', 'first_name', 'last_name', 'progress', 'grade']
 
-    def get_progress(self, obj):
-        course = self.context.get('course')
-        cp = CourseProgress.objects.filter(user=obj, course=course).first()
-        return cp.progress_percent if cp else 0
+#     def get_progress(self, obj):
+#         course = self.context.get('course')
+#         cp = CourseProgress.objects.filter(user=obj, course=course).first()
+#         return cp.progress_percent if cp else 0
 
-    def get_grade(self, obj):
-        course = self.context.get('course')
-        grade = Grade.objects.filter(user=obj, course=course).first()
-        return grade.value if grade else None
-
-
-class AssignmentSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Assignment
-        fields = ['id', 'title', 'due_date', 'status']
-
-class QuizSerializer(serializers.ModelSerializer):
-    course_title = serializers.CharField(source='course.title', read_only=True)
-    module_title = serializers.CharField(source='module.title', read_only=True)
-
-    class Meta:
-        model = Quiz
-        fields = [
-            'id', 'title', 'description', 'quiz_type', 'course', 'course_title',
-            'module', 'module_title', 'start_date', 'end_date', 'duration_minutes',
-            'total_marks', 'passing_score', 'is_active', 'created_at', 'updated_at', 'tenant_id'
-        ]
+#     def get_grade(self, obj):
+#         course = self.context.get('course')
+#         grade = Grade.objects.filter(user=obj, course=course).first()
+#         return grade.value if grade else None
 
 
+# class AssignmentSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Assignment
+#         fields = ['id', 'title', 'due_date', 'status']
+
+# class QuizSerializer(serializers.ModelSerializer):
+#     course_title = serializers.CharField(source='course.title', read_only=True)
+#     module_title = serializers.CharField(source='module.title', read_only=True)
+
+#     class Meta:
+#         model = Quiz
+#         fields = [
+#             'id', 'title', 'description', 'quiz_type', 'course', 'course_title',
+#             'module', 'module_title', 'start_date', 'end_date', 'duration_minutes',
+#             'total_marks', 'passing_score', 'is_active', 'created_at', 'updated_at', 'tenant_id'
+#         ]
 
 
-class CourseDetailForInstructorSerializer(serializers.ModelSerializer):
-    num_students = serializers.SerializerMethodField()
-    modules = ModuleSerializer(many=True, read_only=True)
-    assignments = AssignmentSerializer(many=True, read_only=True)
-    quizzes = QuizSerializer(many=True, read_only=True)
-    students = serializers.SerializerMethodField()
-    ratings = serializers.FloatField(source='average_rating', read_only=True)
 
-    class Meta:
-        model = Course
-        fields = '__all__'
 
-    def get_num_students(self, obj):
-        return obj.enrollments.filter(is_active=True).count()
+# class CourseDetailForInstructorSerializer(serializers.ModelSerializer):
+#     num_students = serializers.SerializerMethodField()
+#     modules = ModuleSerializer(many=True, read_only=True)
+#     assignments = AssignmentSerializer(many=True, read_only=True)
+#     quizzes = QuizSerializer(many=True, read_only=True)
+#     students = serializers.SerializerMethodField()
+#     ratings = serializers.FloatField(source='average_rating', read_only=True)
 
-    def get_students(self, obj):
-        students = CustomUser.objects.filter(enrollments__course=obj, enrollments__is_active=True)
-        return StudentSummarySerializer(students, many=True, context={'course': obj}).data
+#     class Meta:
+#         model = Course
+#         fields = '__all__'
+
+#     def get_num_students(self, obj):
+#         return obj.enrollments.filter(is_active=True).count()
+
+#     def get_students(self, obj):
+#         students = CustomUser.objects.filter(enrollments__course=obj, enrollments__is_active=True)
+#         return StudentSummarySerializer(students, many=True, context={'course': obj}).data
 
 # class CourseDetailForInstructorSerializer(serializers.ModelSerializer):
 #     num_students = serializers.SerializerMethodField()
@@ -983,67 +981,67 @@ class UserBadgeSerializer(serializers.ModelSerializer):
         model = UserBadge
         fields = ['id', 'user', 'badge', 'awarded_at', 'course']
 
-class AssignmentSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    class Meta:
-        model = Assignment
-        fields = ['id', 'title', 'course', 'due_date', 'status', 'grade', 'feedback', 'type']
+# class AssignmentSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     class Meta:
+#         model = Assignment
+#         fields = ['id', 'title', 'course', 'due_date', 'status', 'grade', 'feedback', 'type']
 
-class FeedbackSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-    user = serializers.SlugRelatedField(slug_field='email', read_only=True)
-    class Meta:
-        model = Feedback
-        fields = ['id', 'user', 'course', 'type', 'content', 'rating', 'created_at']
+# class FeedbackSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
+#     user = serializers.SlugRelatedField(slug_field='email', read_only=True)
+#     class Meta:
+#         model = Feedback
+#         fields = ['id', 'user', 'course', 'type', 'content', 'rating', 'created_at']
 
-class CartSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    class Meta:
-        model = Cart
-        fields = ['id', 'course', 'added_at']
+# class CartSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     class Meta:
+#         model = Cart
+#         fields = ['id', 'course', 'added_at']
 
-class WishlistSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    class Meta:
-        model = Wishlist
-        fields = ['id', 'course', 'added_at']
+# class WishlistSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     class Meta:
+#         model = Wishlist
+#         fields = ['id', 'course', 'added_at']
 
-class GradeSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    assignment = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-    class Meta:
-        model = Grade
-        fields = ['id', 'user', 'course', 'assignment', 'score', 'created_at']
+# class GradeSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     assignment = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
+#     class Meta:
+#         model = Grade
+#         fields = ['id', 'user', 'course', 'assignment', 'score', 'created_at']
 
 
-class AnalyticsSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-    class Meta:
-        model = Analytics
-        fields = ['id', 'user', 'course', 'total_time_spent', 'weekly_time_spent', 'strengths', 'weaknesses', 'last_updated']
+# class AnalyticsSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
+#     class Meta:
+#         model = Analytics
+#         fields = ['id', 'user', 'course', 'total_time_spent', 'weekly_time_spent', 'strengths', 'weaknesses', 'last_updated']
 
-class CourseProgressSerializer(serializers.ModelSerializer):
-    user_email = serializers.CharField(source='user.email', read_only=True)
-    course_title = serializers.CharField(source='course.title', read_only=True)
+# class CourseProgressSerializer(serializers.ModelSerializer):
+#     user_email = serializers.CharField(source='user.email', read_only=True)
+#     course_title = serializers.CharField(source='course.title', read_only=True)
 
-    class Meta:
-        model = CourseProgress
-        fields = [
-            'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
-            'started_at', 'completed_at', 'progress_percent', 'last_accessed'
-        ]
-        read_only_fields = ['user_email', 'course_title', 'last_accessed']
+#     class Meta:
+#         model = CourseProgress
+#         fields = [
+#             'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
+#             'started_at', 'completed_at', 'progress_percent', 'last_accessed'
+#         ]
+#         read_only_fields = ['user_email', 'course_title', 'last_accessed']
 
-def calculate_course_progress(user, course):
-    total_lessons = course.modules.aggregate(
-        total=models.Count('lessons')
-    )['total']
-    completed_lessons = LessonCompletion.objects.filter(
-        user=user, lesson__module__course=course
-    ).count()
-    if total_lessons == 0:
-        return 0
-    return round((completed_lessons / total_lessons) * 100, 2)
+# def calculate_course_progress(user, course):
+#     total_lessons = course.modules.aggregate(
+#         total=models.Count('lessons')
+#     )['total']
+#     completed_lessons = LessonCompletion.objects.filter(
+#         user=user, lesson__module__course=course
+#     ).count()
+#     if total_lessons == 0:
+#         return 0
+#     return round((completed_lessons / total_lessons) * 100, 2)
 
 class InstructorCourseSummarySerializer(serializers.ModelSerializer):
     num_students = serializers.SerializerMethodField()
@@ -1055,20 +1053,20 @@ class InstructorCourseSummarySerializer(serializers.ModelSerializer):
     def get_num_students(self, obj):
         return obj.enrollments.filter(is_active=True).count()
 
-class InstructorFullProfileSerializer(serializers.ModelSerializer):
-    user = InstructorUserSerializer(read_only=True)
-    courses = serializers.SerializerMethodField()
+# class InstructorFullProfileSerializer(serializers.ModelSerializer):
+#     user = InstructorUserSerializer(read_only=True)
+#     courses = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Instructor
-        fields = ['id', 'user', 'bio', 'is_active', 'courses']
+#     class Meta:
+#         model = Instructor
+#         fields = ['id', 'user', 'bio', 'is_active', 'courses']
 
-    def get_courses(self, instructor):
-        course_ids = CourseInstructor.objects.filter(
-            instructor=instructor
-        ).values_list('course_id', flat=True)
-        courses = Course.objects.filter(id__in=course_ids)
-        return CourseDetailForInstructorSerializer(courses, many=True).data
+#     def get_courses(self, instructor):
+#         course_ids = CourseInstructor.objects.filter(
+#             instructor=instructor
+#         ).values_list('course_id', flat=True)
+#         courses = Course.objects.filter(id__in=course_ids)
+#         return CourseDetailForInstructorSerializer(courses, many=True).data
 
 
 
@@ -1397,67 +1395,67 @@ class UserBadgeSerializer(serializers.ModelSerializer):
         model = UserBadge
         fields = ['id', 'user', 'badge', 'awarded_at', 'course']
 
-class AssignmentSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    class Meta:
-        model = Assignment
-        fields = ['id', 'title', 'course', 'due_date', 'status', 'grade', 'feedback', 'type']
+# class AssignmentSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     class Meta:
+#         model = Assignment
+#         fields = ['id', 'title', 'course', 'due_date', 'status', 'grade', 'feedback', 'type']
 
-class FeedbackSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-    user = serializers.SlugRelatedField(slug_field='email', read_only=True)
-    class Meta:
-        model = Feedback
-        fields = ['id', 'user', 'course', 'type', 'content', 'rating', 'created_at']
+# class FeedbackSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
+#     user = serializers.SlugRelatedField(slug_field='email', read_only=True)
+#     class Meta:
+#         model = Feedback
+#         fields = ['id', 'user', 'course', 'type', 'content', 'rating', 'created_at']
 
-class CartSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    class Meta:
-        model = Cart
-        fields = ['id', 'course', 'added_at']
+# class CartSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     class Meta:
+#         model = Cart
+#         fields = ['id', 'course', 'added_at']
 
-class WishlistSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    class Meta:
-        model = Wishlist
-        fields = ['id', 'course', 'added_at']
+# class WishlistSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     class Meta:
+#         model = Wishlist
+#         fields = ['id', 'course', 'added_at']
 
-class GradeSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-    assignment = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-    class Meta:
-        model = Grade
-        fields = ['id', 'user', 'course', 'assignment', 'score', 'created_at']
+# class GradeSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     assignment = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
+#     class Meta:
+#         model = Grade
+#         fields = ['id', 'user', 'course', 'assignment', 'score', 'created_at']
 
 
-class AnalyticsSerializer(serializers.ModelSerializer):
-    course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-    class Meta:
-        model = Analytics
-        fields = ['id', 'user', 'course', 'total_time_spent', 'weekly_time_spent', 'strengths', 'weaknesses', 'last_updated']
+# class AnalyticsSerializer(serializers.ModelSerializer):
+#     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
+#     class Meta:
+#         model = Analytics
+#         fields = ['id', 'user', 'course', 'total_time_spent', 'weekly_time_spent', 'strengths', 'weaknesses', 'last_updated']
 
-class CourseProgressSerializer(serializers.ModelSerializer):
-    user_email = serializers.CharField(source='user.email', read_only=True)
-    course_title = serializers.CharField(source='course.title', read_only=True)
+# class CourseProgressSerializer(serializers.ModelSerializer):
+#     user_email = serializers.CharField(source='user.email', read_only=True)
+#     course_title = serializers.CharField(source='course.title', read_only=True)
 
-    class Meta:
-        model = CourseProgress
-        fields = [
-            'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
-            'started_at', 'completed_at', 'progress_percent', 'last_accessed'
-        ]
-        read_only_fields = ['user_email', 'course_title', 'last_accessed']
+#     class Meta:
+#         model = CourseProgress
+#         fields = [
+#             'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
+#             'started_at', 'completed_at', 'progress_percent', 'last_accessed'
+#         ]
+#         read_only_fields = ['user_email', 'course_title', 'last_accessed']
 
-def calculate_course_progress(user, course):
-    total_lessons = course.modules.aggregate(
-        total=models.Count('lessons')
-    )['total']
-    completed_lessons = LessonCompletion.objects.filter(
-        user=user, lesson__module__course=course
-    ).count()
-    if total_lessons == 0:
-        return 0
-    return round((completed_lessons / total_lessons) * 100, 2)
+# def calculate_course_progress(user, course):
+#     total_lessons = course.modules.aggregate(
+#         total=models.Count('lessons')
+#     )['total']
+#     completed_lessons = LessonCompletion.objects.filter(
+#         user=user, lesson__module__course=course
+#     ).count()
+#     if total_lessons == 0:
+#         return 0
+#     return round((completed_lessons / total_lessons) * 100, 2)
 
 class InstructorCourseSummarySerializer(serializers.ModelSerializer):
     num_students = serializers.SerializerMethodField()
@@ -1469,7 +1467,7 @@ class InstructorCourseSummarySerializer(serializers.ModelSerializer):
     def get_num_students(self, obj):
         return obj.enrollments.filter(is_active=True).count()
 
-class InstructorFullProfileSerializer(serializers.ModelSerializer):
+# class InstructorFullProfileSerializer(serializers.ModelSerializer):
     user = InstructorUserSerializer(read_only=True)
     courses = serializers.SerializerMethodField()
 
