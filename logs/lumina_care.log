@@ -5413,3 +5413,810 @@ django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into fie
 2025-08-07 22:29:41,639 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\models.py changed, reloading.
 2025-08-07 22:29:46,672 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
 2025-08-07 22:33:27,231 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\models.py changed, reloading.
+2025-08-07 23:10:17,483 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-08-07 23:12:12,630 [INFO] django.server: "POST /api/token/ HTTP/1.1" 200 1103
+2025-08-07 23:12:12,801 [INFO] django.server: "GET /api/token/validate/ HTTP/1.1" 200 519
+2025-08-07 23:12:13,270 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1167
+2025-08-07 23:12:13,285 [INFO] users: [arts] Retrieved 291 user activity records
+2025-08-07 23:12:13,293 [INFO] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 200 5501
+2025-08-07 23:12:13,294 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
+2025-08-07 23:12:13,504 [INFO] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 200 2
+2025-08-07 23:12:13,552 [INFO] django.server: "GET /api/schedule/schedules/upcoming/ HTTP/1.1" 200 4271
+2025-08-07 23:12:13,978 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-07 23:12:14,008 [WARNING] django.server: "GET /api/courses/certificates/course/undefined/template/ HTTP/1.1" 404 29007
+2025-08-07 23:12:14,023 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
+2025-08-07 23:12:14,391 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:14,437 [INFO] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 200 6717
+2025-08-07 23:12:14,491 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:14,509 [ERROR] django.request: Internal Server Error: /api/users/stats/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\users\views.py", line 526, in stats
+    'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into field. Choices are: activities, activitylog, badges, bio, course_ratings, created_adverts, created_categories, created_courses, created_learning_paths, created_schedules, date_joined, email, emailaddress, enrollment, facebook_link, failedlogin, first_name, groupmembership, groups, id, instructor_profile, is_active, is_deleted, is_locked, is_staff, is_superuser, last_login, last_name, lesson_progress, linkedin_link, logentry, login_attempts, outstandingtoken, password, passwordresettoken, phone, points, profile_picture, received_messages, role, schedule_participations, sent_messages, socialaccount, status, tenant, tenant_id, title, twitter_link, user_permissions, userprofile
+2025-08-07 23:12:14,551 [WARNING] django.request: Not Found: /api/courses/faqs/stats/
+2025-08-07 23:12:14,554 [INFO] django.server: "GET /api/schedule/schedules/stats/ HTTP/1.1" 200 20
+2025-08-07 23:12:14,608 [ERROR] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 500 177200
+2025-08-07 23:12:14,652 [ERROR] django.server: "GET /api/courses/courses/ HTTP/1.1" 500 176448
+2025-08-07 23:12:14,669 [ERROR] django.server: "GET /api/users/stats/ HTTP/1.1" 500 166245
+2025-08-07 23:12:14,733 [WARNING] django.server: "GET /api/courses/faqs/stats/ HTTP/1.1" 404 28923
+2025-08-07 23:12:15,001 [INFO] django.server: "GET /api/payments/site-currency/ HTTP/1.1" 200 88
+2025-08-07 23:12:15,080 [INFO] django.server: "GET /messaging/api/messages/unread_count/ HTTP/1.1" 200 18
+2025-08-07 23:12:15,134 [INFO] django.server: "GET /adverts/api/adverts/ HTTP/1.1" 200 2
+2025-08-07 23:12:15,135 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1167
+2025-08-07 23:12:15,136 [INFO] users: [arts] Retrieved 291 user activity records
+2025-08-07 23:12:15,136 [INFO] django.server: "GET /api/schedule/schedules/upcoming/ HTTP/1.1" 200 4271
+2025-08-07 23:12:15,168 [INFO] django.server: "GET /api/users/user-activities/?limit=10 HTTP/1.1" 200 5501
+2025-08-07 23:12:15,276 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-07 23:12:15,279 [WARNING] django.server: "GET /api/courses/certificates/course/undefined/template/ HTTP/1.1" 404 29007
+2025-08-07 23:12:15,332 [INFO] django.server: "GET /messaging/api/messages/stats/ HTTP/1.1" 200 40
+2025-08-07 23:12:15,459 [INFO] django.server: "GET /api/schedule/schedules/stats/ HTTP/1.1" 200 20
+2025-08-07 23:12:15,624 [INFO] django.server: "GET /api/groups/groups/?limit=10 HTTP/1.1" 200 6717
+2025-08-07 23:12:15,664 [WARNING] django.request: Not Found: /api/courses/faqs/stats/
+2025-08-07 23:12:15,706 [WARNING] django.server: "GET /api/courses/faqs/stats/ HTTP/1.1" 404 28923
+2025-08-07 23:12:15,938 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:15,943 [INFO] django.server: "GET /api/payments/site-currency/ HTTP/1.1" 200 88
+2025-08-07 23:12:15,974 [ERROR] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 500 177200
+2025-08-07 23:12:16,053 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1167
+2025-08-07 23:12:16,061 [INFO] django.server: "GET /api/courses/enrollments/all/ HTTP/1.1" 200 2422
+2025-08-07 23:12:16,254 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:16,391 [ERROR] django.request: Internal Server Error: /api/courses/courses/most_popular/
+2025-08-07 23:12:16,400 [ERROR] django.server: "GET /api/courses/courses/ HTTP/1.1" 500 176448
+2025-08-07 23:12:16,424 [ERROR] django.request: Internal Server Error: /api/users/stats/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\users\views.py", line 526, in stats
+    'new_signups': CustomUser.objects.filter(signup_date__gte=seven_days_ago).count(),
+                   ~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\manager.py", line 87, in manager_method
+    return getattr(self.get_queryset(), name)(*args, **kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1493, in filter
+    return self._filter_or_exclude(False, args, kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1511, in _filter_or_exclude
+    clone._filter_or_exclude_inplace(negate, args, kwargs)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1518, in _filter_or_exclude_inplace
+    self._query.add_q(Q(*args, **kwargs))
+    ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1646, in add_q
+    clause, _ = self._add_q(q_object, can_reuse)
+                ~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1678, in _add_q
+    child_clause, needed_inner = self.build_filter(
+                                 ~~~~~~~~~~~~~~~~~^
+        child,
+        ^^^^^^
+    ...<7 lines>...
+        update_join_types=update_join_types,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1526, in build_filter
+    lookups, parts, reffed_expression = self.solve_lookup_type(arg, summarize)
+                                        ~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1333, in solve_lookup_type
+    _, field, _, lookup_parts = self.names_to_path(lookup_splitted, self.get_meta())
+                                ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'signup_date' into field. Choices are: activities, activitylog, badges, bio, course_ratings, created_adverts, created_categories, created_courses, created_learning_paths, created_schedules, date_joined, email, emailaddress, enrollment, facebook_link, failedlogin, first_name, groupmembership, groups, id, instructor_profile, is_active, is_deleted, is_locked, is_staff, is_superuser, last_login, last_name, lesson_progress, linkedin_link, logentry, login_attempts, outstandingtoken, password, passwordresettoken, phone, points, profile_picture, received_messages, role, schedule_participations, sent_messages, socialaccount, status, tenant, tenant_id, title, twitter_link, user_permissions, userprofile
+2025-08-07 23:12:16,448 [ERROR] django.server: "GET /api/courses/courses/most_popular/ HTTP/1.1" 500 47
+2025-08-07 23:12:16,456 [INFO] django.server: "GET /api/courses/categories/ HTTP/1.1" 200 343
+2025-08-07 23:12:16,468 [ERROR] django.request: Internal Server Error: /api/courses/courses/least_popular/
+2025-08-07 23:12:16,519 [ERROR] django.server: "GET /api/users/stats/ HTTP/1.1" 500 166245
+2025-08-07 23:12:16,572 [ERROR] django.server: "GET /api/courses/courses/least_popular/ HTTP/1.1" 500 48
+2025-08-07 23:12:16,816 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:16,835 [ERROR] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 500 177200
+2025-08-07 23:12:16,930 [INFO] django.server: "GET /api/users/users/?page=1&page_size=10 HTTP/1.1" 200 1167
+2025-08-07 23:12:16,995 [INFO] django.server: "GET /api/courses/categories/ HTTP/1.1" 200 343
+2025-08-07 23:12:17,070 [ERROR] django.request: Internal Server Error: /api/courses/courses/most_popular/
+2025-08-07 23:12:17,098 [ERROR] django.server: "GET /api/courses/courses/most_popular/ HTTP/1.1" 500 47
+2025-08-07 23:12:17,126 [INFO] django.server: "GET /api/courses/enrollments/all/ HTTP/1.1" 200 2422
+2025-08-07 23:12:17,164 [ERROR] django.request: Internal Server Error: /api/courses/courses/least_popular/
+2025-08-07 23:12:17,168 [ERROR] django.server: "GET /api/courses/courses/least_popular/ HTTP/1.1" 500 48
+2025-08-07 23:12:17,411 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:17,430 [ERROR] django.server: "GET /api/courses/courses/ HTTP/1.1" 500 176448
+2025-08-07 23:12:17,604 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:17,620 [ERROR] django.server: "GET /api/courses/courses/?page=1&page_size=10 HTTP/1.1" 500 177200
+2025-08-07 23:12:17,780 [ERROR] django.request: Internal Server Error: /api/courses/courses/
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\viewsets.py", line 125, in view
+    return self.dispatch(request, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 515, in dispatch
+    response = self.handle_exception(exc)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 475, in handle_exception
+    self.raise_uncaught_exception(exc)
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 486, in raise_uncaught_exception
+    raise exc
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\views.py", line 512, in dispatch
+    response = handler(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 371, in list
+    response = super().list(request, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\rest_framework\mixins.py", line 38, in list
+    queryset = self.filter_queryset(self.get_queryset())
+                                    ~~~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py", line 240, in get_queryset
+    return Course.objects.select_related('category').annotate(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        total_enrollments=Count('enrollments', distinct=True),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        faq_count=Count('faqs', distinct=True)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ).order_by('title')
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1649, in annotate
+    return self._annotate(args, kwargs, select=True)
+           ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1701, in _annotate
+    clone.query.add_annotation(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        annotation,
+        ^^^^^^^^^^^
+        alias,
+        ^^^^^^
+        select=select,
+        ^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1218, in add_annotation
+    annotation = annotation.resolve_expression(self, allow_joins=True, reuse=None)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 176, in resolve_expression
+    result = super().resolve_expression(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\aggregates.py", line 63, in resolve_expression
+    c = super().resolve_expression(query, allow_joins, reuse, summarize)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 300, in resolve_expression
+    expr.resolve_expression(query, allow_joins, reuse, summarize)
+    ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\expressions.py", line 902, in resolve_expression
+    return query.resolve_ref(self.name, allow_joins, reuse, summarize)
+           ~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 2049, in resolve_ref
+    join_info = self.setup_joins(
+        field_list, self.get_meta(), self.get_initial_alias(), can_reuse=reuse
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1900, in setup_joins
+    path, final_field, targets, rest = self.names_to_path(
+                                       ~~~~~~~~~~~~~~~~~~^
+        names[:pivot],
+        ^^^^^^^^^^^^^^
+    ...<2 lines>...
+        fail_on_missing=True,
+        ^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\query.py", line 1805, in names_to_path
+    raise FieldError(
+    ...<2 lines>...
+    )
+django.core.exceptions.FieldError: Cannot resolve keyword 'enrollments' into field. Choices are: category, category_id, certificate_templates, code, completion_hours, course_instructors, created_at, created_by, created_by_id, currency, description, discount_price, duration, enrollment, faqs, id, learning_outcomes, learning_paths, level, modules, prerequisites, price, ratings, resources, scorm_settings, short_description, slug, status, thumbnail, title, updated_at, userbadge, userpoints
+2025-08-07 23:12:17,792 [ERROR] django.server: "GET /api/courses/courses/ HTTP/1.1" 500 176448
+2025-08-07 23:14:22,924 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\views.py changed, reloading.
+2025-08-07 23:14:25,306 [INFO] django.utils.autoreload: Watching for file changes with StatReloader

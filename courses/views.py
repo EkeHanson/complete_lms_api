@@ -238,7 +238,7 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         tenant = self.request.tenant
         with tenant_context(tenant):
             return Course.objects.select_related('category').annotate(
-                total_enrollments=Count('enrollments', distinct=True),
+                total_enrollments=Count('enrollment', distinct=True),
                 faq_count=Count('faqs', distinct=True)
             ).order_by('title')
 
