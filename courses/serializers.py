@@ -2,7 +2,7 @@ from rest_framework import serializers
 from .models import (Category, Course , Module, Lesson,Badge,UserPoints,UserBadge,FAQ,
     Resource, Instructor, CourseInstructor, CertificateTemplate,UserBadge,
     SCORMxAPISettings, LearningPath, Enrollment, Certificate, CourseRating)
-
+from django.db import models
 from django.contrib.auth import get_user_model
 from django.utils.text import slugify
 import json
@@ -14,7 +14,7 @@ logger = logging.getLogger('course')
 import uuid
 from utils.storage import get_storage_service
 
-
+from .models import Assignment, AssignmentSubmission
 
 User = get_user_model()
 
@@ -93,22 +93,6 @@ class LessonSerializer(serializers.ModelSerializer):
         return data
 
 
-
-
-    # def validate(self, data):
-    #     """
-    #     Validate that either content_url or content_file is provided based on lesson_type
-    #     """
-    #     lesson_type = data.get('lesson_type', self.instance.lesson_type if self.instance else None)
-        
-    #     if lesson_type == 'link' and not data.get('content_url'):
-    #         raise serializers.ValidationError("Content URL is required for link lessons")
-            
-    #     if lesson_type in ['video', 'file'] and not data.get('content_file') and not (self.instance and self.instance.content_file):
-    #         raise serializers.ValidationError("Content file is required for this lesson type")
-            
-    #     return data
-
     def create(self, validated_data):
         tenant = self.context.get('tenant', None)
         content_file = validated_data.pop('content_file', None)
@@ -155,10 +139,7 @@ class LessonSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Lesson
-        fields = [
-            'id', 'module', 'title', 'lesson_type', 'content_url', 'content_file',
-            'content_text', 'description', 'duration', 'order', 'is_published'
-        ]
+        fields = "__all__"
         read_only_fields = ['id', 'module']
 
 
@@ -338,70 +319,70 @@ class InstructorUserSerializer(serializers.ModelSerializer):
 
 
 
-class InstructorDashboardSerializer(serializers.ModelSerializer):
-    user = InstructorUserSerializer(read_only=True)
-    courses = serializers.SerializerMethodField()
-    messages = serializers.SerializerMethodField()
-    assignments = serializers.SerializerMethodField()
-    quizzes = serializers.SerializerMethodField()
-    students = serializers.SerializerMethodField()
-    schedule = serializers.SerializerMethodField()
-    analytics = serializers.SerializerMethodField()
-    feedbackHistory = serializers.SerializerMethodField()
-    compliance = serializers.SerializerMethodField()
+# class InstructorDashboardSerializer(serializers.ModelSerializer):
+#     user = InstructorUserSerializer(read_only=True)
+#     courses = serializers.SerializerMethodField()
+#     messages = serializers.SerializerMethodField()
+#     assignments = serializers.SerializerMethodField()
+#     quizzes = serializers.SerializerMethodField()
+#     students = serializers.SerializerMethodField()
+#     schedule = serializers.SerializerMethodField()
+#     analytics = serializers.SerializerMethodField()
+#     feedbackHistory = serializers.SerializerMethodField()
+#     compliance = serializers.SerializerMethodField()
 
-    class Meta:
-        model = Instructor
-        fields = [
-            'id', 'user', 'bio', 'is_active', 'department', 'courses',
-            'messages', 'assignments', 'quizzes', 'students', 'schedule',
-            'analytics', 'feedbackHistory', 'compliance'
-        ]
+#     class Meta:
+#         model = Instructor
+#         fields = [
+#             'id', 'user', 'bio', 'is_active', 'department', 'courses',
+#             'messages', 'assignments', 'quizzes', 'students', 'schedule',
+#             'analytics', 'feedbackHistory', 'compliance'
+#         ]
 
-    def get_courses(self, instructor):
-        course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
-        courses = Course.objects.filter(id__in=course_ids)
-        return CourseDetailForInstructorSerializer(courses, many=True).data
+#     def get_courses(self, instructor):
+#         course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
+#         courses = Course.objects.filter(id__in=course_ids)
+#         return CourseDetailForInstructorSerializer(courses, many=True).data
 
-    def get_messages(self, instructor):
-        # Implement your logic for instructor messages
-        return []
+#     def get_messages(self, instructor):
+#         # Implement your logic for instructor messages
+#         return []
 
-    def get_assignments(self, instructor):
-        # All assignments for instructor's courses
-        course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
-        assignments = Assignment.objects.filter(course_id__in=course_ids)
-        return AssignmentSerializer(assignments, many=True).data
+#     def get_assignments(self, instructor):
+#         # All assignments for instructor's courses
+#         course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
+#         assignments = Assignment.objects.filter(course_id__in=course_ids)
+#         return AssignmentSerializer(assignments, many=True).data
 
-    def get_quizzes(self, instructor):
-        # All quizzes for instructor's courses
-        course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
-        quizzes = Quiz.objects.filter(course_id__in=course_ids)
-        return QuizSerializer(quizzes, many=True).data
+#     def get_quizzes(self, instructor):
+#         # All quizzes for instructor's courses
+#         course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
+#         quizzes = Quiz.objects.filter(course_id__in=course_ids)
+#         return QuizSerializer(quizzes, many=True).data
 
-    def get_students(self, instructor):
-        # All students enrolled in instructor's courses
-        course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
-        students = CustomUser.objects.filter(enrollments__course_id__in=course_ids, enrollments__is_active=True).distinct()
-        return StudentSummarySerializer(students, many=True).data
+#     def get_students(self, instructor):
+#         # All students enrolled in instructor's courses
+#         course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
+#         students = CustomUser.objects.filter(enrollments__course_id__in=course_ids, enrollments__is_active=True).distinct()
+#         return StudentSummarySerializer(students, many=True).data
 
-    def get_schedule(self, instructor):
-        # Implement your logic for instructor schedule/calendar
-        return []
+#     def get_schedule(self, instructor):
+#         # Implement your logic for instructor schedule/calendar
+#         return []
 
-    def get_analytics(self, instructor):
-        # Implement your logic for analytics
-        return {}
+#     def get_analytics(self, instructor):
+#         # Implement your logic for analytics
+#         return {}
 
-    def get_feedbackHistory(self, instructor):
-        # All feedback for instructor's courses
-        course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
-        feedbacks = Feedback.objects.filter(course_id__in=course_ids)
-        return FeedbackSerializer(feedbacks, many=True).data
+#     def get_feedbackHistory(self, instructor):
+#         # All feedback for instructor's courses
+#         course_ids = CourseInstructor.objects.filter(instructor=instructor).values_list('course_id', flat=True)
+#         feedbacks = Feedback.objects.filter(course_id__in=course_ids)
+#         return FeedbackSerializer(feedbacks, many=True).data
 
-    def get_compliance(self, instructor):
-        # Implement your logic for compliance documents/status
-        return {}
+#     def get_compliance(self, instructor):
+#         # Implement your logic for compliance documents/status
+#         return {}
 
 class CertificateTemplateSerializer(serializers.ModelSerializer):
     course = serializers.PrimaryKeyRelatedField(queryset=Course.objects.all(), required=False)
@@ -981,11 +962,104 @@ class UserBadgeSerializer(serializers.ModelSerializer):
         model = UserBadge
         fields = ['id', 'user', 'badge', 'awarded_at', 'course']
 
+
+
+
 # class AssignmentSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
+#     course_name = serializers.CharField(source='course.title', read_only=True)
+#     module_name = serializers.CharField(source='module.title', read_only=True)
+#     created_by_name = serializers.CharField(source='created_by.get_full_name', read_only=True)
+
+#     def validate(self, data):
+#         course = data.get('course', self.instance.course if self.instance else None)
+#         module = data.get('module', self.instance.module if self.instance else None)
+#         title = data.get('title', self.instance.title if self.instance else None)
+#         due_date = data.get('due_date', self.instance.due_date if self.instance else None)
+#         instructions_file = data.get('instructions_file', None)
+
+#         logger.debug(f"Validating assignment: course={course}, module={module}, title={title}, due_date={due_date}")
+
+#         if not course:
+#             raise serializers.ValidationError("Course is required for assignment.")
+#         if not title:
+#             raise serializers.ValidationError("Title is required for assignment.")
+#         if not due_date:
+#             raise serializers.ValidationError("Due date is required for assignment.")
+
+#         # Optionally, check for duplicate assignment titles in the same module/course
+#         qs = Assignment.objects.filter(course=course, title=title)
+#         if module:
+#             qs = qs.filter(module=module)
+#         if self.instance:
+#             qs = qs.exclude(pk=self.instance.pk)
+#         if qs.exists():
+#             raise serializers.ValidationError("An assignment with this title already exists for this module/course.")
+
+#         return data
+
+#     def create(self, validated_data):
+#         tenant = self.context.get('tenant', None)
+#         instructions_file = validated_data.pop('instructions_file', None)
+#         instance = super().create(validated_data)
+
+#         if instructions_file:
+#             if instance.module:
+#                 file_name = f"courses/{instance.course.slug}/modules/{instance.module.id}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+#             else:
+#                 file_name = f"courses/{instance.course.slug}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+#             try:
+#                 from utils.supabase import upload_to_supabase
+#                 file_url = upload_to_supabase(instructions_file, file_name, content_type=instructions_file.content_type)
+#                 instance.instructions_file = file_name
+#                 instance.save()
+#             except Exception as e:
+#                 logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload assignment file: {str(e)}")
+#                 raise serializers.ValidationError("Failed to upload assignment file")
+
+#         return instance
+
+#     def update(self, instance, validated_data):
+#         tenant = self.context.get('tenant', None)
+#         instructions_file = validated_data.pop('instructions_file', None)
+#         instance = super().update(instance, validated_data)
+
+#         if instructions_file:
+#             storage_service = get_storage_service()
+#             if instance.instructions_file:
+#                 storage_service.delete_file(instance.instructions_file)
+#             if instance.module:
+#                 file_name = f"courses/{instance.course.slug}/modules/{instance.module.id}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+#             else:
+#                 file_name = f"courses/{instance.course.slug}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+#             try:
+#                 from utils.supabase import upload_to_supabase
+#                 file_url = upload_to_supabase(instructions_file, file_name, content_type=instructions_file.content_type)
+#                 instance.instructions_file = file_name
+#                 instance.save()
+#             except Exception as e:
+#                 logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload assignment file: {str(e)}")
+#                 raise serializers.ValidationError("Failed to upload assignment file")
+
+#         return instance
+
+#     def to_representation(self, instance):
+#         representation = super().to_representation(instance)
+#         if instance.instructions_file:
+#             storage_service = get_storage_service()
+#             representation['instructions_file'] = storage_service.get_public_url(instance.instructions_file)
+#         # Add names for course, module, and created_by
+#         representation['course_name'] = instance.course.title if instance.course else None
+#         representation['module_name'] = instance.module.title if instance.module else None
+#         representation['created_by_name'] = instance.created_by.get_full_name() if instance.created_by else None
+#         return representation
+
 #     class Meta:
 #         model = Assignment
-#         fields = ['id', 'title', 'course', 'due_date', 'status', 'grade', 'feedback', 'type']
+#         fields = '__all__'
+
+
+
+
 
 # class FeedbackSerializer(serializers.ModelSerializer):
 #     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
@@ -1096,76 +1170,6 @@ class InstructorCourseSummarySerializer(serializers.ModelSerializer):
 #     certificate_settings = CertificateTemplateSerializer(read_only=True)
 #     scorm_settings = SCORMxAPISettingsSerializer(read_only=True)
 #     current_price = serializers.DecimalField(max_digits=10, decimal_places=2, read_only=True)
-#     created_by_username = serializers.CharField(source='created_by.username', read_only=True)
-
-
-#     def get_course_instructors(self, obj):
-#         instructors = CourseInstructor.objects.filter(course=obj)
-#         return InstructorUserSerializer([ci.instructor.user for ci in instructors], many=True).data
-
-#     def to_internal_value(self, data):
-#         # Clean up learning_outcomes and prerequisites
-#         for field in ['learning_outcomes', 'prerequisites']:
-#             if field in data:
-#                 value = data[field]
-#                 if isinstance(value, list):
-#                     cleaned_value = []
-#                     for item in value:
-#                         try:
-#                             parsed = item if isinstance(item, str) else json.loads(item)
-#                             cleaned_value.append(str(parsed) if not isinstance(parsed, str) else parsed)
-#                         except (json.JSONDecodeError, TypeError):
-#                             cleaned_value.append(str(item))
-#                     data[field] = cleaned_value
-#         return super().to_internal_value(data)
-
-    
-#     def to_representation(self, instance):
-#         representation = super().to_representation(instance)
-#         if instance.thumbnail:
-#             storage_service = get_storage_service()
-#             representation['thumbnail'] = storage_service.get_public_url(instance.thumbnail)
-        
-#         # Ensure learning_outcomes is a flat array of strings
-#         if 'learning_outcomes' in representation:
-#             representation['learning_outcomes'] = self.flatten_array(representation['learning_outcomes'])
-        
-#         # Ensure prerequisites is a flat array of strings
-#         if 'prerequisites' in representation:
-#             representation['prerequisites'] = self.flatten_array(representation['prerequisites'])
-        
-#         return representation
-
-
-    
-#     def flatten_array(self, data):
-#         """Convert nested arrays into a flat array of strings"""
-#         flat_list = []
-#         for item in data:
-#             if isinstance(item, list):
-#                 flat_list.extend([str(i) for i in item])
-#             elif isinstance(item, str):
-#                 try:
-#                     # Handle case where string might be JSON-encoded array
-#                     parsed = json.loads(item)
-#                     if isinstance(parsed, list):
-#                         flat_list.extend([str(i) for i in parsed])
-#                     else:
-#                         flat_list.append(item)
-#                 except json.JSONDecodeError:
-#                     flat_list.append(item)
-#             else:
-#                 flat_list.append(str(item))
-#         return flat_list
-
-
-#     def create(self, validated_data):
-#         tenant = self.context.get('tenant', None)
-#         thumbnail_file = validated_data.pop('thumbnail', None)
-#         if 'slug' not in validated_data or not validated_data['slug']:
-#             title = validated_data.get('title', '')
-#             validated_data['slug'] = slugify(title)
-#         instance = super().create(validated_data)
         
 #         if thumbnail_file:
 #             file_name = f"courses/{instance.slug}/thumbnails/{uuid.uuid4().hex}_{thumbnail_file.name}"
@@ -1395,89 +1399,168 @@ class UserBadgeSerializer(serializers.ModelSerializer):
         model = UserBadge
         fields = ['id', 'user', 'badge', 'awarded_at', 'course']
 
-# class AssignmentSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-#     class Meta:
-#         model = Assignment
-#         fields = ['id', 'title', 'course', 'due_date', 'status', 'grade', 'feedback', 'type']
-
-# class FeedbackSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-#     user = serializers.SlugRelatedField(slug_field='email', read_only=True)
-#     class Meta:
-#         model = Feedback
-#         fields = ['id', 'user', 'course', 'type', 'content', 'rating', 'created_at']
-
-# class CartSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-#     class Meta:
-#         model = Cart
-#         fields = ['id', 'course', 'added_at']
-
-# class WishlistSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-#     class Meta:
-#         model = Wishlist
-#         fields = ['id', 'course', 'added_at']
-
-# class GradeSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True)
-#     assignment = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-#     class Meta:
-#         model = Grade
-#         fields = ['id', 'user', 'course', 'assignment', 'score', 'created_at']
 
 
-# class AnalyticsSerializer(serializers.ModelSerializer):
-#     course = serializers.SlugRelatedField(slug_field='title', read_only=True, allow_null=True)
-#     class Meta:
-#         model = Analytics
-#         fields = ['id', 'user', 'course', 'total_time_spent', 'weekly_time_spent', 'strengths', 'weaknesses', 'last_updated']
 
-# class CourseProgressSerializer(serializers.ModelSerializer):
-#     user_email = serializers.CharField(source='user.email', read_only=True)
-#     course_title = serializers.CharField(source='course.title', read_only=True)
+class AssignmentSerializer(serializers.ModelSerializer):
+    course_name = serializers.CharField(source='course.title', read_only=True)
+    module_name = serializers.CharField(source='module.title', read_only=True)
+    created_by_name = serializers.CharField(source='created_by.get_full_name', read_only=True)
 
-#     class Meta:
-#         model = CourseProgress
-#         fields = [
-#             'id', 'user', 'user_email', 'course', 'course_title', 'tenant_id',
-#             'started_at', 'completed_at', 'progress_percent', 'last_accessed'
-#         ]
-#         read_only_fields = ['user_email', 'course_title', 'last_accessed']
+    def validate(self, data):
+        course = data.get('course', self.instance.course if self.instance else None)
+        module = data.get('module', self.instance.module if self.instance else None)
+        title = data.get('title', self.instance.title if self.instance else None)
+        due_date = data.get('due_date', self.instance.due_date if self.instance else None)
+        instructions_file = data.get('instructions_file', None)
 
-# def calculate_course_progress(user, course):
-#     total_lessons = course.modules.aggregate(
-#         total=models.Count('lessons')
-#     )['total']
-#     completed_lessons = LessonCompletion.objects.filter(
-#         user=user, lesson__module__course=course
-#     ).count()
-#     if total_lessons == 0:
-#         return 0
-#     return round((completed_lessons / total_lessons) * 100, 2)
+        logger.debug(f"Validating assignment: course={course}, module={module}, title={title}, due_date={due_date}")
 
-class InstructorCourseSummarySerializer(serializers.ModelSerializer):
-    num_students = serializers.SerializerMethodField()
+        if not course:
+            raise serializers.ValidationError("Course is required for assignment.")
+        if not title:
+            raise serializers.ValidationError("Title is required for assignment.")
+        if not due_date:
+            raise serializers.ValidationError("Due date is required for assignment.")
+
+        # Optionally, check for duplicate assignment titles in the same module/course
+        qs = Assignment.objects.filter(course=course, title=title)
+        if module:
+            qs = qs.filter(module=module)
+        if self.instance:
+            qs = qs.exclude(pk=self.instance.pk)
+        if qs.exists():
+            raise serializers.ValidationError("An assignment with this title already exists for this module/course.")
+
+        return data
+
+    def create(self, validated_data):
+        tenant = self.context.get('tenant', None)
+        instructions_file = validated_data.pop('instructions_file', None)
+        instance = super().create(validated_data)
+
+        if instructions_file:
+            if instance.module:
+                file_name = f"courses/{instance.course.slug}/modules/{instance.module.id}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+            else:
+                file_name = f"courses/{instance.course.slug}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+            try:
+                from utils.supabase import upload_to_supabase
+                file_url = upload_to_supabase(instructions_file, file_name, content_type=instructions_file.content_type)
+                instance.instructions_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload assignment file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload assignment file")
+
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        instructions_file = validated_data.pop('instructions_file', None)
+        instance = super().update(instance, validated_data)
+
+        if instructions_file:
+            storage_service = get_storage_service()
+            if instance.instructions_file:
+                storage_service.delete_file(instance.instructions_file)
+            if instance.module:
+                file_name = f"courses/{instance.course.slug}/modules/{instance.module.id}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+            else:
+                file_name = f"courses/{instance.course.slug}/assignments/{uuid.uuid4().hex}_{instructions_file.name}"
+            try:
+                from utils.supabase import upload_to_supabase
+                file_url = upload_to_supabase(instructions_file, file_name, content_type=instructions_file.content_type)
+                instance.instructions_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload assignment file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload assignment file")
+
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.instructions_file:
+            storage_service = get_storage_service()
+            representation['instructions_file'] = storage_service.get_public_url(instance.instructions_file)
+        # Add names for course, module, and created_by
+        representation['course_name'] = instance.course.title if instance.course else None
+        representation['module_name'] = instance.module.title if instance.module else None
+        representation['created_by_name'] = instance.created_by.get_full_name() if instance.created_by else None
+        return representation
 
     class Meta:
-        model = Course
-        fields = ['id', 'title', 'status', 'num_students']
+        model = Assignment
+        fields = '__all__'
 
-    def get_num_students(self, obj):
-        return obj.enrollments.filter(is_active=True).count()
 
-# class InstructorFullProfileSerializer(serializers.ModelSerializer):
-    user = InstructorUserSerializer(read_only=True)
-    courses = serializers.SerializerMethodField()
+
+
+class AssignmentSubmissionSerializer(serializers.ModelSerializer):
+    student = serializers.PrimaryKeyRelatedField(read_only=True)
+    assignment = serializers.PrimaryKeyRelatedField(queryset=Assignment.objects.all())
+    submission_file = serializers.FileField(required=False, allow_null=True)
+    response_text = serializers.CharField(required=False, allow_blank=True)
+    grade = serializers.IntegerField(required=False, allow_null=True)
+    feedback = serializers.CharField(required=False, allow_blank=True)
+    is_graded = serializers.BooleanField(required=False)
+    submitted_at = serializers.DateTimeField(read_only=True)
 
     class Meta:
-        model = Instructor
-        fields = ['id', 'user', 'bio', 'is_active', 'courses']
+        model = AssignmentSubmission
+        fields = [
+            'id', 'assignment', 'student', 'submitted_at', 'submission_file',
+            'response_text', 'grade', 'feedback', 'is_graded'
+        ]
+        read_only_fields = ['id', 'student', 'submitted_at', 'grade', 'feedback', 'is_graded']
 
-    def get_courses(self, instructor):
-        course_ids = CourseInstructor.objects.filter(
-            instructor=instructor
-        ).values_list('course_id', flat=True)
-        courses = Course.objects.filter(id__in=course_ids)
-        return CourseDetailForInstructorSerializer(courses, many=True).data
+    def create(self, validated_data):
+        submission_file = validated_data.pop('submission_file', None)
+        instance = super().create(validated_data)
+
+        if submission_file:
+            file_name = f"assignments/submissions/{uuid.uuid4().hex}_{submission_file.name}"
+            try:
+                storage_service = get_storage_service()
+                storage_service.upload_file(
+                    submission_file,
+                    file_name,
+                    content_type=submission_file.content_type
+                )
+                instance.submission_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"Failed to upload submission file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload submission file")
+        return instance
+
+    def update(self, instance, validated_data):
+        tenant = self.context.get('tenant', None)
+        submission_file = validated_data.pop('submission_file', None)
+        instance = super().update(instance, validated_data)
+
+        if submission_file:
+            storage_service = get_storage_service()
+            if instance.submission_file:
+                storage_service.delete_file(instance.submission_file)
+            file_name = f"assignments/submissions/{uuid.uuid4().hex}_{submission_file.name}"
+            try:
+                from utils.supabase import upload_to_supabase
+                file_url = upload_to_supabase(submission_file, file_name, content_type=submission_file.content_type)
+                instance.submission_file = file_name
+                instance.save()
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name if tenant else 'unknown'}] Failed to upload submission file: {str(e)}")
+                raise serializers.ValidationError("Failed to upload submission file")
+
+        return instance
+
+    def to_representation(self, instance):
+        representation = super().to_representation(instance)
+        if instance.submission_file:
+            storage_service = get_storage_service()
+            representation['submission_file'] = storage_service.get_public_url(instance.submission_file)
+        return representation
+
+

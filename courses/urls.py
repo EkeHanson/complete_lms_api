@@ -1,12 +1,13 @@
 from django.urls import path, include
 from rest_framework.routers import DefaultRouter
-from .views import (
+from .views import (AssignmentViewSet, AssignmentSubmissionViewSet,
     FAQStatsView, BadgeViewSet, UserBadgeViewSet, UserPointsViewSet, FAQViewSet,
     CategoryViewSet, CourseViewSet, ModuleViewSet, LessonViewSet, ResourceViewSet,
     EnrollmentViewSet, LearningPathViewSet, CertificateView, CertificateTemplateView
 )
 
 router = DefaultRouter()
+
 router.register(r'categories', CategoryViewSet, basename='category')
 router.register(r'courses', CourseViewSet, basename='courses')
 router.register(r'learning-paths', LearningPathViewSet, basename='learning-paths')
@@ -14,7 +15,9 @@ router.register(r'courses/(?P<course_id>\d+)/resources', ResourceViewSet, basena
 router.register(r'badges', BadgeViewSet, basename='badges')
 router.register(r'user-points', UserPointsViewSet, basename='user-points')
 router.register(r'user-badges', UserBadgeViewSet, basename='user-badges')
-# router.register(r'enrollments', EnrollmentViewSet, basename='enrollment')
+router.register(r'enrollments/for/user', EnrollmentViewSet, basename='enrollment')
+router.register(r'assignments', AssignmentViewSet, basename='assignment')
+router.register(r'assignment-submissions', AssignmentSubmissionViewSet, basename='assignment-submission')
 
 urlpatterns = [
     path('', include(router.urls)),

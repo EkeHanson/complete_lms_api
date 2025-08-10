@@ -173,6 +173,7 @@ class Lesson(models.Model):
     duration = models.CharField(max_length=20, help_text="Duration in minutes", default= "1 hour")
     content_url = models.URLField(blank=True)
     content_file = models.FileField(null=True, blank=True, max_length=255)  # Remove upload_to
+    content_text = models.TextField(blank=True)  # <-- Add this line
     order = models.PositiveIntegerField(default=0)
     is_published = models.BooleanField(default=True)
     
@@ -463,5 +464,33 @@ class FAQ(models.Model):
         return f"{self.course.title} - {self.question[:50]}..."
 
 
+class Assignment(models.Model):
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    module = models.ForeignKey(Module, on_delete=models.CASCADE, null=True, blank=True)  # <-- Add this linements')
+    title = models.CharField(max_length=200)
+    description = models.TextField(blank=True)
+    instructions_file = models.FileField(upload_to='assignments/instructions/', blank=True, null=True)
+    due_date = models.DateTimeField()
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    created_at = models.DateTimeField(auto_now_add=True)
 
+
+    def __str__(self):
+        return f"{self.title} ({self.course.title})"
+
+class AssignmentSubmission(models.Model):
+    assignment = models.ForeignKey(Assignment, on_delete=models.CASCADE, related_name='submissions')
+    student = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+    submission_file = models.FileField(upload_to='assignments/submissions/', blank=True, null=True)
+    response_text = models.TextField(blank=True)
+    grade = models.PositiveIntegerField(null=True, blank=True)
+    feedback = models.TextField(blank=True)
+    is_graded = models.BooleanField(default=False)
+
+    class Meta:
+        unique_together = ['assignment', 'student']
+
+    def __str__(self):
+        return f"{self.student} - {self.assignment.title}"
 

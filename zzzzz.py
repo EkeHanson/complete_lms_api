@@ -20,19 +20,19 @@ if not Tenant.objects.filter(schema_name='proliance').exists():
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='127.0.0.1', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='prolianceltd.com', is_primary=True)
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
 
 
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='public').exists():
+if not Tenant.objects.filter(schema_name='render').exists():
     tenant = Tenant.objects.create(
-        name='public',
-        schema_name='public'
+        name='render',
+        schema_name='render'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='artstraining.co.uk', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api-fvas.onrender.com', is_primary=True)
 
 
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
@@ -107,6 +107,20 @@ with tenant_context(tenant):
         role='admin',
         first_name='Monday',
         last_name='Okpolbhelo',
+        tenant=tenant
+    )
+
+from core.models import Tenant
+from users.models import CustomUser
+from django_tenants.utils import tenant_context
+tenant = Tenant.objects.get(schema_name='proliance')
+with tenant_context(tenant):
+    CustomUser.objects.create_superuser(
+        email='support@prolianceltd.com',
+        password='qwerty',
+        role='admin',
+        first_name='Tuesday',
+        last_name='Imadiong',
         tenant=tenant
     )
 
