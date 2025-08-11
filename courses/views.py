@@ -320,7 +320,7 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         try:
             with tenant_context(tenant):
                 course = Course.objects.annotate(
-                    enrollment_count=Count('enrollments', distinct=True)
+                    enrollment_count=Count('enrollment', distinct=True)  # <-- FIXED
                 ).filter(enrollment_count__gt=0).order_by('-enrollment_count').first()
                 if not course:
                     logger.info(f"[{tenant.schema_name}] No courses with enrollments found for most_popular")
@@ -332,7 +332,7 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
                 response_data = {
                     'course': serializer.data,
                     'enrollment_count': Course.objects.filter(id=course.id).annotate(
-                        enrollment_count=Count('enrollments', distinct=True)
+                        enrollment_count=Count('enrollment', distinct=True)  # <-- FIXED
                     ).values('enrollment_count')[0]['enrollment_count']
                 }
                 logger.info(f"[{tenant.schema_name}] Most popular course: {course.title}")
@@ -350,7 +350,7 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
         try:
             with tenant_context(tenant):
                 course = Course.objects.annotate(
-                    enrollment_count=Count('enrollments', distinct=True)
+                    enrollment_count=Count('enrollment', distinct=True)  # <-- FIXED
                 ).filter(enrollment_count__gt=0).order_by('enrollment_count').first()
                 if not course:
                     logger.info(f"[{tenant.schema_name}] No courses with enrollments found for least_popular")
@@ -362,7 +362,7 @@ class CourseViewSet(TenantBaseView, viewsets.ModelViewSet):
                 response_data = {
                     'course': serializer.data,
                     'enrollment_count': Course.objects.filter(id=course.id).annotate(
-                        enrollment_count=Count('enrollments', distinct=True)
+                        enrollment_count=Count('enrollment', distinct=True)  # <-- FIXED
                     ).values('enrollment_count')[0]['enrollment_count']
                 }
                 logger.info(f"[{tenant.schema_name}] Least popular course: {course.title}")

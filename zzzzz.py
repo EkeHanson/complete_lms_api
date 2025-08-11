@@ -25,14 +25,14 @@ if not Tenant.objects.filter(schema_name='public').exists():
 
 
 from core.models import Tenant, Domain
-if not Tenant.objects.filter(schema_name='render').exists():
+if not Tenant.objects.filter(schema_name='public').exists():
     tenant = Tenant.objects.create(
-        name='render',
-        schema_name='render'
+        name='public',
+        schema_name='public'
     )
     tenant.auto_create_schema = False
     tenant.save()
-    Domain.objects.create(tenant=tenant, domain='complete-lms-api-fvas.onrender.com', is_primary=True)
+    Domain.objects.create(tenant=tenant, domain='complete-lms-api-em3w.onrender.com', is_primary=True)
 
 
     Domain.objects.create(tenant=tenant, domain='localhost', is_primary=False)
