@@ -125,25 +125,47 @@ class MessageRecipient(models.Model):
         on_delete=models.CASCADE,
         related_name='group_messages'
     )
+    group_member = models.ForeignKey(
+        CustomUser,
+        null=True,
+        blank=True,
+        on_delete=models.CASCADE,
+        related_name='group_received_messages',
+        help_text="For group messages, tracks individual member"
+    )
     read = models.BooleanField(default=False)
     read_at = models.DateTimeField(null=True, blank=True)
+    deleted = models.BooleanField(default=False)
 
     class Meta:
-        unique_together = [['message', 'recipient'], ['message', 'recipient_group']]
-    
+        constraints = [
+            models.UniqueConstraint(
+                fields=['message', 'recipient'],
+                name='unique_user_recipient'
+            ),
+            models.UniqueConstraint(
+                fields=['message', 'recipient_group', 'group_member'],
+                name='unique_group_member_recipient'
+            ),
+        ]
+
     def __str__(self):
-        recipient = self.recipient.email if self.recipient else self.recipient_group.name
+        if self.recipient:
+            recipient = self.recipient.email
+        elif self.group_member:
+            recipient = f"{self.recipient_group.name}:{self.group_member.email}"
+        else:
+            recipient = self.recipient_group.name if self.recipient_group else "Unknown"
         return f"Recipient: {recipient} for {self.message}"
 
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         super().save(*args, **kwargs)
-        
         # Log activity for read status changes
         if not is_new and 'read' in kwargs.get('update_fields', []):
             if self.read:
                 UserActivity.objects.create(
-                    user=self.recipient if self.recipient else None,
+                    user=self.recipient or self.group_member,
                     activity_type='message_read',
                     details=f'Marked message "{self.message.subject}" as read',
                     status='success'
@@ -155,7 +177,7 @@ class MessageAttachment(models.Model):
         on_delete=models.CASCADE,
         related_name='attachments'
     )
-    file = models.FileField(upload_to='message_attachments/')
+    file = models.URLField(blank=True)
     original_filename = models.CharField(max_length=255)
     uploaded_at = models.DateTimeField(auto_now_add=True)
     

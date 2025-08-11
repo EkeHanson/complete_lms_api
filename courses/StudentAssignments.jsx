@@ -33,6 +33,7 @@ const StudentAssignments = ({ courses }) => {
           });
           allAssignments.push(...results);
         }
+
         setAssignments(allAssignments);
 
         // Fetch all submissions for the current user
@@ -49,6 +50,7 @@ const StudentAssignments = ({ courses }) => {
   }, [courses]);
 
   const filteredAssignments = assignments.filter(() => tabValue === 0);
+  const submittedAssignments = submissions; // Already fetched from API
 
   // Submit assignment handler
   const handleSubmitAssignment = async () => {
@@ -83,7 +85,7 @@ const StudentAssignments = ({ courses }) => {
   };
 
   const getSubmissionForAssignment = (assignmentId) =>
-    submissions.find(sub => sub.assignment === assignmentId);
+    submissions.find(sub => sub.assignment === assignmentId || sub.assignment?.id === assignmentId);
 
   return (
     <Paper elevation={3} sx={{ p: 3, mb: 3, borderRadius: 2 }}>
@@ -96,116 +98,239 @@ const StudentAssignments = ({ courses }) => {
       {loading ? (
         <div style={{ textAlign: 'center', padding: 24 }}><CircularProgress /></div>
       ) : (
-        <Table>
-          <TableHead>
-            <TableRow>
-              <TableCell />
-              <TableCell>Title</TableCell>
-              <TableCell>Course</TableCell>
-              <TableCell>Module</TableCell>
-              <TableCell>Created By</TableCell>
-              <TableCell>Due Date</TableCell>
-              <TableCell>Status</TableCell>
-              <TableCell>Grade</TableCell>
-              <TableCell>Actions</TableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody>
-            {filteredAssignments.length === 0 ? (
-              <TableRow>
-                <TableCell colSpan={9} align="center">No assignments found</TableCell>
-              </TableRow>
-            ) : (
-              filteredAssignments.map(assignment => (
-                <React.Fragment key={assignment.id}>
-                  <TableRow hover>
-                    <TableCell>
-                      <IconButton
-                        size="small"
-                        onClick={() => setExpandedId(expandedId === assignment.id ? null : assignment.id)}
-                        aria-label={expandedId === assignment.id ? 'Collapse' : 'Expand'}
-                      >
-                        {expandedId === assignment.id ? <ExpandLess /> : <ExpandMore />}
-                      </IconButton>
-                    </TableCell>
-                    <TableCell>{assignment.title}</TableCell>
-                    <TableCell>{assignment.course_name || ''}</TableCell>
-                    <TableCell>{assignment.module_name || ''}</TableCell>
-                    <TableCell>{assignment.created_by_name || ''}</TableCell>
-                    <TableCell>
-                      {assignment.due_date
-                        ? format(new Date(assignment.due_date), 'MMM dd, yyyy')
-                        : '-'}
-                    </TableCell>
-                    <TableCell>
-                      {(() => {
-                        const submission = getSubmissionForAssignment(assignment.id);
-                        if (submission) {
-                          return (
-                            <Chip
-                              label={submission.is_graded ? 'Graded' : 'Submitted'}
-                              color={submission.is_graded ? 'success' : 'info'}
-                              size="small"
-                            />
-                          );
-                        }
-                        return <Chip label="Due" color="warning" size="small" />;
-                      })()}
-                    </TableCell>
-                    <TableCell>
-                      {(() => {
-                        const submission = getSubmissionForAssignment(assignment.id);
-                        return submission && submission.grade != null ? `${submission.grade}%` : '-';
-                      })()}
-                    </TableCell>
-                    <TableCell>
-                      {assignment.instructions_file ? (
-                        <Button
-                          size="small"
-                          startIcon={<Download />}
-                          href={assignment.instructions_file}
-                          target="_blank"
-                          rel="noopener noreferrer"
-                        >
-                          Download Instructions
-                        </Button>
-                      ) : (
-                        <span style={{ color: '#888', fontSize: '0.9em' }}>No file</span>
-                      )}
-                      <Button
-                        size="small"
-                        variant="contained"
-                        sx={{ ml: 1 }}
-                        onClick={() => setSubmitDialog({ open: true, assignment })}
-                      >
-                        Submit
-                      </Button>
-                    </TableCell>
-                  </TableRow>
+        <>
+          {tabValue === 0 && (
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Title</TableCell>
+                  <TableCell>Course</TableCell>
+                  <TableCell>Module</TableCell>
+                  <TableCell>Created By</TableCell>
+                  <TableCell>Due Date</TableCell>
+                  <TableCell>Status</TableCell>
+                  <TableCell>Grade</TableCell>
+                  <TableCell>Actions</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {filteredAssignments.length === 0 ? (
                   <TableRow>
-                    <TableCell colSpan={9} sx={{ p: 0, border: 0 }}>
-                      <Collapse in={expandedId === assignment.id} timeout="auto" unmountOnExit>
-                        <Box sx={{ p: 2, background: '#f9f9f9' }}>
-                          <Typography variant="subtitle1" gutterBottom>Description</Typography>
-                          <div dangerouslySetInnerHTML={{ __html: assignment.description }} />
-                        </Box>
-                      </Collapse>
-                    </TableCell>
+                    <TableCell colSpan={9} align="center">No assignments found</TableCell>
                   </TableRow>
-                </React.Fragment>
-              ))
-            )}
-          </TableBody>
-        </Table>
-      )}
+                ) : (
+                  filteredAssignments.map(assignment => (
+                    <React.Fragment key={assignment.id}>
+                      <TableRow hover>
+                        <TableCell>
+                          <IconButton
+                            size="small"
+                            onClick={() => setExpandedId(expandedId === assignment.id ? null : assignment.id)}
+                            aria-label={expandedId === assignment.id ? 'Collapse' : 'Expand'}
+                          >
+                            {expandedId === assignment.id ? <ExpandLess /> : <ExpandMore />}
+                          </IconButton>
+                        </TableCell>
+                        <TableCell>{assignment.title}</TableCell>
+                        <TableCell>{assignment.course_name || ''}</TableCell>
+                        <TableCell>{assignment.module_name || ''}</TableCell>
+                        <TableCell>{assignment.created_by_name || ''}</TableCell>
+                        <TableCell>
+                          {assignment.due_date
+                            ? (
+                              <span style={{
+                                color: !getSubmissionForAssignment(assignment.id) && new Date(assignment.due_date) < new Date() ? 'red' : undefined,
+                                fontWeight: !getSubmissionForAssignment(assignment.id) && new Date(assignment.due_date) < new Date() ? 600 : undefined
+                              }}>
+                                {format(new Date(assignment.due_date), 'MMM dd, yyyy')}
+                                {!getSubmissionForAssignment(assignment.id) && new Date(assignment.due_date) < new Date() && ' (Overdue)'}
+                              </span>
+                            )
+                            : '-'}
+                        </TableCell>
+                        <TableCell>
+                          {(() => {
+                            const submission = getSubmissionForAssignment(assignment.id);
+                            if (submission) {
+                              return (
+                                <Chip
+                                  label={submission.is_graded ? 'Graded' : 'Submitted'}
+                                  color="success"
+                                  size="small"
+                                />
+                              );
+                            }
+                            if (assignment.due_date && new Date(assignment.due_date) < new Date()) {
+                              return (
+                                <Chip
+                                  label="Overdue"
+                                  color="error"
+                                  size="small"
+                                />
+                              );
+                            }
+                            return <Chip label="Due" color="warning" size="small" />;
+                          })()}
+                        </TableCell>
+                        <TableCell>
+                          {(() => {
+                            const submission = getSubmissionForAssignment(assignment.id);
+                            return submission && submission.grade != null ? `${submission.grade}%` : '-';
+                          })()}
+                        </TableCell>
+                        <TableCell>
+                          {(() => {
+                            const submission = getSubmissionForAssignment(assignment.id);
+                            if (submission) {
+                              return (
+                                <Box sx={{ display: 'flex', alignItems: 'center' }}>
+                                  <Chip
+                                    label="Submitted"
+                                    color="success"
+                                    size="small"
+                                    sx={{ mr: 1 }}
+                                  />
+                                  <Typography sx={{ color: 'success.main', fontWeight: 600 }}>
+                                    submitted
+                                  </Typography>
+                                </Box>
+                              );
+                            }
+                            return (
+                              <>
+                                {assignment.instructions_file ? (
+                                  <Button
+                                    size="small"
+                                    startIcon={<Download />}
+                                    href={assignment.instructions_file}
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                  >
+                                    Download Instructions
+                                  </Button>
+                                ) : (
+                                  <span style={{ color: '#888', fontSize: '0.9em' }}>No file</span>
+                                )}
+                                <Button
+                                  size="small"
+                                  variant="contained"
+                                  sx={{ ml: 1 }}
+                                  onClick={() => setSubmitDialog({ open: true, assignment })}
+                                  disabled={assignment.due_date && new Date(assignment.due_date) < new Date()}
+                                >
+                                  Submit
+                                </Button>
+                              </>
+                            );
+                          })()}
+                        </TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={9} sx={{ p: 0, border: 0 }}>
+                          <Collapse in={expandedId === assignment.id} timeout="auto" unmountOnExit>
+                            <Box sx={{ p: 2, background: '#f9f9f9' }}>
+                              <Typography variant="subtitle1" gutterBottom>Description</Typography>
+                              <div dangerouslySetInnerHTML={{ __html: assignment.description }} />
+                            </Box>
+                          </Collapse>
+                        </TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          )}
 
+          {tabValue === 1 && (
+            <Table>
+              <TableHead>
+                <TableRow>
+                  <TableCell />
+                  <TableCell>Title</TableCell>
+                  <TableCell>Course</TableCell>
+                  <TableCell>Module</TableCell>
+                  <TableCell>Submitted At</TableCell>
+                  <TableCell>File</TableCell>
+                  <TableCell>Grade</TableCell>
+                  <TableCell>Feedback</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>
+                {submittedAssignments.length === 0 ? (
+                  <TableRow>
+                    <TableCell colSpan={8} align="center">No submissions found</TableCell>
+                  </TableRow>
+                ) : (
+                  submittedAssignments.map(sub => (
+                    <React.Fragment key={sub.id}>
+                      <TableRow hover>
+                        <TableCell>
+                          <IconButton
+                            size="small"
+                            onClick={() => setExpandedId(expandedId === sub.id ? null : sub.id)}
+                            aria-label={expandedId === sub.id ? 'Collapse' : 'Expand'}
+                          >
+                            {expandedId === sub.id ? <ExpandLess /> : <ExpandMore />}
+                          </IconButton>
+                        </TableCell>
+                        <TableCell>{sub.assignment?.title}</TableCell>
+                        <TableCell>{sub.assignment?.course_name}</TableCell>
+                        <TableCell>{sub.assignment?.module_name}</TableCell>
+                        <TableCell>{sub.submitted_at ? format(new Date(sub.submitted_at), 'MMM dd, yyyy') : '-'}</TableCell>
+                        <TableCell>
+                          {sub.submission_file_url ? (
+                            <Button
+                              size="small"
+                              startIcon={<Download />}
+                              href={sub.submission_file_url}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                            >
+                              Download
+                            </Button>
+                          ) : (
+                            <span style={{ color: '#888', fontSize: '0.9em' }}>No file</span>
+                          )}
+                        </TableCell>
+                        <TableCell>{sub.grade != null ? `${sub.grade}%` : '-'}</TableCell>
+                        <TableCell>{sub.feedback || '-'}</TableCell>
+                      </TableRow>
+                      <TableRow>
+                        <TableCell colSpan={8} sx={{ p: 0, border: 0 }}>
+                          <Collapse in={expandedId === sub.id} timeout="auto" unmountOnExit>
+                            <Box sx={{ p: 2, background: '#f9f9f9' }}>
+                              <Typography variant="subtitle1" gutterBottom>Your Response</Typography>
+                              <div
+                                style={{ maxWidth: 600, overflow: 'auto' }}
+                                dangerouslySetInnerHTML={{ __html: sub.response_text || '<em>No response</em>' }}
+                              />
+                            </Box>
+                          </Collapse>
+                        </TableCell>
+                      </TableRow>
+                    </React.Fragment>
+                  ))
+                )}
+              </TableBody>
+            </Table>
+          )}
+        </>
+      )}
       {/* Assignment Submission Dialog */}
-      <Dialog open={submitDialog.open} onClose={() => { setSubmitDialog({ open: false, assignment: null }); setErrorMsg(''); }} maxWidth="sm" fullWidth>
+      <Dialog
+        open={submitDialog.open}
+        onClose={() => {
+          setSubmitDialog({ open: false, assignment: null });
+          setErrorMsg('');
+        }}
+        maxWidth="sm"
+        fullWidth
+      >
         <DialogTitle>Submit Assignment</DialogTitle>
         <DialogContent>
-          <Typography gutterBottom>
-            {submitDialog.assignment?.title}
-          </Typography>
+          <Typography gutterBottom>{submitDialog.assignment?.title}</Typography>
           {errorMsg && (
             <Typography color="error" sx={{ mb: 2 }}>
               {errorMsg}
@@ -240,7 +365,14 @@ const StudentAssignments = ({ courses }) => {
           </label>
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => { setSubmitDialog({ open: false, assignment: null }); setErrorMsg(''); }}>Cancel</Button>
+          <Button
+            onClick={() => {
+              setSubmitDialog({ open: false, assignment: null });
+              setErrorMsg('');
+            }}
+          >
+            Cancel
+          </Button>
           <Button
             variant="contained"
             onClick={handleSubmitAssignment}

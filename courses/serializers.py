@@ -64,6 +64,8 @@ class CategorySerializer(serializers.ModelSerializer):
             validated_data['slug'] = slugify(validated_data['name'])
         return super().update(instance, validated_data)
 
+
+
 class LessonSerializer(serializers.ModelSerializer):
 
     def validate(self, data):
@@ -1495,17 +1497,37 @@ class AssignmentSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 
+class AssignmentBriefSerializer(serializers.ModelSerializer):
+    course_name = serializers.CharField(source='course.title', read_only=True)
+    module_name = serializers.CharField(source='module.title', read_only=True)
 
+    class Meta:
+        model = Assignment
+        fields = ['id', 'title', 'course_name', 'module_name']
+
+
+
+class AssignmentBriefSerializer(serializers.ModelSerializer):
+    course_name = serializers.CharField(source='course.title', read_only=True)
+    module_name = serializers.CharField(source='module.title', read_only=True)
+
+    class Meta:
+        model = Assignment
+        fields = ['id', 'title', 'course_name', 'module_name']
 
 class AssignmentSubmissionSerializer(serializers.ModelSerializer):
     student = serializers.PrimaryKeyRelatedField(read_only=True)
-    assignment = serializers.PrimaryKeyRelatedField(queryset=Assignment.objects.all())
+    #assignment = serializers.PrimaryKeyRelatedField(queryset=Assignment.objects.all())
+    assignment = AssignmentBriefSerializer(read_only=True)
     submission_file = serializers.FileField(required=False, allow_null=True)
     response_text = serializers.CharField(required=False, allow_blank=True)
     grade = serializers.IntegerField(required=False, allow_null=True)
     feedback = serializers.CharField(required=False, allow_blank=True)
     is_graded = serializers.BooleanField(required=False)
     submitted_at = serializers.DateTimeField(read_only=True)
+
+
+ 
 
     class Meta:
         model = AssignmentSubmission
@@ -1514,6 +1536,9 @@ class AssignmentSubmissionSerializer(serializers.ModelSerializer):
             'response_text', 'grade', 'feedback', 'is_graded'
         ]
         read_only_fields = ['id', 'student', 'submitted_at', 'grade', 'feedback', 'is_graded']
+
+
+
 
     def create(self, validated_data):
         submission_file = validated_data.pop('submission_file', None)
@@ -1562,5 +1587,4 @@ class AssignmentSubmissionSerializer(serializers.ModelSerializer):
             storage_service = get_storage_service()
             representation['submission_file'] = storage_service.get_public_url(instance.submission_file)
         return representation
-
 

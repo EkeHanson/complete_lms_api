@@ -33,7 +33,7 @@ urlpatterns = [
     path('api/activitylog/', include('activitylog.urls')),
     path('api/courses/', include('courses.urls')),
     path('api/schedule/', include('schedule.urls')),
-    path('messaging/', include('messaging.urls')),
+    path('api/messaging/', include('messaging.urls')),
     path('api/groups/', include('groups.urls')),
     path('adverts/', include('advert.urls')),
     path('api/payments/', include('payments.urls')),

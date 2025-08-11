@@ -1,33 +1,23 @@
-from django.db import transaction, connection
-from django.db.models import Q
+from django.db import transaction
 from django_tenants.utils import tenant_context
-from django.utils import timezone
 from rest_framework import serializers
-
-from .models import (
-    Message,
-    MessageRecipient,
-    MessageAttachment,
-    MessageType,
-)
-from users.serializers import UserSerializer
-from groups.serializers import GroupSerializer
+from .models import Message, MessageRecipient, MessageAttachment, MessageType
 from users.models import CustomUser
 from groups.models import Group
+from utils.storage import get_storage_service
+import uuid
+import logging
+
+logger = logging.getLogger(__name__)
 
 # ---------------------------------------------------------------------------
-#  Message-Type
+#  MessageType
 # ---------------------------------------------------------------------------
 class MessageTypeSerializer(serializers.ModelSerializer):
     class Meta:
         model = MessageType
         fields = ["id", "value", "label", "created_at", "updated_at"]
         read_only_fields = ["created_at", "updated_at"]
-
-    def __init__(self, *args, **kwargs):
-        """Limit querysets to the current tenant (though not needed here since no tenant FK)."""
-        super().__init__(*args, **kwargs)
-        # No tenant filter needed if model lacks tenant FK
 
     def validate_value(self, value):
         if not value.isidentifier():
@@ -39,7 +29,7 @@ class MessageTypeSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         tenant = self.context["request"].tenant
         with tenant_context(tenant):
-            return MessageType.objects.create(**validated_data)  # Remove tenant=tenant
+            return MessageType.objects.create(**validated_data)
 
     def update(self, instance, validated_data):
         tenant = self.context["request"].tenant
@@ -47,7 +37,7 @@ class MessageTypeSerializer(serializers.ModelSerializer):
             return super().update(instance, validated_data)
 
 # ---------------------------------------------------------------------------
-#  Attachments
+#  MessageAttachment
 # ---------------------------------------------------------------------------
 class MessageAttachmentSerializer(serializers.ModelSerializer):
     file_url = serializers.SerializerMethodField()
@@ -64,22 +54,41 @@ class MessageAttachmentSerializer(serializers.ModelSerializer):
         read_only_fields = ["original_filename", "uploaded_at", "file_url"]
 
     def get_file_url(self, obj):
-        request = self.context.get("request")
-        if obj.file and request:
-            return request.build_absolute_uri(obj.file.url)
+        if obj.file:
+            storage_service = get_storage_service()
+            return storage_service.get_public_url(str(obj.file))
         return None
 
     def create(self, validated_data):
         tenant = self.context["request"].tenant
+        file_obj = validated_data.pop("file", None)
+        original_filename = validated_data.get("original_filename", None)
+        if file_obj:
+            file_name = f"messaging/{tenant.schema_name}/{uuid.uuid4().hex}_{file_obj.name}"
+            storage_service = get_storage_service()
+            try:
+                storage_service.upload_file(file_obj, file_name, getattr(file_obj, "content_type", "application/octet-stream"))
+                validated_data["file"] = file_name
+                validated_data["original_filename"] = original_filename or file_obj.name
+            except Exception as e:
+                logger.error(f"[{tenant.schema_name}] Failed to upload attachment: {str(e)}")
+                raise serializers.ValidationError("Failed to upload attachment")
         with tenant_context(tenant):
-            return MessageAttachment.objects.create(**validated_data)  # Remove tenant=tenant
+            return MessageAttachment.objects.create(**validated_data)
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        if instance.file:
+            storage_service = get_storage_service()
+            rep['file_url'] = storage_service.get_public_url(instance.file)
+        return rep
 
 # ---------------------------------------------------------------------------
-#  Recipients (read-only; no changes needed)
+#  MessageRecipient
 # ---------------------------------------------------------------------------
 class MessageRecipientSerializer(serializers.ModelSerializer):
-    recipient = UserSerializer(read_only=True)
-    recipient_group = GroupSerializer(read_only=True)
+    recipient = serializers.StringRelatedField(read_only=True)
+    recipient_group = serializers.StringRelatedField(read_only=True)
 
     class Meta:
         model = MessageRecipient
@@ -89,41 +98,23 @@ class MessageRecipientSerializer(serializers.ModelSerializer):
 #  Message
 # ---------------------------------------------------------------------------
 class MessageSerializer(serializers.ModelSerializer):
-    # FK fields limited to current tenant inside __init__
-    message_type = serializers.PrimaryKeyRelatedField(queryset=MessageType.objects.none())
-    sender = UserSerializer(read_only=True)
-
-    message_type_display = serializers.CharField(
-        source="message_type.label", read_only=True
-    )
-    sender_display = serializers.SerializerMethodField(read_only=True)
-
+    is_read = serializers.SerializerMethodField()
+    message_type = serializers.PrimaryKeyRelatedField(queryset=MessageType.objects.all())
+    sender = serializers.StringRelatedField(read_only=True)
     recipients = MessageRecipientSerializer(many=True, read_only=True)
     attachments = MessageAttachmentSerializer(many=True, read_only=True)
-
-    parent_message = serializers.PrimaryKeyRelatedField(
-        queryset=Message.objects.none(), allow_null=True, required=False
-    )
-
-    recipient_users = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=CustomUser.objects.none(), write_only=True, required=False
-    )
-    recipient_groups = serializers.PrimaryKeyRelatedField(
-        many=True, queryset=Group.objects.none(), write_only=True, required=False
-    )
-
-    is_read = serializers.SerializerMethodField()
+    parent_message = serializers.PrimaryKeyRelatedField(queryset=Message.objects.all(), allow_null=True, required=False)
+    recipient_users = serializers.PrimaryKeyRelatedField(many=True, queryset=CustomUser.objects.all(), write_only=True, required=False)
+    recipient_groups = serializers.PrimaryKeyRelatedField(many=True, queryset=Group.objects.all(), write_only=True, required=False)
 
     class Meta:
         model = Message
         fields = [
             "id",
             "sender",
-            "sender_display",
             "subject",
             "content",
             "message_type",
-            "message_type_display",
             "sent_at",
             "status",
             "parent_message",
@@ -132,53 +123,107 @@ class MessageSerializer(serializers.ModelSerializer):
             "attachments",
             "recipient_users",
             "recipient_groups",
-            "is_read",
+            'is_read',
         ]
         read_only_fields = [
             "sender",
-            "sender_display",
-            "message_type_display",
             "sent_at",
             "recipients",
             "attachments",
-            "is_read",
         ]
-
-    def __init__(self, *args, **kwargs):
-        super().__init__(*args, **kwargs)
-        tenant = self.context["request"].tenant
-        self.fields["message_type"].queryset = MessageType.objects.all()  # Adjust if tenant FK exists
-        self.fields["parent_message"].queryset = Message.objects.all()    # Adjust if tenant FK exists
-        self.fields["recipient_users"].queryset = CustomUser.objects.all()  # Adjust if tenant FK exists
-        self.fields["recipient_groups"].queryset = Group.objects.all()     # Adjust if tenant FK exists
-
-    def get_is_read(self, obj):
-        request = self.context.get("request")
-        if not request or not request.user.is_authenticated:
-            return None
-        recipient = obj.recipients.filter(
-            Q(recipient=request.user) | Q(recipient_group__memberships__user=request.user)
-        ).first()
-        return recipient.read if recipient else None
-
-    def get_sender_display(self, obj):
-        if obj.sender:
-            return f"{obj.sender.first_name} {obj.sender.last_name}".strip()
-        return None
 
     def create(self, validated_data):
         tenant = self.context["request"].tenant
         recipient_users = validated_data.pop("recipient_users", [])
         recipient_groups = validated_data.pop("recipient_groups", [])
+        attachments_data = self.context["request"].FILES.getlist("attachments")
+        validated_data.pop("sender", None)
         with tenant_context(tenant), transaction.atomic():
             message = Message.objects.create(sender=self.context["request"].user, **validated_data)
+            recipients = []
+            # Individual users
             for user in recipient_users:
-                MessageRecipient.objects.create(message=message, recipient=user)
+                recipients.append(MessageRecipient(message=message, recipient=user))
+            # Groups: add all group members as recipients
             for group in recipient_groups:
-                MessageRecipient.objects.create(message=message, recipient_group=group)
+                user_ids = group.memberships.values_list('user_id', flat=True)
+                for user_id in user_ids:
+                    recipients.append(MessageRecipient(message=message, recipient_id=user_id, recipient_group=group))
+            MessageRecipient.objects.bulk_create(recipients)
+            # Attachments
+            for file_obj in attachments_data:
+                file_name = f"messaging/{tenant.schema_name}/{uuid.uuid4().hex}_{file_obj.name}"
+                storage_service = get_storage_service()
+                try:
+                    storage_service.upload_file(file_obj, file_name, getattr(file_obj, "content_type", "application/octet-stream"))
+                    MessageAttachment.objects.create(
+                        message=message,
+                        file=file_name,
+                        original_filename=file_obj.name
+                    )
+                except Exception as e:
+                    logger.error(f"[{tenant.schema_name}] Failed to upload attachment: {str(e)}")
+                    raise serializers.ValidationError("Failed to upload attachment")
         return message
 
     def update(self, instance, validated_data):
         tenant = self.context["request"].tenant
-        with tenant_context(tenant):
+        attachments_data = self.context["request"].FILES.getlist("attachments")
+        with tenant_context(tenant), transaction.atomic():
+            # Optionally handle updating attachments here
             return super().update(instance, validated_data)
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep['attachments'] = MessageAttachmentSerializer(instance.attachments.all(), many=True, context=self.context).data
+        return rep
+
+    def get_recipient_users(self, obj):
+        return obj.recipient_users.values_list('id', flat=True)
+
+    def get_recipient_groups(self, obj):
+        return obj.recipient_groups.values_list('id', flat=True)
+
+    def get_recipient_groups(self, obj):
+        return obj.recipient_groups.values_list('id', flat=True)
+
+    def create(self, validated_data):
+        tenant = self.context["request"].tenant
+        recipient_users = validated_data.pop("recipient_users", [])
+        recipient_groups = validated_data.pop("recipient_groups", [])
+        attachments_data = self.context["request"].FILES.getlist("attachments")
+        validated_data.pop("sender", None)
+        with tenant_context(tenant), transaction.atomic():
+            message = Message.objects.create(sender=self.context["request"].user, **validated_data)
+            recipients = []
+            # Individual users
+            for user in recipient_users:
+                recipients.append(MessageRecipient(message=message, recipient=user))
+            # Groups: add all group members as recipients
+            for group in recipient_groups:
+                user_ids = group.memberships.values_list('user_id', flat=True)
+                for user_id in user_ids:
+                    recipients.append(MessageRecipient(message=message, recipient_id=user_id, recipient_group=group))
+            MessageRecipient.objects.bulk_create(recipients)
+            # Attachments
+            for file_obj in attachments_data:
+                file_name = f"messaging/{tenant.schema_name}/{uuid.uuid4().hex}_{file_obj.name}"
+                storage_service = get_storage_service()
+                try:
+                    storage_service.upload_file(file_obj, file_name, getattr(file_obj, "content_type", "application/octet-stream"))
+                    MessageAttachment.objects.create(
+                        message=message,
+                        file=file_name,
+                        original_filename=file_obj.name
+                    )
+                except Exception as e:
+                    logger.error(f"[{tenant.schema_name}] Failed to upload attachment: {str(e)}")
+                    raise serializers.ValidationError("Failed to upload attachment")
+        return message
+
+
+    def get_is_read(self, obj):
+        user = self.context["request"].user
+        # Find the MessageRecipient for this user and message
+        mr = obj.recipients.filter(recipient=user).first()
+        return mr.read if mr else False

@@ -96,11 +96,12 @@ class MessageConsumer(AsyncWebsocketConsumer):
 
     # ---------------------------------------------------------------- send events
     async def new_message(self, event):
-        """Called by other server processes via channel layer"""
+        """Send new message to client"""
         await self.send(text_data=json.dumps({"type": "new_message", "message": event["message"]}))
 
     async def message_read(self, event):
-        await self.send(text_data=json.dumps({"type": "message_read", "message_id": event["message_id"]}))
+        """Notify sender that message was read"""
+        await self.send(text_data=json.dumps({"type": "message_read", "message_id": event["message_id"], "reader_id": event["reader_id"]}))
 
     # ---------------------------------------------------------------- helper
     @database_sync_to_async
@@ -124,3 +125,5 @@ class MessageConsumer(AsyncWebsocketConsumer):
                 )
         except Exception as exc:
             logger.exception("Failed to mark message as read: %s", exc)
+
+
