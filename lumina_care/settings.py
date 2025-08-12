@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'auditlog',
     'django_crontab',
     'channels',
+    'daphne',
 
     # auth / social
     'django.contrib.admin',
@@ -74,6 +75,7 @@ INSTALLED_APPS = [
     'groups',
     'messaging',
     'advert',
+    'ai_chat',
 ]
 
 SITE_ID = 1
@@ -283,6 +285,7 @@ CHANNEL_LAYERS = {
     },
 }
 
+
 ASGI_APPLICATION = "lumina_care.asgi.application"
 
 # -----------------------------------------------------------
@@ -357,7 +360,10 @@ CRONTAB_DJANGO_PROJECT_NAME = 'lumina_care'
 CRONJOBS = [
     ('0 11 * * *', 'talent_engine.cron.close_expired_requisitions',
      f'>> {os.path.join(LOG_DIR, "lumina_care.log")} 2>&1'),
+    ('0 0 * * *', 'courses.management.commands.index_courses.Command', f'>> {os.path.join(LOG_DIR, "lumina_care.log")} 2>&1'),
+
 ]
+
 
 # -----------------------------------------------------------
 # EMAIL
@@ -409,5 +415,10 @@ AZURE_ACCOUNT_NAME = "your-azure-account-name"
 # Remove or comment out local filesystem storage
 # DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
-# This abstraction allows switching storage providers
-#  by changing STORAGE_TYPE in settings.py and providing the appropriate credentials.
+# STORAGE BACKEND CONFIGURATION
+STORAGE_BACKEND = env('STORAGE_BACKEND', default='local').lower()  # Options: 'local', 'supabase', 's3'
+
+OPENAI_API_KEY = env('OPENAI_API_KEY', default='')
+GROK_API_KEY = env('GROK_API_KEY', default='xai-lP6e9UmP1myfkSpkRI6uXgKwyfBg2tkARbm8L4YpOlg1dlUf1Mrej2nPlrjBpKZqO5XfW5FLJbT6wrCQ')
+
+PINECONE_API_KEY = env('PINECONE_API_KEY', default='pcsk_5XWDwu_2HKCQEnoX1V73Ldd4XHxDs3C11muLtwNL2XHtJ8ufVzQqLEqAyhiuEwx69e35T7')

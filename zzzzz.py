@@ -1,6 +1,6 @@
 # python manage.py makemigrations token_blacklist users courses forum groups messaging payments subscriptions
 
-# python manage.py makemigrations token_blacklist users, core, courses, courses, forum, groups, messaging, subscriptions
+# python manage.py makemigrations token_blacklist users, core, courses, courses, forum, groups, messaging, subscriptions, payments, schedule
 # python manage.py migrate_schemas --shared
 # python manage.py migrate_schemas
 

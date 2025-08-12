@@ -1,4 +1,3 @@
-
 import os
 import uuid
 import logging
@@ -19,6 +18,18 @@ class StorageService:
 
     def delete_file(self, file_name):
         raise NotImplementedError("Subclasses must implement delete_file")
+
+class LocalStorageService:
+    def upload_file(self, file_obj, file_name, content_type=None):
+        media_root = "media"
+        os.makedirs(media_root, exist_ok=True)
+        file_path = os.path.join(media_root, file_name)
+        with open(file_path, "wb") as f:
+            f.write(file_obj.read())
+        return True
+
+    def get_public_url(self, file_name):
+        return f"/media/{file_name}"
 
 class SupabaseStorageService(StorageService):
     def __init__(self):
@@ -156,4 +167,4 @@ def get_storage_service():
     elif storage_type == 'azure':
         return AzureStorageService()
     else:
-        raise ValueError(f"Unsupported storage type: {storage_type}")
+        return LocalStorageService()

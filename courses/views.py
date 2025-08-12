@@ -563,8 +563,6 @@ class ModuleViewSet(TenantBaseView, viewsets.ModelViewSet):
         return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy', 'bulk_update', 'bulk_delete'] else [IsAuthenticated()]
 
 
-
-
 class LessonViewSet(TenantBaseView, viewsets.ModelViewSet):
     """Manage lessons for a tenant, scoped to courses and modules."""
     serializer_class = LessonSerializer
@@ -645,8 +643,6 @@ class LessonViewSet(TenantBaseView, viewsets.ModelViewSet):
 
     def get_permissions(self):
         return [IsAdminUser()] if self.action in ['create', 'update', 'partial_update', 'destroy'] else [IsAuthenticated()]
-
-
 
 
 class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
@@ -927,7 +923,6 @@ class EnrollmentViewSet(TenantBaseView, viewsets.ViewSet):
             obj.is_completed = True
             obj.save()
             return Response({'detail': 'Lesson marked as completed'}, status=status.HTTP_200_OK)
-
 
 
 class AssignmentViewSet(TenantBaseView, viewsets.ModelViewSet):
