@@ -416,9 +416,8 @@ AZURE_ACCOUNT_NAME = "your-azure-account-name"
 # DEFAULT_FILE_STORAGE = 'django.core.files.storage.FileSystemStorage'
 
 # STORAGE BACKEND CONFIGURATION
-STORAGE_BACKEND = env('STORAGE_BACKEND', default='local').lower()  # Options: 'local', 'supabase', 's3'
+STORAGE_BACKEND = env('STORAGE_BACKEND', default='supabase').lower()  # Options: 'local', 'supabase', 's3'
 
 OPENAI_API_KEY = env('OPENAI_API_KEY', default='')
-GROK_API_KEY = env('GROK_API_KEY', default='xai-lP6e9UmP1myfkSpkRI6uXgKwyfBg2tkARbm8L4YpOlg1dlUf1Mrej2nPlrjBpKZqO5XfW5FLJbT6wrCQ')
-
-PINECONE_API_KEY = env('PINECONE_API_KEY', default='pcsk_5XWDwu_2HKCQEnoX1V73Ldd4XHxDs3C11muLtwNL2XHtJ8ufVzQqLEqAyhiuEwx69e35T7')
+GROK_API_KEY = env('GROK_API_KEY', default='')
+PINECONE_API_KEY = env('PINECONE_API_KEY', default='')
