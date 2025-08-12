@@ -34,6 +34,7 @@ urlpatterns = [
     path('api/courses/', include('courses.urls')),
     path('api/schedule/', include('schedule.urls')),
     path('api/messaging/', include('messaging.urls')),
+    path('api/ai_chat/', include('ai_chat.urls')),
     path('api/groups/', include('groups.urls')),
     path('adverts/', include('advert.urls')),
     path('api/payments/', include('payments.urls')),

@@ -196,6 +196,7 @@ TENANT_APPS = [
     'messaging',
     'advert',
     'compliance',
+    'ai_chat',
 ]
 
 # -----------------------------------------------------------
@@ -361,6 +362,11 @@ CRONJOBS = [
     ('0 11 * * *', 'talent_engine.cron.close_expired_requisitions',
      f'>> {os.path.join(LOG_DIR, "lumina_care.log")} 2>&1'),
     ('0 0 * * *', 'courses.management.commands.index_courses.Command', f'>> {os.path.join(LOG_DIR, "lumina_care.log")} 2>&1'),
+
+
+
+    ('0 0 * * *', 'courses.management.commands.index_courses',  # Run daily to ensure index is up-to-date
+     f'>> {os.path.join(LOG_DIR, "lumina_care.log")} 2>&1'),
 
 ]
 

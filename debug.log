@@ -1,0 +1,1140 @@
+2025-08-12 10:49:27,134 - INFO - Indexing courses for tenant: public
+2025-08-12 10:49:30,510 - INFO - Use pytorch device_name: cpu
+2025-08-12 10:49:30,511 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 10:49:35,363 - ERROR - Error indexing courses for tenant public: relation "courses_course" does not exist
+LINE 1: ...ription", "courses_category"."created_by_id" FROM "courses_c...
+                                                             ^
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "courses_course" does not exist
+LINE 1: ...ription", "courses_category"."created_by_id" FROM "courses_c...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 136, in index_courses_for_tenant
+    for course in courses:
+                  ^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "courses_course" does not exist
+LINE 1: ...ription", "courses_category"."created_by_id" FROM "courses_c...
+                                                             ^
+
+2025-08-12 10:49:35,369 - INFO - Indexing courses for tenant: proliance
+2025-08-12 10:49:35,374 - INFO - Use pytorch device_name: cpu
+2025-08-12 10:49:35,374 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 10:49:40,703 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 09:49:41 GMT', 'Content-Type': 'application/json', 'Content-Length': '103', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '265', 'x-pinecone-request-id': '6275706503291386715', 'x-envoy-upstream-service-time': '35', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 1024","details":[]}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 185, in index_courses_for_tenant
+    index.upsert(vectors=vectors, namespace=tenant_schema)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 30, in inner_func
+    raise e from e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 15, in inner_func
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 212, in upsert
+    return self._upsert_batch(vectors, namespace, _check_type, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 238, in _upsert_batch
+    return self._vector_api.upsert_vectors(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        IndexRequestFactory.upsert_request(vectors, namespace, _check_type, **kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self._openapi_kwargs(kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_data\api\vector_operations_api.py", line 675, in __upsert_vectors
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 09:49:41 GMT', 'Content-Type': 'application/json', 'Content-Length': '103', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '265', 'x-pinecone-request-id': '6275706503291386715', 'x-envoy-upstream-service-time': '35', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 1024","details":[]}
+
+2025-08-12 16:51:14,610 - INFO - Indexing courses for tenant: public
+2025-08-12 16:51:14,627 - ERROR - Error indexing courses for tenant public: relation "courses_course" does not exist
+LINE 1: ...isites", "courses_course"."completion_hours" FROM "courses_c...
+                                                             ^
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+psycopg2.errors.UndefinedTable: relation "courses_course" does not exist
+LINE 1: ...isites", "courses_course"."completion_hours" FROM "courses_c...
+                                                             ^
+
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 108, in index_courses_for_tenant
+    for course in Course.objects.filter(status='Published'):
+                  ~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 384, in __iter__
+    self._fetch_all()
+    ~~~~~~~~~~~~~~~^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 1949, in _fetch_all
+    self._result_cache = list(self._iterable_class(self))
+                         ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\query.py", line 91, in __iter__
+    results = compiler.execute_sql(
+        chunked_fetch=self.chunked_fetch, chunk_size=self.chunk_size
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\models\sql\compiler.py", line 1623, in execute_sql
+    cursor.execute(sql, params)
+    ~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 122, in execute
+    return super().execute(sql, params)
+           ~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 79, in execute
+    return self._execute_with_wrappers(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        sql, params, many=False, executor=self._execute
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 92, in _execute_with_wrappers
+    return executor(sql, params, many, context)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 100, in _execute
+    with self.db.wrap_database_errors:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\utils.py", line 91, in __exit__
+    raise dj_exc_value.with_traceback(traceback) from exc_value
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\django\db\backends\utils.py", line 105, in _execute
+    return self.cursor.execute(sql, params)
+           ~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+django.db.utils.ProgrammingError: relation "courses_course" does not exist
+LINE 1: ...isites", "courses_course"."completion_hours" FROM "courses_c...
+                                                             ^
+
+2025-08-12 16:51:14,642 - INFO - Indexing courses for tenant: proliance
+2025-08-12 16:51:22,018 - INFO - Use pytorch device_name: cpu
+2025-08-12 16:51:22,018 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 16:51:34,367 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:51:34 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '288', 'x-pinecone-request-id': '5665338041416185912', 'x-envoy-upstream-service-time': '70', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 154, in index_courses_for_tenant
+    index.upsert(vectors=vectors, namespace=tenant_schema)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 30, in inner_func
+    raise e from e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 15, in inner_func
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 212, in upsert
+    return self._upsert_batch(vectors, namespace, _check_type, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 238, in _upsert_batch
+    return self._vector_api.upsert_vectors(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        IndexRequestFactory.upsert_request(vectors, namespace, _check_type, **kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self._openapi_kwargs(kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_data\api\vector_operations_api.py", line 675, in __upsert_vectors
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:51:34 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '288', 'x-pinecone-request-id': '5665338041416185912', 'x-envoy-upstream-service-time': '70', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+
+2025-08-12 16:52:54,902 - INFO - Indexing courses for tenant: public
+2025-08-12 16:52:54,903 - INFO - Skipping indexing for public schema.
+2025-08-12 16:52:54,904 - INFO - Indexing courses for tenant: proliance
+2025-08-12 16:53:04,627 - INFO - Use pytorch device_name: cpu
+2025-08-12 16:53:04,628 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 16:53:14,552 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:53:14 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '333', 'x-pinecone-request-id': '1478309816120342584', 'x-envoy-upstream-service-time': '33', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 157, in index_courses_for_tenant
+    index.upsert(vectors=vectors, namespace=tenant_schema)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 30, in inner_func
+    raise e from e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 15, in inner_func
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 212, in upsert
+    return self._upsert_batch(vectors, namespace, _check_type, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 238, in _upsert_batch
+    return self._vector_api.upsert_vectors(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        IndexRequestFactory.upsert_request(vectors, namespace, _check_type, **kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self._openapi_kwargs(kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_data\api\vector_operations_api.py", line 675, in __upsert_vectors
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:53:14 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '333', 'x-pinecone-request-id': '1478309816120342584', 'x-envoy-upstream-service-time': '33', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+
+2025-08-12 16:54:33,103 - INFO - Indexing courses for tenant: public
+2025-08-12 16:54:33,104 - INFO - Skipping indexing for public schema.
+2025-08-12 16:54:33,104 - INFO - Indexing courses for tenant: proliance
+2025-08-12 16:54:42,112 - INFO - Use pytorch device_name: cpu
+2025-08-12 16:54:42,113 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 16:55:02,789 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:55:02 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '280', 'x-pinecone-request-id': '7602323021136663123', 'x-envoy-upstream-service-time': '42', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 157, in index_courses_for_tenant
+    index.upsert(vectors=vectors, namespace=tenant_schema)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 30, in inner_func
+    raise e from e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 15, in inner_func
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 212, in upsert
+    return self._upsert_batch(vectors, namespace, _check_type, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 238, in _upsert_batch
+    return self._vector_api.upsert_vectors(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        IndexRequestFactory.upsert_request(vectors, namespace, _check_type, **kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self._openapi_kwargs(kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_data\api\vector_operations_api.py", line 675, in __upsert_vectors
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:55:02 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '280', 'x-pinecone-request-id': '7602323021136663123', 'x-envoy-upstream-service-time': '42', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+
+2025-08-12 16:55:58,209 - INFO - Indexing courses for tenant: public
+2025-08-12 16:55:58,210 - INFO - Skipping indexing for public schema.
+2025-08-12 16:55:58,210 - INFO - Indexing courses for tenant: proliance
+2025-08-12 16:56:02,993 - INFO - Use pytorch device_name: cpu
+2025-08-12 16:56:02,994 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 16:56:15,803 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:56:16 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '282', 'x-pinecone-request-id': '7056299886492488771', 'x-envoy-upstream-service-time': '59', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 157, in index_courses_for_tenant
+    index.upsert(vectors=vectors, namespace=tenant_schema)
+    ~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 30, in inner_func
+    raise e from e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\error_handling.py", line 15, in inner_func
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 212, in upsert
+    return self._upsert_batch(vectors, namespace, _check_type, **kwargs)
+           ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_data\index.py", line 238, in _upsert_batch
+    return self._vector_api.upsert_vectors(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        IndexRequestFactory.upsert_request(vectors, namespace, _check_type, **kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        **self._openapi_kwargs(kwargs),
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_data\api\vector_operations_api.py", line 675, in __upsert_vectors
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'Date': 'Tue, 12 Aug 2025 15:56:16 GMT', 'Content-Type': 'application/json', 'Content-Length': '102', 'Connection': 'keep-alive', 'x-pinecone-request-latency-ms': '282', 'x-pinecone-request-id': '7056299886492488771', 'x-envoy-upstream-service-time': '59', 'server': 'envoy'})
+HTTP response body: {"code":3,"message":"Vector dimension 384 does not match the dimension of the index 768","details":[]}
+
+2025-08-12 16:58:02,554 - INFO - Indexing courses for tenant: public
+2025-08-12 16:58:02,555 - INFO - Skipping indexing for public schema.
+2025-08-12 16:58:02,556 - INFO - Indexing courses for tenant: proliance
+2025-08-12 16:58:06,085 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2025-04', 'x-cloud-trace-context': 'd3fc1e15ca868ad7484ccf3583522cdd', 'date': 'Tue, 12 Aug 2025 15:58:06 GMT', 'server': 'Google Frontend', 'Content-Length': '200', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
+HTTP response body: {"error":{"code":"INVALID_ARGUMENT","message":"Bad request: Your free plan does not support indexes in the us-west-2 region of aws. To create indexes in this region, upgrade your plan."},"status":400}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 141, in index_courses_for_tenant
+    pc.create_index(
+    ~~~~~~~~~~~~~~~^
+        name=pinecone_index_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        spec=ServerlessSpec(cloud='aws', region='us-west-2')
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\pinecone.py", line 334, in create_index
+    return self.db.index.create(
+           ~~~~~~~~~~~~~~~~~~~~^
+        name=name,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        tags=tags,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\require_kwargs.py", line 14, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_control\resources\sync\index.py", line 81, in create
+    resp = self._index_api.create_index(create_index_request=req)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_control\api\manage_indexes_api.py", line 322, in __create_index
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2025-04', 'x-cloud-trace-context': 'd3fc1e15ca868ad7484ccf3583522cdd', 'date': 'Tue, 12 Aug 2025 15:58:06 GMT', 'server': 'Google Frontend', 'Content-Length': '200', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
+HTTP response body: {"error":{"code":"INVALID_ARGUMENT","message":"Bad request: Your free plan does not support indexes in the us-west-2 region of aws. To create indexes in this region, upgrade your plan."},"status":400}
+
+2025-08-12 16:59:23,996 - INFO - Indexing courses for tenant: public
+2025-08-12 16:59:23,997 - INFO - Skipping indexing for public schema.
+2025-08-12 16:59:23,997 - INFO - Indexing courses for tenant: proliance
+2025-08-12 16:59:27,614 - ERROR - Error indexing courses for tenant proliance: Invalid value for `cloud` (gcp-starter), must be one of ['gcp', 'aws', 'azure']
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 141, in index_courses_for_tenant
+    pc.create_index(
+    ~~~~~~~~~~~~~~~^
+        name=pinecone_index_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        spec=ServerlessSpec(cloud='gcp-starter', region='us-central1')  # Use free tier region
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\pinecone.py", line 334, in create_index
+    return self.db.index.create(
+           ~~~~~~~~~~~~~~~~~~~~^
+        name=name,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        tags=tags,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\require_kwargs.py", line 14, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_control\resources\sync\index.py", line 72, in create
+    req = PineconeDBControlRequestFactory.create_index_request(
+        name=name,
+    ...<5 lines>...
+        tags=tags,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_control\request_factory.py", line 160, in create_index_request
+    index_spec = PineconeDBControlRequestFactory.__parse_index_spec(spec)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_control\request_factory.py", line 113, in __parse_index_spec
+    serverless=ServerlessSpecModel(cloud=spec.cloud, region=spec.region)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\model_utils.py", line 36, in wrapped_init
+    return fn(_self, *args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_control\model\serverless_spec.py", line 268, in __init__
+    self.cloud = cloud
+    ^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\model_utils.py", line 171, in __setattr__
+    self[attr] = value
+    ~~~~^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\model_utils.py", line 456, in __setitem__
+    self.set_attribute(name, value)
+    ~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\model_utils.py", line 153, in set_attribute
+    check_allowed_values(self.allowed_values, (name,), value)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\model_utils.py", line 804, in check_allowed_values
+    raise PineconeApiValueError(
+    ...<2 lines>...
+    )
+pinecone.exceptions.exceptions.PineconeApiValueError: Invalid value for `cloud` (gcp-starter), must be one of ['gcp', 'aws', 'azure']
+2025-08-12 17:00:31,966 - INFO - Indexing courses for tenant: public
+2025-08-12 17:00:31,966 - INFO - Skipping indexing for public schema.
+2025-08-12 17:00:31,967 - INFO - Indexing courses for tenant: proliance
+2025-08-12 17:00:36,692 - ERROR - Error indexing courses for tenant proliance: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2025-04', 'x-cloud-trace-context': 'b8868658ff9f384a38c4adef4c8f8690', 'date': 'Tue, 12 Aug 2025 16:00:36 GMT', 'server': 'Google Frontend', 'Content-Length': '202', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
+HTTP response body: {"error":{"code":"INVALID_ARGUMENT","message":"Bad request: Your free plan does not support indexes in the us-central1 region of gcp. To create indexes in this region, upgrade your plan."},"status":400}
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 141, in index_courses_for_tenant
+    pc.create_index(
+    ~~~~~~~~~~~~~~~^
+        name=pinecone_index_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        spec=ServerlessSpec(cloud='gcp', region='us-central1')  # Correct value for free tier
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\pinecone.py", line 334, in create_index
+    return self.db.index.create(
+           ~~~~~~~~~~~~~~~~~~~~^
+        name=name,
+        ^^^^^^^^^^
+    ...<6 lines>...
+        tags=tags,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\utils\require_kwargs.py", line 14, in wrapper
+    return func(*args, **kwargs)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\db_control\resources\sync\index.py", line 81, in create
+    resp = self._index_api.create_index(create_index_request=req)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 102, in __call__
+    return self.callable(self, *args, **kwargs)
+           ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\core\openapi\db_control\api\manage_indexes_api.py", line 322, in __create_index
+    return self.call_with_http_info(**kwargs)
+           ~~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\endpoint.py", line 134, in call_with_http_info
+    return self.api_client.call_api(
+           ~~~~~~~~~~~~~~~~~~~~~~~~^
+        self.settings["endpoint_path"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<16 lines>...
+        collection_formats=params["collection_format"],
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 306, in call_api
+    return self.__call_api(
+           ~~~~~~~~~~~~~~~^
+        resource_path,
+        ^^^^^^^^^^^^^^
+    ...<14 lines>...
+        _check_type,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 182, in __call_api
+    raise e
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 170, in __call_api
+    response_data = self.request(
+        method,
+    ...<6 lines>...
+        _request_timeout=_request_timeout,
+    )
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\api_client.py", line 386, in request
+    return self.rest_client.POST(
+           ~~~~~~~~~~~~~~~~~~~~~^
+        url,
+        ^^^^
+    ...<5 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 146, in POST
+    return self.request(
+           ~~~~~~~~~~~~^
+        "POST",
+        ^^^^^^^
+    ...<6 lines>...
+        body=body,
+        ^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_urllib3.py", line 267, in request
+    return raise_exceptions_or_return(r)
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\pinecone\openapi_support\rest_utils.py", line 49, in raise_exceptions_or_return
+    raise PineconeApiException(http_resp=r)
+pinecone.exceptions.exceptions.PineconeApiException: (400)
+Reason: Bad Request
+HTTP response headers: HTTPHeaderDict({'content-type': 'text/plain; charset=utf-8', 'access-control-allow-origin': '*', 'vary': 'origin,access-control-request-method,access-control-request-headers', 'access-control-expose-headers': '*', 'x-pinecone-api-version': '2025-04', 'x-cloud-trace-context': 'b8868658ff9f384a38c4adef4c8f8690', 'date': 'Tue, 12 Aug 2025 16:00:36 GMT', 'server': 'Google Frontend', 'Content-Length': '202', 'Via': '1.1 google', 'Alt-Svc': 'h3=":443"; ma=2592000,h3-29=":443"; ma=2592000'})
+HTTP response body: {"error":{"code":"INVALID_ARGUMENT","message":"Bad request: Your free plan does not support indexes in the us-central1 region of gcp. To create indexes in this region, upgrade your plan."},"status":400}
+
+2025-08-12 17:46:14,365 - INFO - Indexing courses for tenant: public
+2025-08-12 17:46:14,366 - INFO - Skipping indexing for public schema.
+2025-08-12 17:46:14,366 - INFO - Indexing courses for tenant: proliance
+2025-08-12 17:46:14,391 - INFO - Use pytorch device_name: cpu
+2025-08-12 17:46:14,392 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 17:46:14,687 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json HTTP/1.1" 307 0
+2025-08-12 17:46:14,761 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json HTTP/1.1" 200 0
+2025-08-12 17:46:15,071 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json HTTP/1.1" 307 0
+2025-08-12 17:46:15,149 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json HTTP/1.1" 200 0
+2025-08-12 17:46:15,526 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json HTTP/1.1" 307 0
+2025-08-12 17:46:15,813 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json HTTP/1.1" 200 0
+2025-08-12 17:46:16,067 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md HTTP/1.1" 307 0
+2025-08-12 17:46:16,147 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md HTTP/1.1" 200 0
+2025-08-12 17:46:16,530 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json HTTP/1.1" 307 0
+2025-08-12 17:46:16,603 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json HTTP/1.1" 200 0
+2025-08-12 17:46:16,940 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json HTTP/1.1" 307 0
+2025-08-12 17:46:17,015 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json HTTP/1.1" 200 0
+2025-08-12 17:46:17,350 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json HTTP/1.1" 404 0
+2025-08-12 17:46:17,760 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json HTTP/1.1" 307 0
+2025-08-12 17:46:17,965 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json HTTP/1.1" 200 0
+2025-08-12 17:46:19,808 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2025-08-12 17:46:19,887 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json HTTP/1.1" 200 0
+2025-08-12 17:46:20,182 - DEBUG - https://huggingface.co:443 "GET /api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2025-08-12 17:46:20,627 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json HTTP/1.1" 307 0
+2025-08-12 17:46:20,708 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json HTTP/1.1" 200 0
+2025-08-12 17:46:21,037 - DEBUG - https://huggingface.co:443 "GET /api/models/sentence-transformers/all-MiniLM-L6-v2 HTTP/1.1" 200 6854
+2025-08-12 17:46:22,332 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 17:46:22,352 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000024D1A27B770>
+2025-08-12 17:46:22,353 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-08-12 17:46:22,354 - DEBUG - send_request_headers.complete
+2025-08-12 17:46:22,355 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-08-12 17:46:22,355 - DEBUG - send_request_body.complete
+2025-08-12 17:46:22,356 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-08-12 17:46:22,360 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'content-type', b'application/json'), (b'content-encoding', b'gzip'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'date', b'Tue, 12 Aug 2025 16:46:21 GMT')])
+2025-08-12 17:46:22,363 - INFO - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2025-08-12 17:46:22,363 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-08-12 17:46:22,365 - DEBUG - receive_response_body.complete
+2025-08-12 17:46:22,365 - DEBUG - response_closed.started
+2025-08-12 17:46:22,366 - DEBUG - response_closed.complete
+2025-08-12 17:46:22,366 - DEBUG - close.started
+2025-08-12 17:46:22,367 - DEBUG - close.complete
+2025-08-12 17:46:22,369 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 17:46:22,371 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000024D1A085590>
+2025-08-12 17:46:22,372 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-08-12 17:46:22,373 - DEBUG - send_request_headers.complete
+2025-08-12 17:46:22,373 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-08-12 17:46:22,374 - DEBUG - send_request_body.complete
+2025-08-12 17:46:22,374 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-08-12 17:46:22,379 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-encoding', b'gzip'), (b'content-type', b'application/json'), (b'date', b'Tue, 12 Aug 2025 16:46:21 GMT')])
+2025-08-12 17:46:22,381 - INFO - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2025-08-12 17:46:22,382 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-08-12 17:46:22,382 - DEBUG - receive_response_body.complete
+2025-08-12 17:46:22,383 - DEBUG - response_closed.started
+2025-08-12 17:46:22,383 - DEBUG - response_closed.complete
+2025-08-12 17:46:22,384 - DEBUG - close.started
+2025-08-12 17:46:22,384 - DEBUG - close.complete
+2025-08-12 17:46:22,541 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 17:46:22,543 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x0000024D1A086C10>
+2025-08-12 17:46:22,544 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-08-12 17:46:22,548 - DEBUG - send_request_headers.complete
+2025-08-12 17:46:22,549 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-08-12 17:46:22,549 - DEBUG - send_request_body.complete
+2025-08-12 17:46:22,550 - DEBUG - receive_response_headers.started request=<Request [b'PUT']>
+2025-08-12 17:46:22,562 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'transfer-encoding', b'chunked'), (b'content-type', b'application/json'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-encoding', b'gzip'), (b'date', b'Tue, 12 Aug 2025 16:46:22 GMT')])
+2025-08-12 17:46:22,566 - INFO - HTTP Request: PUT http://localhost:6333/collections/lms-course-ai-chat/points?wait=true "HTTP/1.1 400 Bad Request"
+2025-08-12 17:46:22,569 - DEBUG - receive_response_body.started request=<Request [b'PUT']>
+2025-08-12 17:46:22,571 - DEBUG - receive_response_body.complete
+2025-08-12 17:46:22,571 - DEBUG - response_closed.started
+2025-08-12 17:46:22,572 - DEBUG - response_closed.complete
+2025-08-12 17:46:22,572 - DEBUG - close.started
+2025-08-12 17:46:22,573 - DEBUG - close.complete
+2025-08-12 17:46:22,574 - ERROR - Error indexing courses for tenant proliance: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Format error in JSON body: value proliance_0 is not a valid point ID, valid values are either an unsigned integer or a UUID"},"time":0.0}'
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 115, in index_courses_for_tenant
+    client.upsert(collection_name=QDRANT_COLLECTION, points=points)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\qdrant_client.py", line 1633, in upsert
+    return self._client.upsert(
+           ~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\qdrant_remote.py", line 1911, in upsert
+    http_result = self.openapi_client.points_api.upsert_points(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        ordering=ordering,
+        ^^^^^^^^^^^^^^^^^^
+    ).result
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api\points_api.py", line 987, in upsert_points
+    return self._build_for_upsert_points(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        point_insert_operations=point_insert_operations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api\points_api.py", line 512, in _build_for_upsert_points
+    return self.api_client.request(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        type_=m.InlineResponse2006,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        content=body,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api_client.py", line 95, in request
+    return self.send(request, type_)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api_client.py", line 130, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Format error in JSON body: value proliance_0 is not a valid point ID, valid values are either an unsigned integer or a UUID"},"time":0.0}'
+2025-08-12 18:02:12,542 - INFO - Indexing courses for tenant: public
+2025-08-12 18:02:12,543 - INFO - Skipping indexing for public schema.
+2025-08-12 18:02:12,543 - INFO - Indexing courses for tenant: proliance
+2025-08-12 18:02:12,590 - INFO - Use pytorch device_name: cpu
+2025-08-12 18:02:12,591 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 18:02:12,948 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json HTTP/1.1" 307 0
+2025-08-12 18:02:13,030 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json HTTP/1.1" 200 0
+2025-08-12 18:02:13,302 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json HTTP/1.1" 307 0
+2025-08-12 18:02:13,373 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json HTTP/1.1" 200 0
+2025-08-12 18:02:13,664 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json HTTP/1.1" 307 0
+2025-08-12 18:02:13,869 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json HTTP/1.1" 200 0
+2025-08-12 18:02:14,892 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md HTTP/1.1" 307 0
+2025-08-12 18:02:15,048 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md HTTP/1.1" 200 0
+2025-08-12 18:02:15,337 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json HTTP/1.1" 307 0
+2025-08-12 18:02:15,432 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json HTTP/1.1" 200 0
+2025-08-12 18:02:15,711 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json HTTP/1.1" 307 0
+2025-08-12 18:02:15,788 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json HTTP/1.1" 200 0
+2025-08-12 18:02:16,121 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json HTTP/1.1" 404 0
+2025-08-12 18:02:16,434 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json HTTP/1.1" 307 0
+2025-08-12 18:02:16,507 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json HTTP/1.1" 200 0
+2025-08-12 18:02:19,679 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2025-08-12 18:02:19,750 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json HTTP/1.1" 200 0
+2025-08-12 18:02:20,038 - DEBUG - https://huggingface.co:443 "GET /api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2025-08-12 18:02:20,468 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json HTTP/1.1" 307 0
+2025-08-12 18:02:20,526 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json HTTP/1.1" 200 0
+2025-08-12 18:02:20,789 - DEBUG - https://huggingface.co:443 "GET /api/models/sentence-transformers/all-MiniLM-L6-v2 HTTP/1.1" 200 6854
+2025-08-12 18:02:22,321 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 18:02:22,339 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001BB9B677770>
+2025-08-12 18:02:22,340 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-08-12 18:02:22,341 - DEBUG - send_request_headers.complete
+2025-08-12 18:02:22,342 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-08-12 18:02:22,342 - DEBUG - send_request_body.complete
+2025-08-12 18:02:22,343 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-08-12 18:02:22,345 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-encoding', b'gzip'), (b'content-type', b'application/json'), (b'date', b'Tue, 12 Aug 2025 17:02:22 GMT')])
+2025-08-12 18:02:22,346 - INFO - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2025-08-12 18:02:22,347 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-08-12 18:02:22,348 - DEBUG - receive_response_body.complete
+2025-08-12 18:02:22,348 - DEBUG - response_closed.started
+2025-08-12 18:02:22,349 - DEBUG - response_closed.complete
+2025-08-12 18:02:22,350 - DEBUG - close.started
+2025-08-12 18:02:22,351 - DEBUG - close.complete
+2025-08-12 18:02:22,353 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 18:02:22,356 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001BB9B481590>
+2025-08-12 18:02:22,357 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-08-12 18:02:22,358 - DEBUG - send_request_headers.complete
+2025-08-12 18:02:22,359 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-08-12 18:02:22,361 - DEBUG - send_request_body.complete
+2025-08-12 18:02:22,362 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-08-12 18:02:22,365 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'content-type', b'application/json'), (b'content-encoding', b'gzip'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'date', b'Tue, 12 Aug 2025 17:02:22 GMT')])
+2025-08-12 18:02:22,366 - INFO - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2025-08-12 18:02:22,367 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-08-12 18:02:22,367 - DEBUG - receive_response_body.complete
+2025-08-12 18:02:22,368 - DEBUG - response_closed.started
+2025-08-12 18:02:22,368 - DEBUG - response_closed.complete
+2025-08-12 18:02:22,369 - DEBUG - close.started
+2025-08-12 18:02:22,369 - DEBUG - close.complete
+2025-08-12 18:02:22,525 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 18:02:22,542 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001BB9B482C10>
+2025-08-12 18:02:22,543 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-08-12 18:02:22,544 - DEBUG - send_request_headers.complete
+2025-08-12 18:02:22,544 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-08-12 18:02:22,545 - DEBUG - send_request_body.complete
+2025-08-12 18:02:22,545 - DEBUG - receive_response_headers.started request=<Request [b'PUT']>
+2025-08-12 18:02:22,549 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 400, b'Bad Request', [(b'transfer-encoding', b'chunked'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-encoding', b'gzip'), (b'content-type', b'application/json'), (b'date', b'Tue, 12 Aug 2025 17:02:22 GMT')])
+2025-08-12 18:02:22,550 - INFO - HTTP Request: PUT http://localhost:6333/collections/lms-course-ai-chat/points?wait=true "HTTP/1.1 400 Bad Request"
+2025-08-12 18:02:22,551 - DEBUG - receive_response_body.started request=<Request [b'PUT']>
+2025-08-12 18:02:22,552 - DEBUG - receive_response_body.complete
+2025-08-12 18:02:22,552 - DEBUG - response_closed.started
+2025-08-12 18:02:22,552 - DEBUG - response_closed.complete
+2025-08-12 18:02:22,553 - DEBUG - close.started
+2025-08-12 18:02:22,554 - DEBUG - close.complete
+2025-08-12 18:02:22,554 - ERROR - Error indexing courses for tenant proliance: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Format error in JSON body: value proliance_0 is not a valid point ID, valid values are either an unsigned integer or a UUID"},"time":0.0}'
+Traceback (most recent call last):
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\courses\utils.py", line 122, in index_courses_for_tenant
+    client.upsert(collection_name=QDRANT_COLLECTION, points=points)
+    ~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\qdrant_client.py", line 1633, in upsert
+    return self._client.upsert(
+           ~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\qdrant_remote.py", line 1911, in upsert
+    http_result = self.openapi_client.points_api.upsert_points(
+                  ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        ordering=ordering,
+        ^^^^^^^^^^^^^^^^^^
+    ).result
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api\points_api.py", line 987, in upsert_points
+    return self._build_for_upsert_points(
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        collection_name=collection_name,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        point_insert_operations=point_insert_operations,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api\points_api.py", line 512, in _build_for_upsert_points
+    return self.api_client.request(
+           ~~~~~~~~~~~~~~~~~~~~~~~^
+        type_=m.InlineResponse2006,
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<5 lines>...
+        content=body,
+        ^^^^^^^^^^^^^
+    )
+    ^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api_client.py", line 95, in request
+    return self.send(request, type_)
+           ~~~~~~~~~^^^^^^^^^^^^^^^^
+  File "C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\venv\Lib\site-packages\qdrant_client\http\api_client.py", line 130, in send
+    raise UnexpectedResponse.for_response(response)
+qdrant_client.http.exceptions.UnexpectedResponse: Unexpected Response: 400 (Bad Request)
+Raw response content:
+b'{"status":{"error":"Format error in JSON body: value proliance_0 is not a valid point ID, valid values are either an unsigned integer or a UUID"},"time":0.0}'
+2025-08-12 18:04:04,009 - INFO - Indexing courses for tenant: public
+2025-08-12 18:04:04,009 - INFO - Skipping indexing for public schema.
+2025-08-12 18:04:04,010 - INFO - Indexing courses for tenant: proliance
+2025-08-12 18:04:04,052 - INFO - Use pytorch device_name: cpu
+2025-08-12 18:04:04,053 - INFO - Load pretrained SentenceTransformer: all-MiniLM-L6-v2
+2025-08-12 18:04:04,462 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json HTTP/1.1" 307 0
+2025-08-12 18:04:04,541 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json HTTP/1.1" 200 0
+2025-08-12 18:04:04,830 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json HTTP/1.1" 307 0
+2025-08-12 18:04:04,898 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json HTTP/1.1" 200 0
+2025-08-12 18:04:05,177 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config_sentence_transformers.json HTTP/1.1" 307 0
+2025-08-12 18:04:05,231 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config_sentence_transformers.json HTTP/1.1" 200 0
+2025-08-12 18:04:05,588 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/README.md HTTP/1.1" 307 0
+2025-08-12 18:04:05,794 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/README.md HTTP/1.1" 200 0
+2025-08-12 18:04:06,075 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/modules.json HTTP/1.1" 307 0
+2025-08-12 18:04:06,150 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/modules.json HTTP/1.1" 200 0
+2025-08-12 18:04:06,511 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/sentence_bert_config.json HTTP/1.1" 307 0
+2025-08-12 18:04:06,618 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/sentence_bert_config.json HTTP/1.1" 200 0
+2025-08-12 18:04:06,959 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/adapter_config.json HTTP/1.1" 404 0
+2025-08-12 18:04:07,226 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/config.json HTTP/1.1" 307 0
+2025-08-12 18:04:07,302 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/config.json HTTP/1.1" 200 0
+2025-08-12 18:04:08,939 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/tokenizer_config.json HTTP/1.1" 307 0
+2025-08-12 18:04:08,995 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/tokenizer_config.json HTTP/1.1" 200 0
+2025-08-12 18:04:09,271 - DEBUG - https://huggingface.co:443 "GET /api/models/sentence-transformers/all-MiniLM-L6-v2/tree/main/additional_chat_templates?recursive=False&expand=False HTTP/1.1" 404 64
+2025-08-12 18:04:09,889 - DEBUG - https://huggingface.co:443 "HEAD /sentence-transformers/all-MiniLM-L6-v2/resolve/main/1_Pooling/config.json HTTP/1.1" 307 0
+2025-08-12 18:04:09,972 - DEBUG - https://huggingface.co:443 "HEAD /api/resolve-cache/models/sentence-transformers/all-MiniLM-L6-v2/c9745ed1d9f207416be6d2e6f8de32d1f16199bf/1_Pooling%2Fconfig.json HTTP/1.1" 200 0
+2025-08-12 18:04:10,234 - DEBUG - https://huggingface.co:443 "GET /api/models/sentence-transformers/all-MiniLM-L6-v2 HTTP/1.1" 200 6854
+2025-08-12 18:04:11,481 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 18:04:11,502 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001B602AF7770>
+2025-08-12 18:04:11,503 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-08-12 18:04:11,503 - DEBUG - send_request_headers.complete
+2025-08-12 18:04:11,504 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-08-12 18:04:11,505 - DEBUG - send_request_body.complete
+2025-08-12 18:04:11,505 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-08-12 18:04:11,508 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'content-type', b'application/json'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-encoding', b'gzip'), (b'date', b'Tue, 12 Aug 2025 17:04:11 GMT')])
+2025-08-12 18:04:11,509 - INFO - HTTP Request: GET http://localhost:6333 "HTTP/1.1 200 OK"
+2025-08-12 18:04:11,510 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-08-12 18:04:11,511 - DEBUG - receive_response_body.complete
+2025-08-12 18:04:11,511 - DEBUG - response_closed.started
+2025-08-12 18:04:11,512 - DEBUG - response_closed.complete
+2025-08-12 18:04:11,513 - DEBUG - close.started
+2025-08-12 18:04:11,514 - DEBUG - close.complete
+2025-08-12 18:04:11,516 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 18:04:11,533 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001B602905590>
+2025-08-12 18:04:11,534 - DEBUG - send_request_headers.started request=<Request [b'GET']>
+2025-08-12 18:04:11,535 - DEBUG - send_request_headers.complete
+2025-08-12 18:04:11,535 - DEBUG - send_request_body.started request=<Request [b'GET']>
+2025-08-12 18:04:11,536 - DEBUG - send_request_body.complete
+2025-08-12 18:04:11,536 - DEBUG - receive_response_headers.started request=<Request [b'GET']>
+2025-08-12 18:04:11,538 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-type', b'application/json'), (b'content-encoding', b'gzip'), (b'date', b'Tue, 12 Aug 2025 17:04:11 GMT')])
+2025-08-12 18:04:11,539 - INFO - HTTP Request: GET http://localhost:6333/collections "HTTP/1.1 200 OK"
+2025-08-12 18:04:11,540 - DEBUG - receive_response_body.started request=<Request [b'GET']>
+2025-08-12 18:04:11,541 - DEBUG - receive_response_body.complete
+2025-08-12 18:04:11,541 - DEBUG - response_closed.started
+2025-08-12 18:04:11,542 - DEBUG - response_closed.complete
+2025-08-12 18:04:11,542 - DEBUG - close.started
+2025-08-12 18:04:11,543 - DEBUG - close.complete
+2025-08-12 18:04:11,690 - DEBUG - connect_tcp.started host='localhost' port=6333 local_address=None timeout=5.0 socket_options=None
+2025-08-12 18:04:11,705 - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x000001B602906C10>
+2025-08-12 18:04:11,706 - DEBUG - send_request_headers.started request=<Request [b'PUT']>
+2025-08-12 18:04:11,707 - DEBUG - send_request_headers.complete
+2025-08-12 18:04:11,708 - DEBUG - send_request_body.started request=<Request [b'PUT']>
+2025-08-12 18:04:11,708 - DEBUG - send_request_body.complete
+2025-08-12 18:04:11,710 - DEBUG - receive_response_headers.started request=<Request [b'PUT']>
+2025-08-12 18:04:11,775 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'transfer-encoding', b'chunked'), (b'vary', b'accept-encoding, Origin, Access-Control-Request-Method, Access-Control-Request-Headers'), (b'content-type', b'application/json'), (b'content-encoding', b'gzip'), (b'date', b'Tue, 12 Aug 2025 17:04:11 GMT')])
+2025-08-12 18:04:11,777 - INFO - HTTP Request: PUT http://localhost:6333/collections/lms-course-ai-chat/points?wait=true "HTTP/1.1 200 OK"
+2025-08-12 18:04:11,778 - DEBUG - receive_response_body.started request=<Request [b'PUT']>
+2025-08-12 18:04:11,779 - DEBUG - receive_response_body.complete
+2025-08-12 18:04:11,780 - DEBUG - response_closed.started
+2025-08-12 18:04:11,781 - DEBUG - response_closed.complete
+2025-08-12 18:04:11,781 - DEBUG - close.started
+2025-08-12 18:04:11,782 - DEBUG - close.complete
+2025-08-12 18:04:11,788 - INFO - Indexed 1 documents for proliance
