@@ -337,3 +337,16 @@
 2025-08-12 18:42:58,060 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
 2025-08-12 18:42:58,586 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
 2025-08-12 18:42:58,945 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-12 18:43:00,262 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-12 18:43:00,663 [WARNING] django.request: Not Found: /api/courses/cart/
+2025-08-12 18:43:00,889 [WARNING] django.request: Not Found: /api/courses/wishlist/
+2025-08-12 18:43:01,095 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-12 18:43:01,404 [WARNING] django.request: Not Found: /api/courses/analytics/
+2025-08-12 18:43:07,262 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
+2025-08-12 18:43:07,572 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-12 18:43:07,845 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-12 18:43:09,038 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-12 18:43:09,325 [WARNING] django.request: Not Found: /api/courses/cart/
+2025-08-12 18:43:09,660 [WARNING] django.request: Not Found: /api/courses/wishlist/
+2025-08-12 18:43:09,891 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-12 18:43:10,167 [WARNING] django.request: Not Found: /api/courses/analytics/
