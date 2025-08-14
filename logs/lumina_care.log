@@ -1,5 +1,113 @@
-2025-08-14 20:39:36,124 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [22.26, 127.0.0.1:50952][0m
-2025-08-14 20:39:39,172 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [25.30, 127.0.0.1:51091][0m
-2025-08-14 20:39:39,731 [INFO] django.channels.server: [mHTTP GET /api/courses/courses/?search=&level= 200 [25.87, 127.0.0.1:50891][0m
-2025-08-14 20:39:52,887 [ERROR] django.channels.server: [35;1mHTTP GET /api/carts/wishlist/ 500 [19.01, 127.0.0.1:51105][0m
-2025-08-14 20:39:53,946 [ERROR] django.channels.server: [35;1mHTTP GET /api/carts/cart/ 500 [20.07, 127.0.0.1:51106][0m
+2025-08-14 21:12:07,076 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-08-14 21:13:03,788 [INFO] django.channels.server: [mHTTP POST /api/token/ 200 [8.50, 127.0.0.1:52790][0m
+2025-08-14 21:13:04,146 [INFO] django.channels.server: [mHTTP GET /api/token/validate/ 200 [0.28, 127.0.0.1:52790][0m
+2025-08-14 21:13:04,813 [INFO] django.channels.server: [mHTTP GET /api/users/user/me/ 200 [0.23, 127.0.0.1:52790][0m
+2025-08-14 21:13:05,140 [INFO] django.channels.server: [mHTTP GET /api/users/user/me/ 200 [0.31, 127.0.0.1:52813][0m
+2025-08-14 21:13:17,871 [INFO] django.channels.server: [mHTTP GET /api/courses/enrollments/my-courses/ 200 [13.03, 127.0.0.1:52790][0m
+2025-08-14 21:13:18,164 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
+2025-08-14 21:13:18,181 [ERROR] django.channels.server: [35;1mHTTP GET /api/activitylog/activity-logs/user-activities/4/ 500 [0.29, 127.0.0.1:52790][0m
+2025-08-14 21:13:18,594 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-14 21:13:18,598 [WARNING] django.channels.server: [33mHTTP GET /api/courses/certificates/course/undefined/template/ 404 [0.36, 127.0.0.1:52790][0m
+2025-08-14 21:13:18,788 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-14 21:13:18,793 [ERROR] django.channels.server: [35;1mHTTP GET /api/courses/user-points/leaderboard/ 500 [0.17, 127.0.0.1:52790][0m
+2025-08-14 21:13:19,023 [INFO] django.channels.server: [mHTTP GET /api/messaging/messages/ 200 [0.21, 127.0.0.1:52790][0m
+2025-08-14 21:13:19,232 [INFO] django.channels.server: [mHTTP GET /api/schedule/schedules/all/ 200 [0.19, 127.0.0.1:52790][0m
+2025-08-14 21:13:19,432 [INFO] django.channels.server: [mHTTP GET /api/courses/assignments/ 200 [0.18, 127.0.0.1:52790][0m
+2025-08-14 21:13:19,619 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-14 21:13:19,623 [WARNING] django.channels.server: [33mHTTP GET /api/courses/feedback/ 404 [0.17, 127.0.0.1:52790][0m
+2025-08-14 21:13:27,483 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [22.89, 127.0.0.1:52809][0m
+2025-08-14 21:13:32,342 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [27.75, 127.0.0.1:52806][0m
+2025-08-14 21:13:32,505 [INFO] django.channels.server: [mHTTP GET /api/courses/enrollments/my-courses/ 200 [14.63, 127.0.0.1:52813][0m
+2025-08-14 21:13:32,690 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
+2025-08-14 21:13:32,694 [ERROR] django.channels.server: [35;1mHTTP GET /api/activitylog/activity-logs/user-activities/4/ 500 [0.16, 127.0.0.1:52813][0m
+2025-08-14 21:13:32,888 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-14 21:13:32,893 [WARNING] django.channels.server: [33mHTTP GET /api/courses/certificates/course/undefined/template/ 404 [0.18, 127.0.0.1:52813][0m
+2025-08-14 21:13:33,077 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-14 21:13:33,080 [ERROR] django.channels.server: [35;1mHTTP GET /api/courses/user-points/leaderboard/ 500 [0.17, 127.0.0.1:52813][0m
+2025-08-14 21:13:33,308 [INFO] django.channels.server: [mHTTP GET /api/messaging/messages/ 200 [0.20, 127.0.0.1:52813][0m
+2025-08-14 21:13:33,513 [INFO] django.channels.server: [mHTTP GET /api/schedule/schedules/all/ 200 [0.19, 127.0.0.1:52813][0m
+2025-08-14 21:13:33,710 [INFO] django.channels.server: [mHTTP GET /api/courses/assignments/ 200 [0.18, 127.0.0.1:52813][0m
+2025-08-14 21:13:33,918 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-14 21:13:33,923 [WARNING] django.channels.server: [33mHTTP GET /api/courses/feedback/ 404 [0.19, 127.0.0.1:52813][0m
+2025-08-14 21:13:47,663 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [23.05, 127.0.0.1:52847][0m
+2025-08-14 21:13:50,694 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [26.08, 127.0.0.1:52790][0m
+2025-08-14 21:13:55,747 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [23.40, 127.0.0.1:52809][0m
+2025-08-14 21:14:16,561 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [20.80, 127.0.0.1:52809][0m
+2025-08-14 21:14:16,889 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-14 21:14:16,892 [WARNING] django.channels.server: [33mHTTP GET /api/courses/grades/ 404 [0.31, 127.0.0.1:52809][0m
+2025-08-14 21:14:17,089 [WARNING] django.request: Not Found: /api/courses/analytics/
+2025-08-14 21:14:17,093 [WARNING] django.channels.server: [33mHTTP GET /api/courses/analytics/ 404 [0.18, 127.0.0.1:52809][0m
+2025-08-14 21:14:17,297 [INFO] django.channels.server: [mHTTP GET /api/payments/site-currency/ 200 [0.17, 127.0.0.1:52809][0m
+2025-08-14 21:14:17,309 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [23.36, 127.0.0.1:52790][0m
+2025-08-14 21:14:33,847 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [16.42, 127.0.0.1:52790][0m
+2025-08-14 21:14:34,040 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-14 21:14:34,047 [WARNING] django.channels.server: [33mHTTP GET /api/courses/grades/ 404 [0.19, 127.0.0.1:52790][0m
+2025-08-14 21:14:34,264 [WARNING] django.request: Not Found: /api/courses/analytics/
+2025-08-14 21:14:34,269 [WARNING] django.channels.server: [33mHTTP GET /api/courses/analytics/ 404 [0.19, 127.0.0.1:52790][0m
+2025-08-14 21:14:34,463 [INFO] django.channels.server: [mHTTP GET /api/payments/site-currency/ 200 [0.16, 127.0.0.1:52790][0m
+2025-08-14 21:17:09,553 [INFO] django.channels.server: [mHTTP GET /api/token/validate/ 200 [0.21, 127.0.0.1:53057][0m
+2025-08-14 21:17:09,798 [INFO] django.channels.server: [mHTTP GET /api/token/validate/ 200 [0.24, 127.0.0.1:53059][0m
+2025-08-14 21:17:10,550 [INFO] django.channels.server: [mHTTP GET /api/users/user/me/ 200 [0.27, 127.0.0.1:53059][0m
+2025-08-14 21:17:10,828 [INFO] django.channels.server: [mHTTP GET /api/users/user/me/ 200 [0.25, 127.0.0.1:53059][0m
+2025-08-14 21:17:11,369 [INFO] django.channels.server: [mHTTP GET /api/users/user/me/ 200 [0.21, 127.0.0.1:53069][0m
+2025-08-14 21:17:19,858 [INFO] django.channels.server: [mHTTP GET /api/courses/enrollments/my-courses/ 200 [8.82, 127.0.0.1:53059][0m
+2025-08-14 21:17:20,071 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
+2025-08-14 21:17:20,087 [ERROR] django.channels.server: [35;1mHTTP GET /api/activitylog/activity-logs/user-activities/4/ 500 [0.21, 127.0.0.1:53059][0m
+2025-08-14 21:17:20,286 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-14 21:17:20,292 [WARNING] django.channels.server: [33mHTTP GET /api/courses/certificates/course/undefined/template/ 404 [0.16, 127.0.0.1:53059][0m
+2025-08-14 21:17:20,538 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-14 21:17:20,544 [ERROR] django.channels.server: [35;1mHTTP GET /api/courses/user-points/leaderboard/ 500 [0.23, 127.0.0.1:53059][0m
+2025-08-14 21:17:20,803 [INFO] django.channels.server: [mHTTP GET /api/messaging/messages/ 200 [0.21, 127.0.0.1:53059][0m
+2025-08-14 21:17:20,985 [INFO] django.channels.server: [mHTTP GET /api/schedule/schedules/all/ 200 [0.15, 127.0.0.1:53059][0m
+2025-08-14 21:17:21,237 [INFO] django.channels.server: [mHTTP GET /api/courses/assignments/ 200 [0.23, 127.0.0.1:53059][0m
+2025-08-14 21:17:21,468 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-14 21:17:21,474 [WARNING] django.channels.server: [33mHTTP GET /api/courses/feedback/ 404 [0.20, 127.0.0.1:53059][0m
+2025-08-14 21:17:26,789 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [16.50, 127.0.0.1:53064][0m
+2025-08-14 21:17:29,010 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [18.73, 127.0.0.1:53057][0m
+2025-08-14 21:17:29,600 [INFO] django.channels.server: [mHTTP GET /api/courses/enrollments/my-courses/ 200 [9.74, 127.0.0.1:53069][0m
+2025-08-14 21:17:29,887 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
+2025-08-14 21:17:29,892 [ERROR] django.channels.server: [35;1mHTTP GET /api/activitylog/activity-logs/user-activities/4/ 500 [0.24, 127.0.0.1:53069][0m
+2025-08-14 21:17:30,086 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-14 21:17:30,089 [WARNING] django.channels.server: [33mHTTP GET /api/courses/certificates/course/undefined/template/ 404 [0.17, 127.0.0.1:53069][0m
+2025-08-14 21:17:30,300 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-14 21:17:30,408 [ERROR] django.channels.server: [35;1mHTTP GET /api/courses/user-points/leaderboard/ 500 [0.30, 127.0.0.1:53069][0m
+2025-08-14 21:17:30,621 [INFO] django.channels.server: [mHTTP GET /api/messaging/messages/ 200 [0.19, 127.0.0.1:53069][0m
+2025-08-14 21:17:30,894 [INFO] django.channels.server: [mHTTP GET /api/schedule/schedules/all/ 200 [0.26, 127.0.0.1:53069][0m
+2025-08-14 21:17:31,071 [INFO] django.channels.server: [mHTTP GET /api/courses/assignments/ 200 [0.16, 127.0.0.1:53069][0m
+2025-08-14 21:17:31,246 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-14 21:17:31,249 [WARNING] django.channels.server: [33mHTTP GET /api/courses/feedback/ 404 [0.16, 127.0.0.1:53069][0m
+2025-08-14 21:17:37,671 [INFO] django.channels.server: [mHTTP GET /api/courses/enrollments/my-courses/ 200 [8.06, 127.0.0.1:53057][0m
+2025-08-14 21:17:37,829 [ERROR] django.request: Internal Server Error: /api/activitylog/activity-logs/user-activities/4/
+2025-08-14 21:17:37,833 [ERROR] django.channels.server: [35;1mHTTP GET /api/activitylog/activity-logs/user-activities/4/ 500 [0.14, 127.0.0.1:53057][0m
+2025-08-14 21:17:37,986 [WARNING] django.request: Not Found: /api/courses/certificates/course/undefined/template/
+2025-08-14 21:17:37,990 [WARNING] django.channels.server: [33mHTTP GET /api/courses/certificates/course/undefined/template/ 404 [0.13, 127.0.0.1:53057][0m
+2025-08-14 21:17:38,159 [ERROR] django.request: Internal Server Error: /api/courses/user-points/leaderboard/
+2025-08-14 21:17:38,162 [ERROR] django.channels.server: [35;1mHTTP GET /api/courses/user-points/leaderboard/ 500 [0.15, 127.0.0.1:53057][0m
+2025-08-14 21:17:38,355 [INFO] django.channels.server: [mHTTP GET /api/messaging/messages/ 200 [0.18, 127.0.0.1:53057][0m
+2025-08-14 21:17:38,494 [INFO] django.channels.server: [mHTTP GET /api/schedule/schedules/all/ 200 [0.12, 127.0.0.1:53057][0m
+2025-08-14 21:17:38,659 [INFO] django.channels.server: [mHTTP GET /api/courses/assignments/ 200 [0.15, 127.0.0.1:53057][0m
+2025-08-14 21:17:38,827 [WARNING] django.request: Not Found: /api/courses/feedback/
+2025-08-14 21:17:38,831 [WARNING] django.channels.server: [33mHTTP GET /api/courses/feedback/ 404 [0.16, 127.0.0.1:53057][0m
+2025-08-14 21:17:40,949 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [14.15, 127.0.0.1:53059][0m
+2025-08-14 21:17:44,257 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [15.24, 127.0.0.1:53064][0m
+2025-08-14 21:17:54,289 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [12.77, 127.0.0.1:53059][0m
+2025-08-14 21:17:56,923 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [12.66, 127.0.0.1:53057][0m
+2025-08-14 21:18:05,809 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [11.51, 127.0.0.1:53059][0m
+2025-08-14 21:18:06,015 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-14 21:18:06,018 [WARNING] django.channels.server: [33mHTTP GET /api/courses/grades/ 404 [0.17, 127.0.0.1:53059][0m
+2025-08-14 21:18:06,185 [WARNING] django.request: Not Found: /api/courses/analytics/
+2025-08-14 21:18:06,189 [WARNING] django.channels.server: [33mHTTP GET /api/courses/analytics/ 404 [0.15, 127.0.0.1:53059][0m
+2025-08-14 21:18:06,375 [INFO] django.channels.server: [mHTTP GET /api/payments/site-currency/ 200 [0.16, 127.0.0.1:53059][0m
+2025-08-14 21:18:10,304 [INFO] django.channels.server: [mHTTP GET /api/carts/cart/ 200 [13.38, 127.0.0.1:53064][0m
+2025-08-14 21:18:15,419 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [9.60, 127.0.0.1:53057][0m
+2025-08-14 21:18:15,668 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-14 21:18:15,779 [WARNING] django.channels.server: [33mHTTP GET /api/courses/grades/ 404 [0.34, 127.0.0.1:53057][0m
+2025-08-14 21:18:15,954 [WARNING] django.request: Not Found: /api/courses/analytics/
+2025-08-14 21:18:15,957 [WARNING] django.channels.server: [33mHTTP GET /api/courses/analytics/ 404 [0.16, 127.0.0.1:53057][0m
+2025-08-14 21:18:16,121 [INFO] django.channels.server: [mHTTP GET /api/payments/site-currency/ 200 [0.14, 127.0.0.1:53057][0m
+2025-08-14 21:18:24,371 [INFO] django.channels.server: [mHTTP GET /api/carts/wishlist/ 200 [8.95, 127.0.0.1:53064][0m
+2025-08-14 21:18:24,528 [WARNING] django.request: Not Found: /api/courses/grades/
+2025-08-14 21:18:24,532 [WARNING] django.channels.server: [33mHTTP GET /api/courses/grades/ 404 [0.15, 127.0.0.1:53064][0m
+2025-08-14 21:18:24,745 [WARNING] django.request: Not Found: /api/courses/analytics/
+2025-08-14 21:18:24,749 [WARNING] django.channels.server: [33mHTTP GET /api/courses/analytics/ 404 [0.19, 127.0.0.1:53064][0m
+2025-08-14 21:18:24,888 [INFO] django.channels.server: [mHTTP GET /api/payments/site-currency/ 200 [0.12, 127.0.0.1:53064][0m

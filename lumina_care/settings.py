@@ -206,7 +206,7 @@ TENANT_APPS = [
 # -----------------------------------------------------------
 # Only allow this in production if you set credentials = True
 CORS_ALLOWED_ORIGINS = [
-    'https://complete-lms-sable.vercel.app',
+    'https://complete-lms-sable.vercel.app'
     'http://localhost:5173'
 ]
 CORS_ALLOW_CREDENTIALS = True
