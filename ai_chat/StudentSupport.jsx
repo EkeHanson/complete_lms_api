@@ -186,6 +186,8 @@ const StudentSupport = () => {
         const data = JSON.parse(event.data);
         if (data.type === 'auth_required') return;
 
+        setWaitingForAI(false); // <-- Always stop loader when a message arrives
+
         if (data.error) {
           setMessages(prev => [...prev, { text: `Error: ${data.error}`, sender: 'system' }]);
           showError(data.error);
@@ -310,18 +312,18 @@ const StudentSupport = () => {
 
   const handleSaveEdit = () => {
     if (!editValue.trim()) return;
-    // Resend edited message to backend
     if (wsRef.current && wsRef.current.readyState === WebSocket.OPEN) {
-      wsRef.current.send(JSON.stringify({ message: editValue }));
+      // Remove all messages below the edited one
       setMessages(prev => [
         ...prev.slice(0, editingIndex),
-        { text: editValue, sender: 'user' },
-        ...prev.slice(editingIndex + 1)
+        { text: editValue, sender: 'user' }
       ]);
       setEditingIndex(null);
       setEditValue('');
-      setWaitingForAI(true);
-      setCourseDetails([]);
+      setWaitingForAI(true); // Show loader
+      setCourseDetails([]);  // Clear course details
+
+      wsRef.current.send(JSON.stringify({ message: editValue }));
     }
   };
 

@@ -10,6 +10,7 @@ from django.db import models
 from django.utils.translation import gettext as _
 from django_tenants.utils import tenant_context
 from groups.models import Group, GroupMembership, Role
+import random
 
 logger = logging.getLogger(__name__)
 
@@ -110,6 +111,7 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     twitter_link = models.URLField(blank=True)
     linkedin_link = models.URLField(blank=True)
     profile_picture = models.ImageField(upload_to=profile_picture_upload_path, blank=True, null=True, max_length=255)
+    student_id = models.CharField(max_length=20, unique=True, blank=True, null=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []
@@ -119,6 +121,13 @@ class CustomUser(AbstractBaseUser, PermissionsMixin):
     def save(self, *args, **kwargs):
         created = not self.pk
         super().save(*args, **kwargs)
+        # Generate student_id if user is a student and student_id is not set
+        if self.role == "student" and not self.student_id and self.tenant:
+            prefix = (self.tenant.name[:3] if self.tenant.name else "TEN").upper()
+            unique_number = str(self.pk).zfill(5)
+            self.student_id = f"{prefix}-{unique_number}"
+            # Save again to update student_id
+            super().save(update_fields=["student_id"])
         if created or kwargs.get('update_fields', None) in (None, ['role']):
             self.sync_group_memberships()
 

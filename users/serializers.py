@@ -135,7 +135,7 @@ class UserSerializer(serializers.ModelSerializer):
         fields = [
             'id', 'email', 'first_name', 'last_name', 'role', 'status', 'is_locked', 'is_active',
             'date_joined', 'last_login', 'modules', 'phone', 'title', 'bio', 'facebook_link',
-            'twitter_link', 'linkedin_link', 'profile_picture', 'password', 'tenant'
+            'twitter_link', 'linkedin_link', 'profile_picture', 'password', 'tenant', 'student_id'
         ]
         read_only_fields = ['id', 'date_joined', 'last_login', 'is_active', 'tenant']
 
@@ -167,6 +167,7 @@ class UserSerializer(serializers.ModelSerializer):
             phone=validated_data.get('phone', ''),
             title=validated_data.get('title', ''),
             bio=validated_data.get('bio', ''),
+            student_id=validated_data.get('student_id', ''),
             facebook_link=validated_data.get('facebook_link', ''),
             twitter_link=validated_data.get('twitter_link', ''),
             linkedin_link=validated_data.get('linkedin_link', '')

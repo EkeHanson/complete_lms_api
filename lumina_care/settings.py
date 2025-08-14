@@ -76,6 +76,7 @@ INSTALLED_APPS = [
     'messaging',
     'advert',
     'ai_chat',
+    'carts',
 ]
 
 SITE_ID = 1
@@ -197,6 +198,7 @@ TENANT_APPS = [
     'advert',
     'compliance',
     'ai_chat',
+    'carts',
 ]
 
 # -----------------------------------------------------------

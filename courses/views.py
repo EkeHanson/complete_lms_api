@@ -32,7 +32,6 @@ from rest_framework import viewsets, permissions
 from rest_framework.decorators import action
 from rest_framework.response import Response
 
-
 from utils.storage import get_storage_service
 
 logger = logging.getLogger('course')
