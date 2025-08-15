@@ -111,3 +111,6 @@
 2025-08-14 21:18:24,745 [WARNING] django.request: Not Found: /api/courses/analytics/
 2025-08-14 21:18:24,749 [WARNING] django.channels.server: [33mHTTP GET /api/courses/analytics/ 404 [0.19, 127.0.0.1:53064][0m
 2025-08-14 21:18:24,888 [INFO] django.channels.server: [mHTTP GET /api/payments/site-currency/ 200 [0.12, 127.0.0.1:53064][0m
+2025-08-15 01:38:05,231 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
+2025-08-15 01:54:49,975 [INFO] django.utils.autoreload: C:\Users\CPT-003\Desktop\Proliance Source Codes\Backend\complete_lms_api\lumina_care\settings.py changed, reloading.
+2025-08-15 01:54:52,486 [INFO] django.utils.autoreload: Watching for file changes with StatReloader
